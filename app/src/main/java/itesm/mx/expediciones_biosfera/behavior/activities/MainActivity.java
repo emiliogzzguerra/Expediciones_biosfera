@@ -1,4 +1,4 @@
-package itesm.mx.expediciones_biosfera.activities;
+package itesm.mx.expediciones_biosfera.behavior.activities;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
