@@ -1,4 +1,11 @@
 <resources>
     <string name="app_name">Expediciones Biósfera</string>
     <string name="sign_in_google">Sign In with Google</string>
+
+    <!-- ProfileFragment -->
+    <string name="change">Cambiar</string>
+    <string name="occupation">Ocupacion: %1$s</string>
+    <string name="interests">Intereses: %1$s</string>
+    <string name="phone">Telefono: %1$s</string>
+
 </resources>
