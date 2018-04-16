@@ -12,12 +12,14 @@
         <activity android:name=".behavior.activities.MainActivity">
         </activity>
         <activity android:name=".behavior.activities.AuthenticationActivity">
+
+        </activity>
+        <activity android:name=".behavior.activities.TripActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".behavior.activities.TripActivity"></activity>
     </application>
 
 </manifest>
