@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "42669422812",
+    "firebase_url": "https://expedicionesbiosfera.firebaseio.com",
+    "project_id": "expedicionesbiosfera",
+    "storage_bucket": "expedicionesbiosfera.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:42669422812:android:ac67fbb8b1bc1649",
+        "android_client_info": {
+          "package_name": "itesm.mx.expediciones_biosfera"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "42669422812-8en0vv60up0il805635fc8928q1mm7sn.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "itesm.mx.expediciones_biosfera",
+            "certificate_hash": "2b3a19277cd444f55f83c5cc811abbebdd9e50c6"
+          }
+        },
+        {
+          "client_id": "42669422812-73tttk1i2nqhaaa449hmqcc1m3tf7oh0.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBM_XulO6-aBZe6xTLf3WBkCNm3ZqsdZkQ"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "42669422812-73tttk1i2nqhaaa449hmqcc1m3tf7oh0.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
