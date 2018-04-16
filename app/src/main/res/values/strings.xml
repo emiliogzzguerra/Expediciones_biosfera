@@ -1,4 +1,4 @@
 <resources>
-    <string name="app_name">Expediciones Biosfera</string>
-    <string name="trip_location">Ubicacion</string>
+    <string name="app_name">Expediciones Biósfera</string>
+    <string name="sign_in_google">Sign In with Google</string>
 </resources>
