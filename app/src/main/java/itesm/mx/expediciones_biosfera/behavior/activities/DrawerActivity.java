@@ -1,55 +1,89 @@
 package itesm.mx.expediciones_biosfera.behavior.activities;
 
+import android.content.Intent;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.app.ListFragment;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
+
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 import itesm.mx.expediciones_biosfera.R;
-import itesm.mx.expediciones_biosfera.behavior.fragments.LogoutFragment;
 import itesm.mx.expediciones_biosfera.behavior.fragments.PackagesFragment;
 import itesm.mx.expediciones_biosfera.behavior.fragments.ProfileFragment;
 
 public class DrawerActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener{
+    private Toolbar toolbar;
+    private DrawerLayout drawer;
+    private FirebaseAuth firebaseAuth;
+    private FirebaseUser currentUser;
 
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_drawer);
-
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+    public void setToolbar() {
+        toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+    }
 
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+    public void setDrawerLayout() {
+        drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.addDrawerListener(toggle);
         toggle.syncState();
+    }
 
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+    public void configureNavigationView() {
+        NavigationView navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
-
         navigationView.setCheckedItem(R.id.nav_packages);
 
         Menu menu = navigationView.getMenu();
         for (int i = 0; i < menu.size(); i++) {
             MenuItem item = menu.getItem(i);
             if (item.isChecked()) {
-                getSupportActionBar().setTitle(item.getTitle());
+                ActionBar supportActionBar = getSupportActionBar();
+                if(supportActionBar != null) {
+                    supportActionBar.setTitle(item.getTitle());
+                }
             }
         }
+    }
+
+    public void getFirebaseUser() {
+        firebaseAuth = FirebaseAuth.getInstance();
+        currentUser = firebaseAuth.getCurrentUser();
+    }
+
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_drawer);
+
+        setToolbar();
+        setDrawerLayout();
+        configureNavigationView();
+        getFirebaseUser();
+
 
         PackagesFragment packagesFragment = new PackagesFragment();
 
         getSupportFragmentManager().beginTransaction().add(R.id.content_frame, packagesFragment).commit();
 
+    }
+
+    public void signOut() {
+        firebaseAuth.signOut();
+        Toast.makeText(this, "Successfully Signed Out", Toast.LENGTH_LONG).show();
+        Intent intent = new Intent(this, AuthenticationActivity.class);
+        startActivity(intent);
     }
 
     @SuppressWarnings("StatementWithEmptyBody")
@@ -61,14 +95,10 @@ public class DrawerActivity extends AppCompatActivity implements NavigationView.
 
         if (id == R.id.nav_packages) {
             fragment = new PackagesFragment();
-
-
         } else if (id == R.id.nav_profile) {
             fragment = new ProfileFragment();
-
         } else if (id == R.id.nav_signout) {
-            fragment = new LogoutFragment();
-
+            signOut();
         }
 
         getSupportFragmentManager().popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
@@ -76,10 +106,13 @@ public class DrawerActivity extends AppCompatActivity implements NavigationView.
         if (fragment != null) {
             getSupportFragmentManager().beginTransaction().replace(R.id.content_frame, fragment).commit();
             item.setChecked(true);
-            getSupportActionBar().setTitle(item.getTitle());
+            ActionBar supportActionBar = getSupportActionBar();
+            if(supportActionBar != null) {
+                supportActionBar.setTitle(item.getTitle());
+            }
         }
 
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        drawer = findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
 
         return true;
