@@ -1,6 +1,13 @@
 package itesm.mx.expediciones_biosfera.entities.models;
 
 import android.graphics.Bitmap;
+import android.support.annotation.NonNull;
+
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
 
 import java.util.List;
 
@@ -16,6 +23,8 @@ public class Destination {
     private double lon;
     private String description;
     private List<Bitmap> images;
+
+    public Destination() {};
 
     public Destination(String name, String state, String city, double lat, double lon, String description, List<Bitmap> images) {
         this.name = name;
@@ -79,7 +88,21 @@ public class Destination {
         return images;
     }
 
-    public void setImages(List<Bitmap> images) {
+    public void setNewImages(List<Bitmap> images) {
         this.images = images;
+    }
+
+    public void setImages(DocumentReference images) {
+        System.out.println("ZZZZZZZZZZZZ");
+        images.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                if (task.isSuccessful()) {
+                    DocumentSnapshot doc = task.getResult();
+                    System.out.println("ASDASDASDAASDASDASD");
+                    System.out.println(doc.getData());
+                }
+            }
+        });
     }
 }
