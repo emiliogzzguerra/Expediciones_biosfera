@@ -65,6 +65,8 @@ public class AuthenticationActivity extends AppCompatActivity implements View.On
 
     public void redirectToDrawer(FirebaseUser user) {
         Log.i("Sign In: ", "Redirect to Drawer Activity");
+        Intent intent = new Intent(this, DrawerActivity.class);
+        startActivity(intent);
     }
 
     public void firebaseAuthWithGoogle(GoogleSignInAccount account) {
