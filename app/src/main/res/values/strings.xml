@@ -2,7 +2,7 @@
     <string name="app_name">Expediciones Biósfera</string>
 
     <!-- SignIn -->
-    <string name="sign_in_google">Sign In with Google</string>
+    <string name="sign_in_google">Iniciar Sesión con Google</string>
 
     <!-- ProfileFragment -->
     <string name="change">Cambiar</string>
@@ -14,7 +14,7 @@
     <!-- NavigationDrawer -->
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
-    <string name="nav_drawer_packages">Packages</string>
-    <string name="nav_drawer_profile">Profile</string>
-    <string name="nav_drawer_sign_out">Sign out</string>
+    <string name="nav_drawer_packages">Paquetes</string>
+    <string name="nav_drawer_profile">Perfil</string>
+    <string name="nav_drawer_sign_out">Cerrar Sesión</string>
 </resources>
