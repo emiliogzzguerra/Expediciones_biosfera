@@ -14,12 +14,31 @@
         android:layout_height="wrap_content"
         android:src="@mipmap/ic_launcher" />
 
+    <fragment xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:id="@+id/map"
+        tools:context=".MapsActivity"
+        android:name="com.google.android.gms.maps.SupportMapFragment" />
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Locacion"
+        android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
+
     <TextView
         android:id="@+id/tv_location"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Locacion"
-        android:textAppearance="@style/TextAppearance.AppCompat.Subhead" />
+        android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Descripcion"
+        android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
 
     <TextView
         android:id="@+id/tv_description"
@@ -28,11 +47,21 @@
         android:text="description"
         android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
     <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Fecha"
+        android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
+    <TextView
         android:id="@+id/tv_date"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="description"
         android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Precio"
+        android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
     <TextView
         android:id="@+id/tv_price"
         android:layout_width="match_parent"
@@ -40,11 +69,21 @@
         android:text="description"
         android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
     <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Duracion"
+        android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
+    <TextView
         android:id="@+id/tv_duration"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="description"
         android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Capacidad"
+        android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
     <TextView
         android:id="@+id/tv_capacity"
         android:layout_width="match_parent"
