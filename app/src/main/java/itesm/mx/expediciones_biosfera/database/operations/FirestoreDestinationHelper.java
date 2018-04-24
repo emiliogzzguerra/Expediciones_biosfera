@@ -8,6 +8,8 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Map;
@@ -29,7 +31,7 @@ public class FirestoreDestinationHelper {
                 map.get("city").toString(),
                 (Double) map.get("lat"),
                 (Double) map.get("lon"),
-                map.get("description").toString(),
+                map.get("description").toString().replaceAll("\\\\n", "\n"),
                 new ArrayList< Bitmap>());
     }
 }

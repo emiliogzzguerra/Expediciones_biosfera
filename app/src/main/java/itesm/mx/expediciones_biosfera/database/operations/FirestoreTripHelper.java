@@ -10,6 +10,8 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -35,8 +37,6 @@ public class FirestoreTripHelper {
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
                         if(task.isSuccessful()){
                             for(QueryDocumentSnapshot documentSnapshot : task.getResult()){
-                                System.out.println("OOOOOOOOOOOOOOOOOOOOO");
-                                System.out.println(documentSnapshot.getData());
                                 list.add(documentSnapshot.toObject(Trip.class));
                             }
                         } else {
@@ -60,7 +60,7 @@ public class FirestoreTripHelper {
         return new Trip((String) map.get("title"),
                 (Date) map.get("date"),
                 Integer.valueOf((map.get("capacity")).toString()),
-                (Double) map.get("price"),
+                Double.valueOf(map.get("price").toString()),
                 Integer.valueOf(map.get("duration").toString()),
                 null,
                 new ArrayList<Customer>());

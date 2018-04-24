@@ -20,6 +20,8 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import org.w3c.dom.Text;
 
 import java.sql.Date;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Map;
 
 import itesm.mx.expediciones_biosfera.R;
@@ -40,6 +42,7 @@ public class TripActivity extends AppCompatActivity implements OnMapReadyCallbac
     Map<String, Object> mapTrip, mapDestination;
     Destination destination;
     Trip trip;
+    static DateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,7 +60,7 @@ public class TripActivity extends AppCompatActivity implements OnMapReadyCallbac
 
         db = FirebaseFirestore.getInstance();
 
-        DocumentReference reference = db.collection("trips").document("53BlXS9FMqdp7c2QHxNn");
+        DocumentReference reference = db.collection("trips").document("yH5ls4weA4mPNERJHCMW");
         reference.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
@@ -82,7 +85,7 @@ public class TripActivity extends AppCompatActivity implements OnMapReadyCallbac
                             tvDescription.setText(trip.getDestination().getDescription());
                             tvCapacity.setText(String.valueOf(trip.getCapacity()));
                             tvPrice.setText(String.valueOf(trip.getPrice()));
-                            tvDate.setText(trip.getDate().toString());
+                            tvDate.setText(formatter.format(trip.getDate()));
                             tvDuration.setText(String.valueOf(trip.getDuration()));
                         }
                     });
