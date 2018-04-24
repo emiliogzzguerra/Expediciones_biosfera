@@ -55,8 +55,6 @@ public class TripActivity extends AppCompatActivity implements OnMapReadyCallbac
         tvDuration = findViewById(R.id.tv_duration);
         tvCapacity = findViewById(R.id.tv_capacity);
 
-       // Destination destination = new Destination("Parras", "Coahuila", "Parras", 25.442905, -102.176722, "Pueblo magico", null);
-//        Trip trip = new Trip("Titulo", Date.valueOf("2015-15-01"), 20, 500.13, 3, destination, null);
         db = FirebaseFirestore.getInstance();
 
         DocumentReference reference = db.collection("trips").document("53BlXS9FMqdp7c2QHxNn");
@@ -73,12 +71,12 @@ public class TripActivity extends AppCompatActivity implements OnMapReadyCallbac
                         @Override
                         public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                             DocumentSnapshot snapshot = task.getResult();
+
                             destination = FirestoreDestinationHelper.buildDestination(snapshot.getData());
                             trip.setDestination(destination);
                             LatLng location = new  LatLng(destination.getLat(), destination.getLon());
-                            System.out.println("ASDASDASDASDA" + location);
                             mMap.addMarker(new MarkerOptions().position(location));
-                            mMap.moveCamera(CameraUpdateFactory.newLatLng(location));
+                            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(location, 7.0f));
                             tvLocation.setText(trip.getDestination().getState() + ", " + trip.getDestination().getCity());
                             getSupportActionBar().setTitle(trip.getTitle());
                             tvDescription.setText(trip.getDestination().getDescription());
@@ -100,11 +98,5 @@ public class TripActivity extends AppCompatActivity implements OnMapReadyCallbac
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
-
-        // Add a marker in Sydney, Australia, and move the camera.
-    }
-
-    public void read(){
-
     }
 }
