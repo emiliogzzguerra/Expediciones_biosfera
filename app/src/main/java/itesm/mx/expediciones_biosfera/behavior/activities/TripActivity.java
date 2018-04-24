@@ -11,7 +11,12 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
-
+import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MarkerOptions;
 import org.w3c.dom.Text;
 
 import java.sql.Date;
@@ -23,7 +28,8 @@ import itesm.mx.expediciones_biosfera.database.operations.FirestoreTripHelper;
 import itesm.mx.expediciones_biosfera.entities.models.Destination;
 import itesm.mx.expediciones_biosfera.entities.models.Trip;
 
-public class TripActivity extends AppCompatActivity {
+public class TripActivity extends AppCompatActivity implements OnMapReadyCallback {
+    private GoogleMap mMap;
     FirebaseFirestore db;
     TextView tvLocation;
     TextView tvDate;
@@ -39,6 +45,9 @@ public class TripActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_trip);
+        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
+                .findFragmentById(R.id.map);
+        mapFragment.getMapAsync(this);
         tvLocation = findViewById(R.id.tv_location);
         tvDate = findViewById(R.id.tv_date);
         tvDescription = findViewById(R.id.tv_description);
@@ -56,7 +65,6 @@ public class TripActivity extends AppCompatActivity {
             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                 if (task.isSuccessful()) {
                     DocumentSnapshot doc = task.getResult();
-                    System.out.println("PPPPPPPP" + doc.getData());
                     mapTrip = doc.getData();
                     trip = FirestoreTripHelper.builTrip(mapTrip);
 
@@ -65,22 +73,19 @@ public class TripActivity extends AppCompatActivity {
                         @Override
                         public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                             DocumentSnapshot snapshot = task.getResult();
-                            System.out.println("SNAP" + snapshot.getData());
                             destination = FirestoreDestinationHelper.buildDestination(snapshot.getData());
-                            System.out.println(destination);
                             trip.setDestination(destination);
-                            System.out.println(trip);
+                            LatLng location = new  LatLng(destination.getLat(), destination.getLon());
+                            System.out.println("ASDASDASDASDA" + location);
+                            mMap.addMarker(new MarkerOptions().position(location));
+                            mMap.moveCamera(CameraUpdateFactory.newLatLng(location));
                             tvLocation.setText(trip.getDestination().getState() + ", " + trip.getDestination().getCity());
-                            System.out.println(trip.getTitle());
-                            System.out.println(trip.getDestination().getCity());
                             getSupportActionBar().setTitle(trip.getTitle());
                             tvDescription.setText(trip.getDestination().getDescription());
                             tvCapacity.setText(String.valueOf(trip.getCapacity()));
                             tvPrice.setText(String.valueOf(trip.getPrice()));
                             tvDate.setText(trip.getDate().toString());
                             tvDuration.setText(String.valueOf(trip.getDuration()));
-
-
                         }
                     });
                 }
@@ -91,27 +96,12 @@ public class TripActivity extends AppCompatActivity {
                 System.out.println("FALIURE");
             }
         });
+    }
+    @Override
+    public void onMapReady(GoogleMap googleMap) {
+        mMap = googleMap;
 
-
-
-/*
-        reference.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-            @Override
-            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                if(task.isSuccessful()){
-                    DocumentSnapshot doc = task.getResult();
-                    Trip t = doc.toObject(Trip.class);
-                    System.out.println("DEst" + t.getDestination().getDescription());
-                }
-            }
-        }).addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception e) {
-                System.out.println("FALIURE");
-            }
-        }); */
-
-
+        // Add a marker in Sydney, Australia, and move the camera.
     }
 
     public void read(){
