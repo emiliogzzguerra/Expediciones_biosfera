@@ -91,18 +91,4 @@ public class Destination {
     public void setNewImages(List<Bitmap> images) {
         this.images = images;
     }
-
-    public void setImages(DocumentReference images) {
-        System.out.println("ZZZZZZZZZZZZ");
-        images.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-            @Override
-            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                if (task.isSuccessful()) {
-                    DocumentSnapshot doc = task.getResult();
-                    System.out.println("ASDASDASDAASDASDASD");
-                    System.out.println(doc.getData());
-                }
-            }
-        });
-    }
 }
