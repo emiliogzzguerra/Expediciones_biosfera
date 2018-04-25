@@ -24,11 +24,7 @@
         android:id="@+id/map"
         tools:context=".MapsActivity"
         android:name="com.google.android.gms.maps.SupportMapFragment" />
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Locacion"
-        android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
+
 
     <TextView
         android:id="@+id/tv_location"
@@ -94,6 +90,11 @@
         android:text="description"
         android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
 
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="right"
+        android:text="reservar" />
 
 
 </LinearLayout>
