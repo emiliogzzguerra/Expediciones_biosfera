@@ -10,10 +10,10 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity android:name=".behavior.activities.MainActivity"/>
-        <activity android:name=".behavior.activities.AuthenticationActivity">
+        <activity android:name=".behavior.activities.TripActivity">
 
         </activity>
-        <activity android:name=".behavior.activities.TripActivity">
+        <activity android:name=".behavior.activities.AuthenticationActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

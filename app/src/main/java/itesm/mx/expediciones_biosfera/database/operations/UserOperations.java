@@ -1,0 +1,85 @@
+package itesm.mx.expediciones_biosfera.database.operations;
+
+import android.content.ContentValues;
+import android.content.Context;
+import android.database.Cursor;
+import android.database.SQLException;
+import android.database.sqlite.SQLiteDatabase;
+import android.util.Log;
+
+import java.util.ArrayList;
+
+/**
+ * Created by javier on 30/04/18.
+ */
+
+public class UserOperations {
+
+    private SQLiteDatabase db;
+    private UserDBHelper dbHelper;
+    private User user;
+
+    public UserOperations(Context context){
+        dbHelper = new UserDBHelper(context);
+    }
+
+    public void open() throws SQLException{
+        try{
+            db = dbHelper.getWritableDatabase();
+        }catch(SQLException e){
+            Log.e("SQLOPEN", e.toString());
+        }
+    }
+
+    public void close(){db.close();}
+
+    public long addUser(User user){
+        long newRowId = 0;
+
+        try{
+            ContentValues values = new ContentValues();
+            values.put(DB_Schema.UserTable.COLUMN_NAME_FIREBASEID, user.getFbid());
+            values.put(DB_Schema.UserTable.COLUMN_NAME_OCCUPATIONS, user.getOccupations());
+            values.put(DB_Schema.UserTable.COLUMN_NAME_INTERESTS, user.getInterests());
+            values.put(DB_Schema.UserTable.COLUMN_NAME_PHONE, user.getPhone());
+            values.put(DB_Schema.UserTable.COLUMN_NAME_PICTURE, user.getPicture());
+            newRowId = db.insert(DB_Schema.UserTable.TABLE_NAME, null, values);
+        }catch(SQLException e){
+            Log.e("SQLADD", e.toString());
+        }
+
+        return newRowId;
+    }
+
+    public ArrayList<User> getAllUsers(){
+        ArrayList<User> users = new ArrayList<>();
+
+        String selectQuery = "SELECT * FROM " + DB_Schema.UserTable.TABLE_NAME;
+
+        try{
+            Cursor cursor = db.rawQuery(selectQuery,null);
+            if(cursor.moveToFirst()){
+                do{
+                    user = new User(Integer.parseInt(cursor.getString(0)),
+                            cursor.getString(1),
+                            cursor.getString(2),
+                            cursor.getString(3),
+                            cursor.getString(4),
+                            null
+                    );
+                    users.add(user);
+                }while(cursor.moveToNext());
+            }
+            cursor.close();
+        }catch(SQLException e){
+            Log.e("SQLList", e.toString());
+        }
+        return users;
+    }
+
+    public void drop(){
+        db.execSQL("DROP TABLE IF EXISTS " + DB_Schema.UserTable.TABLE_NAME);
+    }
+
+
+}

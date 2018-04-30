@@ -10,6 +10,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
         android:textSize="30sp"
+        android:id="@+id/tv_profile_name"
         />
 
     <ImageView
@@ -19,33 +20,75 @@
         android:id="@+id/iv_profile_image"
         />
 
+
     <Button
         android:layout_width="150sp"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
-        android:text="@string/change"
-        android:id="@+id/btn_change"
+        android:text="@string/take"
+        android:id="@+id/btn_profile_take"
         />
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textSize="25sp"
-        android:id= "@+id/tv_occupation"
-        />
 
-    <TextView
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textSize="25sp"
-        android:id= "@+id/tv_interests"
-        />
+        android:orientation="horizontal">
 
-    <TextView
+        <TextView
+            android:layout_width="84dp"
+            android:layout_height="wrap_content"
+            android:text="Ocupación" />
+        <EditText
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/edt_profile_occupation"
+            />
+
+    </LinearLayout>
+
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textSize="25sp"
-        android:id= "@+id/tv_phone"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="84dp"
+            android:layout_height="wrap_content"
+            android:text="Intereses" />
+        <EditText
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/edt_profile_interests"
+            />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="84dp"
+            android:layout_height="wrap_content"
+            android:text="Teléfono" />
+
+        <EditText
+            android:id="@+id/edt_profile_phone"
+            android:inputType="phone"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content" />
+
+    </LinearLayout>
+
+
+    <Button
+        android:layout_width="150sp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:text="@string/save"
+        android:id="@+id/btn_profile_save"
         />
 
 </LinearLayout>
