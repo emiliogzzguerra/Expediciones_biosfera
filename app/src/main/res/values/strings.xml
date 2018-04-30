@@ -17,4 +17,8 @@
     <string name="nav_drawer_packages">Paquetes</string>
     <string name="nav_drawer_profile">Perfil</string>
     <string name="nav_drawer_sign_out">Cerrar Sesión</string>
+
+    <!-- ReservationActivity -->
+    <string name="reservation_summary">Un viaje a %1$s empezando el %2$i de %3$s, %4$i tiene un costo de:</string>
+    <string name="reservation_price_estimate">$%1$i</string>
 </resources>
