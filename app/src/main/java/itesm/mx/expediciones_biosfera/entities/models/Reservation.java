@@ -3,6 +3,10 @@ package itesm.mx.expediciones_biosfera.entities.models;
 import android.graphics.Bitmap;
 import android.media.Image;
 
+import com.google.firebase.Timestamp;
+
+import java.util.Date;
+
 /**
  * Created by avillarreal on 4/12/18.
  */
@@ -14,14 +18,16 @@ public class Reservation {
     private Bitmap ticket;
     private String customerReference;
     private String tripReference;
+    private Date initialDate;
 
-    public Reservation(int quantity, double price, boolean isConfirmed, Bitmap ticket, String customerReference, String tripReference) {
+    public Reservation(int quantity, double price, boolean isConfirmed, Bitmap ticket, String customerReference, String tripReference, Date initialDate) {
         this.quantity = quantity;
         this.price = price;
         this.isConfirmed = isConfirmed;
         this.ticket = ticket;
         this.customerReference = customerReference;
-        this.tripReference = tripReference ;
+        this.tripReference = tripReference;
+        this.initialDate = initialDate;
     }
 
     public int getQuantity() {
@@ -71,4 +77,13 @@ public class Reservation {
     public void setTripReference(String tripReference) {
         this.tripReference = tripReference;
     }
+
+    public Date getInitialDate() {
+        return initialDate;
+    }
+
+    public void setInitialDate(Date initialDate) {
+        this.initialDate = initialDate;
+    }
+
 }

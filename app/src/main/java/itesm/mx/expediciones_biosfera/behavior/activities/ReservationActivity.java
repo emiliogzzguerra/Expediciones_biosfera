@@ -16,7 +16,10 @@ import android.widget.Toast;
 
 import com.google.firebase.firestore.FirebaseFirestore;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.Locale;
 
 import itesm.mx.expediciones_biosfera.R;
@@ -129,8 +132,18 @@ public class ReservationActivity extends AppCompatActivity implements View.OnCli
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.bt_pre_reservation:
-
-                Reservation rAux = new Reservation(progressChangedValue,totalPrice,false,null,"customerReference","tripReference");
+                Date auxDate;
+                Reservation rAux;
+                SimpleDateFormat sdfmt1 = new SimpleDateFormat("dd/MM/yy");
+                try {
+                    System.out.println(tvDate.getText());
+                    auxDate = sdfmt1.parse((String) tvDate.getText());
+                    System.out.println(auxDate);
+                    rAux = new Reservation(progressChangedValue,totalPrice,false,null,"customerReference","tripReference", auxDate);
+                } catch (ParseException e) {
+                    rAux = new Reservation(progressChangedValue,totalPrice,false,null,"customerReference","tripReference", null);
+                    e.printStackTrace();
+                }
                 reservationHelper.addReservation(rAux);
                 break;
         }
