@@ -14,11 +14,16 @@ import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.firebase.firestore.FirebaseFirestore;
+
 import java.util.Calendar;
 import java.util.Locale;
 
 import itesm.mx.expediciones_biosfera.R;
 import itesm.mx.expediciones_biosfera.behavior.fragments.DatePickerFragment;
+import itesm.mx.expediciones_biosfera.database.operations.FirestoreReservationHelper;
+import itesm.mx.expediciones_biosfera.entities.models.Customer;
+import itesm.mx.expediciones_biosfera.entities.models.Reservation;
 
 /**
  * Created by emiliogonzalez on 4/27/18.
@@ -36,9 +41,11 @@ public class ReservationActivity extends AppCompatActivity implements View.OnCli
     private TextView tvSummaryPt2;
     private TextView tvEstimate;
     private int costPerPerson;
+    private int totalPrice;
     private String destinationTitle;
     private Button btPreReservation;
     private int progressChangedValue;
+    private FirestoreReservationHelper reservationHelper;
 
 
     @Override
@@ -46,7 +53,7 @@ public class ReservationActivity extends AppCompatActivity implements View.OnCli
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_reservation);
 
-        db = FirebaseFirestore.getInstance();
+        reservationHelper = new FirestoreReservationHelper();
 
         final Resources res = getResources();
         progressChangedValue = 2;
@@ -85,8 +92,9 @@ public class ReservationActivity extends AppCompatActivity implements View.OnCli
                 tvSummaryPt1.setText(res.getString(R.string.reservation_summary,destinationTitle,
                         progressChangedValue));
 
+                totalPrice = costPerPerson * sbSize.getProgress();
                 tvEstimate.setText(res.getString(R.string.reservation_price_estimate,
-                        costPerPerson * sbSize.getProgress()));
+                        totalPrice));
             }
         });
 
@@ -108,10 +116,13 @@ public class ReservationActivity extends AppCompatActivity implements View.OnCli
 
         tvSummaryPt2.setText(getResources()
                 .getString(R.string.reservation_summary_part_two,
-                        c.get(Calendar.DAY_OF_MONTH),c.get(Calendar.MONTH),c.get(Calendar.YEAR)));
+                        String.format("%02d", c.get(Calendar.DAY_OF_MONTH)),
+                        String.format("%02d", c.get(Calendar.MONTH)),
+                        String.format("%02d", c.get(Calendar.YEAR))));
 
+        totalPrice = costPerPerson * sbSize.getProgress();
         tvEstimate.setText(res.getString(R.string.reservation_price_estimate,
-                                costPerPerson * sbSize.getProgress()));
+                                totalPrice));
     }
 
     @Override
@@ -119,6 +130,8 @@ public class ReservationActivity extends AppCompatActivity implements View.OnCli
         switch (view.getId()) {
             case R.id.bt_pre_reservation:
 
+                Reservation rAux = new Reservation(progressChangedValue,totalPrice,false,null,"customerReference","tripReference");
+                reservationHelper.addReservation(rAux);
                 break;
         }
     }

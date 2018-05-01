@@ -12,17 +12,16 @@ public class Reservation {
     private double price;
     private boolean isConfirmed;
     private Bitmap ticket;
-    private Customer customer;
-    private Trip trip;
+    private String customerReference;
+    private String tripReference;
 
-    public Reservation(int quantity, double price, boolean isConfirmed, Bitmap ticket, Customer customer, Trip trip) {
-
+    public Reservation(int quantity, double price, boolean isConfirmed, Bitmap ticket, String customerReference, String tripReference) {
         this.quantity = quantity;
         this.price = price;
         this.isConfirmed = isConfirmed;
         this.ticket = ticket;
-        this.customer = customer;
-        this.trip = trip;
+        this.customerReference = customerReference;
+        this.tripReference = tripReference ;
     }
 
     public int getQuantity() {
@@ -57,19 +56,19 @@ public class Reservation {
         this.ticket = ticket;
     }
 
-    public Customer getCustomer() {
-        return customer;
+    public String getCustomerReference() {
+        return customerReference;
     }
 
-    public void setCustomer(Customer customer) {
-        this.customer = customer;
+    public void setCustomerReference(String customerReference) {
+        this.customerReference = customerReference;
     }
 
-    public Trip getTrip() {
-        return trip;
+    public String getTripReference() {
+        return tripReference;
     }
 
-    public void setTrip(Trip trip) {
-        this.trip = trip;
+    public void setTripReference(String tripReference) {
+        this.tripReference = tripReference;
     }
 }
