@@ -1,5 +1,8 @@
 package itesm.mx.expediciones_biosfera.behavior.activities;
 
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.DocumentSnapshot;
 import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.content.res.Resources;
@@ -26,23 +29,27 @@ import itesm.mx.expediciones_biosfera.behavior.fragments.DatePickerFragment;
 
 public class ReservationActivity extends AppCompatActivity implements View.OnClickListener{
 
-		private TextView tvHeader;
-		private TextView tvSelectSize;
-		private SeekBar sbSize;
-		private TextView tvDate;
-		private Button btDatePicker;
-		private TextView tvSummaryPt1;
-        private TextView tvSummaryPt2;
-        private TextView tvEstimate;
-        private int costPerPerson;
-        private String destinationTitle;
-		private Button btPreReservation;
-		private int progressChangedValue;
+    private FirebaseFirestore db;
+    private TextView tvHeader;
+    private TextView tvSelectSize;
+    private SeekBar sbSize;
+    private TextView tvDate;
+    private Button btDatePicker;
+    private TextView tvSummaryPt1;
+    private TextView tvSummaryPt2;
+    private TextView tvEstimate;
+    private int costPerPerson;
+    private String destinationTitle;
+    private Button btPreReservation;
+    private int progressChangedValue;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_reservation);
+
+        db = FirebaseFirestore.getInstance();
 
         final Resources res = getResources();
         progressChangedValue = 2;
