@@ -17,8 +17,7 @@
         android:layout_width="150dp"
         android:layout_height="150dp"
         android:layout_gravity="center_horizontal"
-        android:id="@+id/iv_profile_image"
-        />
+        android:id="@+id/iv_profile_image" />
 
 
     <Button
@@ -26,8 +25,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
         android:text="@string/take"
-        android:id="@+id/btn_profile_take"
-        />
+        android:id="@+id/btn_profile_take" />
 
 
     <LinearLayout
@@ -36,59 +34,71 @@
         android:orientation="horizontal">
 
         <TextView
-            android:layout_width="84dp"
+            android:layout_width="90dp"
             android:layout_height="wrap_content"
-            android:text="Ocupación" />
+            android:text="Ocupación"
+            android:textColor="@color/common_google_signin_btn_text_dark_focused"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+
         <EditText
+            android:id="@+id/edt_profile_occupation"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/edt_profile_occupation"
-            />
+            android:hint="ej. Estudiante, profesionista" />
 
     </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:paddingTop="20dp">
 
         <TextView
-            android:layout_width="84dp"
+            android:layout_width="90dp"
             android:layout_height="wrap_content"
-            android:text="Intereses" />
+            android:text="Intereses"
+            android:textColor="@color/common_google_signin_btn_text_dark_focused"
+            android:textSize="18sp"
+            android:textStyle="bold" />
         <EditText
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:id="@+id/edt_profile_interests"
-            />
+            android:hint="ej. Buceo, bicicleta de montaña, escalada" />
 
     </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:paddingTop="20dp">
 
         <TextView
-            android:layout_width="84dp"
+            android:layout_width="90dp"
             android:layout_height="wrap_content"
-            android:text="Teléfono" />
+            android:text="Teléfono"
+            android:textColor="@color/common_google_signin_btn_text_dark_focused"
+            android:textSize="18sp"
+            android:textStyle="bold" />
 
         <EditText
             android:id="@+id/edt_profile_phone"
             android:inputType="phone"
             android:layout_width="fill_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:hint="ej. +52 (81) 1569 2096"/>
 
     </LinearLayout>
 
 
     <Button
+        android:id="@+id/btn_profile_save"
         android:layout_width="150sp"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
-        android:text="@string/save"
-        android:id="@+id/btn_profile_save"
-        />
+        android:text="@string/save" />
 
 </LinearLayout>

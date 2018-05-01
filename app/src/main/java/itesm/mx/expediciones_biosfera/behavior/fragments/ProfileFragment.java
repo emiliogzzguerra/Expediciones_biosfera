@@ -4,10 +4,13 @@ package itesm.mx.expediciones_biosfera.behavior.fragments;
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -29,6 +32,7 @@ import com.google.firebase.auth.GoogleAuthProvider;
 
 import org.w3c.dom.Text;
 
+import java.io.ByteArrayOutputStream;
 import java.sql.SQLOutput;
 import java.util.ArrayList;
 
@@ -58,12 +62,21 @@ public class ProfileFragment extends Fragment {
     ArrayList<User> lista = new ArrayList<>();
 
     public void fillUser(){
-        String str = fbuser.getUid();
+        String str = fbuser.getDisplayName();
+        tv_name.setText(str);
+        str = fbuser.getUid();
+
         for(int i = 0; i < lista.size(); i++){
             if(lista.get(i).getFbid().equals(str)){
                 edt_occupation.setText( lista.get(i).getOccupations() );
                 edt_interests.setText( lista.get(i).getInterests() );
                 edt_phone.setText( lista.get(i).getPhone() );
+
+                // Convert bytes data into a Bitmap
+                byte[] bytes = lista.get(i).getPicture();
+                Bitmap bmp = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
+                // Set the Bitmap data to the ImageView
+                iv_picture.setImageBitmap(bmp);
             }
         }
     }
@@ -80,13 +93,17 @@ public class ProfileFragment extends Fragment {
 
     public boolean validateInput(){
 
-        if(edt_occupation.getText().toString().trim().length() == 0 ||
-                edt_phone.getText().toString().trim().length() == 0   ||
-                edt_interests.getText().toString().trim().length() == 0 ) {
+        if(TextUtils.isEmpty(edt_occupation.getText().toString()) ||
+            TextUtils.isEmpty(edt_interests.getText().toString()) ||
+            TextUtils.isEmpty(edt_phone.getText().toString()) || iv_picture.getDrawable() == null ){
                 return false;
         }
-
         return true;
+    }
+
+    public void getFirebaseUser(){
+        firebaseAuth = FirebaseAuth.getInstance();
+        fbuser = firebaseAuth.getCurrentUser();
     }
 
 
@@ -100,8 +117,6 @@ public class ProfileFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_profile, container, false);
 
-
-
         btn_save = view.findViewById(R.id.btn_profile_save);
         btn_take = view.findViewById(R.id.btn_profile_take);
         edt_occupation = view.findViewById(R.id.edt_profile_occupation);
@@ -110,27 +125,17 @@ public class ProfileFragment extends Fragment {
         iv_picture = view.findViewById(R.id.iv_profile_image);
         tv_name = view.findViewById(R.id.tv_profile_name);
 
-        firebaseAuth = FirebaseAuth.getInstance();
-        fbuser = firebaseAuth.getCurrentUser();
-
-        ///
-            String str = fbuser.getDisplayName();
-            tv_name.setText(str);
-            Toast.makeText(getActivity(), str, Toast.LENGTH_SHORT).show();
-            str = fbuser.getEmail();
-            Toast.makeText(getActivity(), str, Toast.LENGTH_SHORT).show();
-            str = fbuser.getUid();
-            Toast.makeText(getActivity(), str , Toast.LENGTH_SHORT).show();
-        ///
+        getFirebaseUser();
 
         dao = new UserOperations(getActivity());
         dao.open();
+        //dao.deleteAll();
         lista = dao.getAllUsers();
-        dao.deleteAll();
+        Toast.makeText(getActivity(), "la bd se abrio" , Toast.LENGTH_SHORT).show();
+
 
         fillUser(); //fills editTexts if firebaseID is already in SQLite database
 
-        Toast.makeText(getActivity(), "la bd se abrio" , Toast.LENGTH_SHORT).show();
 
         View.OnClickListener action = new View.OnClickListener(){
             @Override
@@ -147,22 +152,30 @@ public class ProfileFragment extends Fragment {
                             String occupations = edt_occupation.getText().toString();
                             String interests = edt_interests.getText().toString();
                             String phone = edt_phone.getText().toString();
-                            User user = new User(fbid, occupations, interests, phone, null);
 
+                            //Convert ImageView to Byte Array
+                            Bitmap bitmap = ((BitmapDrawable) iv_picture.getDrawable()).getBitmap();
+                            ByteArrayOutputStream baos = new ByteArrayOutputStream();
+                            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
+                            byte[] imageInByte = baos.toByteArray();
+
+                            User user = new User(fbid, occupations, interests, phone, imageInByte);
 
                             if(userExists()){ //se updatea
                                 dao.deleteUser(user.getFbid());
                                 dao.addUser(user);
-                                Toast.makeText(getActivity(), "Se updatea un usuario" , Toast.LENGTH_LONG).show();
-
+                                Toast.makeText(getActivity(), "Se updatea un usuario" ,
+                                        Toast.LENGTH_LONG).show();
                             }else{ //se agrega
                                 dao.addUser(user);
-                                Toast.makeText(getActivity(), "Se agrego un usuario" , Toast.LENGTH_LONG).show();
+                                Toast.makeText(getActivity(), "Se agrego un usuario" ,
+                                        Toast.LENGTH_LONG).show();
                             }
 
                             lista = dao.getAllUsers();
                         }else{
-                            Toast.makeText(getActivity(), "Faltan datos" , Toast.LENGTH_LONG).show();
+                            Toast.makeText(getActivity(), "Faltan datos" ,
+                                    Toast.LENGTH_LONG).show();
                         }
 
                         break;
@@ -175,7 +188,6 @@ public class ProfileFragment extends Fragment {
 
         btn_take.setOnClickListener(action);
         btn_save.setOnClickListener(action);
-
         Toast.makeText(getActivity(), String.valueOf(lista.size()), Toast.LENGTH_SHORT).show();
 
         return view;

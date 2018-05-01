@@ -85,7 +85,7 @@ public class UserOperations {
                             cursor.getString(2),
                             cursor.getString(3),
                             cursor.getString(4),
-                            null
+                            cursor.getBlob(5)
                     );
                     users.add(user);
                 }while(cursor.moveToNext());
