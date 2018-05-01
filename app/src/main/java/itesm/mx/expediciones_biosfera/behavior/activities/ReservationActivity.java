@@ -1,8 +1,5 @@
 package itesm.mx.expediciones_biosfera.behavior.activities;
 
-import com.google.firebase.firestore.DocumentReference;
-import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.DocumentSnapshot;
 import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.content.res.Resources;
