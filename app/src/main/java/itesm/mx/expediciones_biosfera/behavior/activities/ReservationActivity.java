@@ -1,9 +1,11 @@
 package itesm.mx.expediciones_biosfera.behavior.activities;
 
+import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
@@ -16,30 +18,34 @@ import java.util.Calendar;
 import java.util.Locale;
 
 import itesm.mx.expediciones_biosfera.R;
+import itesm.mx.expediciones_biosfera.behavior.fragments.DatePickerFragment;
 
 /**
  * Created by emiliogonzalez on 4/27/18.
  */
 
-public class ReservationActivity extends AppCompatActivity implements View.OnClickListener {
+public class ReservationActivity extends AppCompatActivity implements View.OnClickListener{
 
 		private TextView tvHeader;
 		private TextView tvSelectSize;
 		private SeekBar sbSize;
-		private TextView tvFecha;
-		private DatePicker dp;
-		private TextView tvSummary;
-		private TextView tvEstimate;
+		private TextView tvDate;
+		private Button btDatePicker;
+		private TextView tvSummaryPt1;
+        private TextView tvSummaryPt2;
+        private TextView tvEstimate;
         private int costPerPerson;
         private String destinationTitle;
 		private Button btPreReservation;
+		private int progressChangedValue;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_reservation);
 
-        Resources res = getResources();
+        final Resources res = getResources();
+        progressChangedValue = 2;
 
         //Uncomment to get the real price per person and calculate the total price
         //Intent intent = getIntent();
@@ -51,20 +57,20 @@ public class ReservationActivity extends AppCompatActivity implements View.OnCli
         tvHeader = (TextView) findViewById(R.id.tv_header);
         tvSelectSize = (TextView) findViewById(R.id.tv_select_size);
         sbSize = (SeekBar) findViewById(R.id.sb_size);
-        tvFecha = (TextView) findViewById(R.id.tv_fecha);
-        dp = (DatePicker) findViewById(R.id.dp);
-        tvSummary = (TextView) findViewById(R.id.tv_summary);
+        tvDate = (TextView) findViewById(R.id.tv_date);
+        btDatePicker = (Button) findViewById(R.id.btn_change);
+        tvSummaryPt1 = (TextView) findViewById(R.id.tv_summary_pt1);
+        tvSummaryPt2 = (TextView) findViewById(R.id.tv_summary_pt2);
         tvEstimate = (TextView) findViewById(R.id.tv_estimate);
         btPreReservation = (Button) findViewById(R.id.bt_pre_reservation);
 
         btPreReservation.setOnClickListener(this);
 
         sbSize.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
-            int progressChangedValue = 2;
 
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
                 progressChangedValue = progress;
-                tvSelectSize.setText("¿Cuantas personas asistirán al viaje? (" + progressChangedValue + ")");
+                tvSelectSize.setText(res.getString(R.string.reservation_select_size,progressChangedValue));
             }
 
             public void onStartTrackingTouch(SeekBar seekBar) {
@@ -72,13 +78,33 @@ public class ReservationActivity extends AppCompatActivity implements View.OnCli
             }
 
             public void onStopTrackingTouch(SeekBar seekBar) {
-                Toast.makeText(ReservationActivity.this, "Cantidad de personas:" + progressChangedValue,
-                        Toast.LENGTH_SHORT).show();
+                tvSummaryPt1.setText(res.getString(R.string.reservation_summary,destinationTitle,
+                        progressChangedValue));
+
+                tvEstimate.setText(res.getString(R.string.reservation_price_estimate,
+                        costPerPerson * sbSize.getProgress()));
             }
         });
 
-        String auxString = res.getString(R.string.reservation_summary,destinationTitle,
-                dp.getDayOfMonth(),dp.getMonth(),dp.getYear());
+        tvSelectSize.setText(res.getString(R.string.reservation_select_size,2));
+
+        // Setting initial date to the first monday that is at least 7 days away
+        final Calendar c = Calendar.getInstance();
+        c.add( Calendar.DATE, 7 );
+        while(c.get( Calendar.DAY_OF_WEEK ) != Calendar.MONDAY )
+            c.add( Calendar.DATE, 1 );
+
+        tvDate.setText(res.getString(R.string.reservation_date,
+                String.format("%02d", c.get(Calendar.DAY_OF_MONTH)),
+                String.format("%02d", c.get(Calendar.MONTH)),
+                String.format("%02d", c.get(Calendar.YEAR))));
+
+        tvSummaryPt1.setText(res.getString(R.string.reservation_summary,destinationTitle,
+                progressChangedValue));
+
+        tvSummaryPt2.setText(getResources()
+                .getString(R.string.reservation_summary_part_two,
+                        c.get(Calendar.DAY_OF_MONTH),c.get(Calendar.MONTH),c.get(Calendar.YEAR)));
 
         tvEstimate.setText(res.getString(R.string.reservation_price_estimate,
                                 costPerPerson * sbSize.getProgress()));
@@ -91,5 +117,10 @@ public class ReservationActivity extends AppCompatActivity implements View.OnCli
 
                 break;
         }
+    }
+
+    public void showDatePickerDialog(View v) {
+        DialogFragment newFragment = new DatePickerFragment();
+        newFragment.show(getSupportFragmentManager(), "datePicker");
     }
 }

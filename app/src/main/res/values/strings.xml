@@ -19,6 +19,12 @@
     <string name="nav_drawer_sign_out">Cerrar Sesión</string>
 
     <!-- ReservationActivity -->
-    <string name="reservation_summary">Un viaje a %1$s empezando el %2$i de %3$s, %4$i tiene un costo de:</string>
-    <string name="reservation_price_estimate">$%1$i</string>
+    <string name="reservation_date">%1$s/%2$s/%3$s</string>
+    <string name="reservation_date_description">Tu viaje ideal inicia el día...</string>
+    <string name="reservation_change_name">Cambiar fecha de inicio</string>
+    <string name="reservation_title">Estás a tan sólo unos pasos del viaje de tus sueños.</string>
+    <string name="reservation_select_size">¿Cuantas personas asistirán al viaje? (%1$d)</string>
+    <string name="reservation_summary">Tu viaje a %1$s con %2$d personas,</string>
+    <string name="reservation_summary_part_two">empezando el %1$s/%2$s/%3$s tiene un costo aproximado de</string>
+    <string name="reservation_price_estimate">$%1$d</string>
 </resources>
