@@ -77,8 +77,8 @@ public class UserOperations {
         return users;
     }
 
-    public void drop(){
-        db.execSQL("DROP TABLE IF EXISTS " + DB_Schema.UserTable.TABLE_NAME);
+    public void deleteAll(){
+        db.execSQL("DELETE FROM  " + DB_Schema.UserTable.TABLE_NAME);
     }
 
 

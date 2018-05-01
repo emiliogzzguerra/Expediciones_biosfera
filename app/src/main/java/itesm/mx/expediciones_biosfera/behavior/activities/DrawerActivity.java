@@ -19,9 +19,13 @@ import android.widget.Toast;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
+import java.util.ArrayList;
+
 import itesm.mx.expediciones_biosfera.R;
 import itesm.mx.expediciones_biosfera.behavior.fragments.PackagesFragment;
 import itesm.mx.expediciones_biosfera.behavior.fragments.ProfileFragment;
+import itesm.mx.expediciones_biosfera.database.operations.User;
+import itesm.mx.expediciones_biosfera.database.operations.UserOperations;
 
 public class DrawerActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener{
     private Toolbar toolbar;
@@ -29,6 +33,24 @@ public class DrawerActivity extends AppCompatActivity implements NavigationView.
     private FirebaseUser currentUser;
     private DrawerLayout drawer;
     private ActionBarDrawerToggle toggle;
+
+    UserOperations dao;
+
+    //Regresa true si ya existe un usuario con Firebase ID en la tabla SQLite
+    //False de lo contrario
+    public boolean userExists(String firebaseId){
+        dao = new UserOperations(this);
+        dao.open();
+        ArrayList<User> users = new ArrayList<>();
+        users = dao.getAllUsers();
+        for(int i = 0; i < users.size(); i++){
+            if(users.get(i).getFbid().equals(firebaseId)){
+                return true;
+            }
+        }
+        dao.close();
+        return false;
+    }
 
     public void setToolbar() {
         toolbar = findViewById(R.id.toolbar);
@@ -85,10 +107,19 @@ public class DrawerActivity extends AppCompatActivity implements NavigationView.
         configureNavigationView();
         getFirebaseUser();
 
+        //Si el usuario está registrado, la aplicación te dirige a la pantalla de paquetes.
+        //De lo contrario, la aplicación te dirige a la pantalla de perfil.
+        if(userExists(currentUser.getUid())){
+            PackagesFragment packagesFragment = new PackagesFragment();
+            getSupportFragmentManager().beginTransaction().add(R.id.content_frame,
+                    packagesFragment).commit();
+        }else{
+            ProfileFragment profileFragment = new ProfileFragment();
+            getSupportFragmentManager().beginTransaction().add(R.id.content_frame,
+                    profileFragment).commit();
+        }
 
-        PackagesFragment packagesFragment = new PackagesFragment();
 
-        getSupportFragmentManager().beginTransaction().add(R.id.content_frame, packagesFragment).commit();
 
     }
 

@@ -47,7 +47,6 @@ public class ProfileFragment extends Fragment {
     FirebaseAuth firebaseAuth;
     FirebaseUser fbuser;
 
-
     Button btn_save;
     Button btn_take;
     EditText edt_occupation;
@@ -56,14 +55,48 @@ public class ProfileFragment extends Fragment {
     TextView tv_name;
     ImageView iv_picture;
 
+    ArrayList<User> lista = new ArrayList<>();
+
+    public void validateUser(){
+        String str = fbuser.getUid();
+        for(int i = 0; i<lista.size(); i++){
+            if(lista.get(i).getFbid().equals(str)){
+                edt_occupation.setText( lista.get(i).getOccupations() );
+                edt_interests.setText( lista.get(i).getInterests() );
+                edt_phone.setText( lista.get(i).getPhone() );
+            }
+            /*
+            System.out.println(i);
+            System.out.println(lista.get(i).getFbid() + " " + lista.get(i).getOccupations() + " " +
+                    lista.get(i).getInterests() + " " + lista.get(i).getPhone()
+            );
+            */
+        }
+    }
+
+    public boolean validateInput(){
+
+        if(edt_occupation.getText().toString().trim().length() == 0 ||
+                edt_phone.getText().toString().trim().length() == 0   ||
+                edt_interests.getText().toString().trim().length() == 0 ) {
+                return false;
+        }
+
+        return true;
+    }
+
+
     public ProfileFragment() {
         // Required empty public constructor
     }
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_profile, container, false);
+
+        
 
         btn_save = view.findViewById(R.id.btn_profile_save);
         btn_take = view.findViewById(R.id.btn_profile_take);
@@ -75,22 +108,25 @@ public class ProfileFragment extends Fragment {
 
         firebaseAuth = FirebaseAuth.getInstance();
         fbuser = firebaseAuth.getCurrentUser();
-        String str = fbuser.getDisplayName();
 
-        tv_name.setText(str);
-
-        Toast.makeText(getActivity(), str, Toast.LENGTH_SHORT).show();
-        str = fbuser.getEmail();
-        Toast.makeText(getActivity(), str, Toast.LENGTH_SHORT).show();
-        str = fbuser.getUid();
-        Toast.makeText(getActivity(), str , Toast.LENGTH_SHORT).show();
-
+        ///
+            String str = fbuser.getDisplayName();
+            tv_name.setText(str);
+            Toast.makeText(getActivity(), str, Toast.LENGTH_SHORT).show();
+            str = fbuser.getEmail();
+            Toast.makeText(getActivity(), str, Toast.LENGTH_SHORT).show();
+            str = fbuser.getUid();
+            Toast.makeText(getActivity(), str , Toast.LENGTH_SHORT).show();
+        ///
 
         dao = new UserOperations(getActivity());
         dao.open();
-        dao.drop();
-        Toast.makeText(getActivity(), "la bd se abrio" , Toast.LENGTH_LONG).show();
+        lista = dao.getAllUsers();
+        //dao.deleteAll();
 
+        validateUser();
+
+        Toast.makeText(getActivity(), "la bd se abrio" , Toast.LENGTH_SHORT).show();
 
         View.OnClickListener action = new View.OnClickListener(){
             @Override
@@ -101,13 +137,20 @@ public class ProfileFragment extends Fragment {
                         startActivityForResult(cameraIntent, CAMERA_REQUEST);
                         break;
                     case R.id.btn_profile_save:
-                        String fbid = fbuser.getUid();
-                        String occupations = edt_occupation.getText().toString();
-                        String interests = edt_interests.getText().toString();
-                        String phone = edt_phone.getText().toString();
-                        User user = new User(fbid, occupations, interests, phone, null);
-                        dao.addUser(user);
-                        Toast.makeText(getActivity(), "se agrego un usuario" , Toast.LENGTH_LONG).show();
+
+                        if(validateInput()){
+                            String fbid = fbuser.getUid();
+                            String occupations = edt_occupation.getText().toString();
+                            String interests = edt_interests.getText().toString();
+                            String phone = edt_phone.getText().toString();
+                            User user = new User(fbid, occupations, interests, phone, null);
+
+                            //dao.addUser(user);
+                            Toast.makeText(getActivity(), "se agrego un usuario" , Toast.LENGTH_LONG).show();
+                            lista = dao.getAllUsers();
+                        }else{
+                            Toast.makeText(getActivity(), "Faltan datos" , Toast.LENGTH_LONG).show();
+                        }
 
                         break;
                     default:
@@ -117,19 +160,10 @@ public class ProfileFragment extends Fragment {
 
         };
 
-
         btn_take.setOnClickListener(action);
         btn_save.setOnClickListener(action);
-        ArrayList<User> lista = new ArrayList<>();
-        lista = dao.getAllUsers();
-        Toast.makeText(getActivity(), String.valueOf(lista.size()), Toast.LENGTH_SHORT).show();
 
-        for(int i = 0; i<lista.size(); i++){
-            System.out.println(i);
-            System.out.println(lista.get(i).getFbid() + " " + lista.get(i).getOccupations() + " " +
-                    lista.get(i).getInterests() + " " + lista.get(i).getPhone()
-            );
-        }
+        Toast.makeText(getActivity(), String.valueOf(lista.size()), Toast.LENGTH_SHORT).show();
 
         return view;
     }
