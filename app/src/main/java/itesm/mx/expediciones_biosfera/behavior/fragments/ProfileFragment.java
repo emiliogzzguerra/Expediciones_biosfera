@@ -57,21 +57,25 @@ public class ProfileFragment extends Fragment {
 
     ArrayList<User> lista = new ArrayList<>();
 
-    public void validateUser(){
+    public void fillUser(){
         String str = fbuser.getUid();
-        for(int i = 0; i<lista.size(); i++){
+        for(int i = 0; i < lista.size(); i++){
             if(lista.get(i).getFbid().equals(str)){
                 edt_occupation.setText( lista.get(i).getOccupations() );
                 edt_interests.setText( lista.get(i).getInterests() );
                 edt_phone.setText( lista.get(i).getPhone() );
             }
-            /*
-            System.out.println(i);
-            System.out.println(lista.get(i).getFbid() + " " + lista.get(i).getOccupations() + " " +
-                    lista.get(i).getInterests() + " " + lista.get(i).getPhone()
-            );
-            */
         }
+    }
+
+    public boolean userExists(){
+        String str = fbuser.getUid();
+        for(int i = 0; i < lista.size(); i++){
+            if(lista.get(i).getFbid().equals(str)){
+                return true;
+            }
+        }
+        return false;
     }
 
     public boolean validateInput(){
@@ -96,7 +100,7 @@ public class ProfileFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_profile, container, false);
 
-        
+
 
         btn_save = view.findViewById(R.id.btn_profile_save);
         btn_take = view.findViewById(R.id.btn_profile_take);
@@ -122,9 +126,9 @@ public class ProfileFragment extends Fragment {
         dao = new UserOperations(getActivity());
         dao.open();
         lista = dao.getAllUsers();
-        //dao.deleteAll();
+        dao.deleteAll();
 
-        validateUser();
+        fillUser(); //fills editTexts if firebaseID is already in SQLite database
 
         Toast.makeText(getActivity(), "la bd se abrio" , Toast.LENGTH_SHORT).show();
 
@@ -145,8 +149,17 @@ public class ProfileFragment extends Fragment {
                             String phone = edt_phone.getText().toString();
                             User user = new User(fbid, occupations, interests, phone, null);
 
-                            //dao.addUser(user);
-                            Toast.makeText(getActivity(), "se agrego un usuario" , Toast.LENGTH_LONG).show();
+
+                            if(userExists()){ //se updatea
+                                dao.deleteUser(user.getFbid());
+                                dao.addUser(user);
+                                Toast.makeText(getActivity(), "Se updatea un usuario" , Toast.LENGTH_LONG).show();
+
+                            }else{ //se agrega
+                                dao.addUser(user);
+                                Toast.makeText(getActivity(), "Se agrego un usuario" , Toast.LENGTH_LONG).show();
+                            }
+
                             lista = dao.getAllUsers();
                         }else{
                             Toast.makeText(getActivity(), "Faltan datos" , Toast.LENGTH_LONG).show();

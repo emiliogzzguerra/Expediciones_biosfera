@@ -51,6 +51,26 @@ public class UserOperations {
         return newRowId;
     }
 
+    public void deleteUser(String fbid){
+
+        String query = "SELECT * FROM " + DB_Schema.UserTable.TABLE_NAME +
+                " WHERE " + DB_Schema.UserTable.COLUMN_NAME_FIREBASEID +
+                " = \"" + fbid + "\"";
+        try{
+            Cursor cursor = db.rawQuery(query, null);
+            if(cursor.moveToFirst()){
+                int id = Integer.parseInt(cursor.getString(0));
+                db.delete(DB_Schema.UserTable.TABLE_NAME,
+                        DB_Schema.UserTable._ID+" = ?",
+                        new String[]{String.valueOf(id)});
+            }
+            cursor.close();
+        }catch(SQLException e){
+            Log.e("SQLDELETE", e.toString());
+        }
+
+    }
+
     public ArrayList<User> getAllUsers(){
         ArrayList<User> users = new ArrayList<>();
 
