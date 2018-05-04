@@ -15,7 +15,7 @@
             android:title="@string/nav_drawer_sign_out" />
         <item
             android:id="@+id/nav_reservations"
-            android:title="Resrevaciones" />
+            android:title="Reservaciones" />
     </group>
 
 </menu>
