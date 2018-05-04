@@ -2,13 +2,14 @@ package itesm.mx.expediciones_biosfera.entities.models;
 
 import android.graphics.Bitmap;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
  * Created by avillarreal on 4/12/18.
  */
 
-public class Destination {
+public class Destination  implements Serializable{
     private String name;
     private String state;
     private String city;
@@ -17,6 +18,7 @@ public class Destination {
     private String description;
     private List<Bitmap> images;
 
+    public Destination(){ }
     public Destination(String name, String state, String city, double lat, double lon, String description, List<Bitmap> images) {
         this.name = name;
         this.state = state;
