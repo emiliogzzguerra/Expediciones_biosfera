@@ -67,7 +67,6 @@ public class AdminReservationRecyclerViewAdapter extends RecyclerView.Adapter<Ad
                 if(snapshot.exists()) {
                     Customer customer = snapshot.toObject(Customer.class);
                     holder.tvCustomer.setText(customer.getName());
-                    System.out.println("");
                 }
                 else{
                     holder.tvCustomer.setText("User not found");

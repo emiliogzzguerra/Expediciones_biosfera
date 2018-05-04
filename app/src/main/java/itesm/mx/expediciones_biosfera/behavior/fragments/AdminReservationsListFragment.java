@@ -33,7 +33,7 @@ import itesm.mx.expediciones_biosfera.entities.models.Reservation;
  * Created by avillarreal on 5/4/18.
  */
 
-public class AdminReservationsList extends Fragment {
+public class AdminReservationsListFragment extends Fragment {
     private RecyclerView recyclerView;
     private AdminReservationRecyclerViewAdapter mAdapter;
 
