@@ -17,4 +17,15 @@
     <string name="nav_drawer_packages">Paquetes</string>
     <string name="nav_drawer_profile">Perfil</string>
     <string name="nav_drawer_sign_out">Cerrar Sesión</string>
+
+    <!-- TicketingActivity -->
+    <string name="ticketing_status_icon">ICON</string>
+    <string name="ticketing_header">¡Felicidades!</string>
+
+    <string name="ticketing_description">Tu paquete para ir a %1$s el %2$s está disponible.</string>
+    <string name="ticketing_next_steps">Lo que sigue es que pagues la cantidad acordada de $ %1$s a cualquiera de las siguientes cuentas bancarias.</string>
+    <string name="ticketing_take_picture">Una vez que hayas realizado el pago, regresa a esta pantalla para mandarnos una foto de tu comprobante y ¡Listo!</string>
+    <string name="ticketing_bt_select_picture">Seleccionar foto</string>
+    <string name="ticketing_bt_take_picture">Tomar foto</string>
+    <string name="ticketing_bt_upload_picture">Enviar comprobante</string>
 </resources>
