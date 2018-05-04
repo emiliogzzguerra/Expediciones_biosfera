@@ -20,6 +20,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import java.util.List;
 
 import itesm.mx.expediciones_biosfera.R;
+import itesm.mx.expediciones_biosfera.entities.models.Customer;
 import itesm.mx.expediciones_biosfera.entities.models.Destination;
 import itesm.mx.expediciones_biosfera.entities.models.Reservation;
 
@@ -45,9 +46,8 @@ public class AdminReservationRecyclerViewAdapter extends RecyclerView.Adapter<Ad
     }
 
     @Override
-    public void onBindViewHolder(AdminReservationRecyclerViewAdapter.ViewHolder holder, int position){
+    public void onBindViewHolder(final AdminReservationRecyclerViewAdapter.ViewHolder holder, int position){
         final int itemPosition = position;
-        tempHolder = holder;
         final Reservation reservation = reservationList.get(itemPosition);
         firestoreDB.collection("destinations").document(reservation.getTripReference())
                 .get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
@@ -56,14 +56,33 @@ public class AdminReservationRecyclerViewAdapter extends RecyclerView.Adapter<Ad
                 DocumentSnapshot snapshot = task.getResult();
                 if(snapshot.exists()) {
                     Destination destination = snapshot.toObject(Destination.class);
-                    tempHolder.tvDestination.setText(destination.getCity());
+                    holder.tvDestination.setText(destination.getCity());
+                }
+                else{
+                    holder.tvDestination.setText("Destination not found");
+                }
+            }
+        });
+        firestoreDB.collection("users").document(reservation.getCustomerReference())
+                .get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                DocumentSnapshot snapshot = task.getResult();
+                if(snapshot.exists()) {
+                    Customer customer = snapshot.toObject(Customer.class);
+                    holder.tvCustomer.setText(customer.getName());
+                    System.out.println("");
+                }
+                else{
+                    holder.tvCustomer.setText("User not found");
                 }
             }
         });
 
-        tempHolder.tvCustomer.setText(reservation.getCustomerReference());
-        tempHolder.tvPrice.setText("$"+String.valueOf(reservation.getPrice()));
-        tempHolder.tvDate.setText(reservation.getInitialDate().toString());
+        holder.tvPrice.setText("$"+String.valueOf(reservation.getPrice()));
+        holder.tvDate.setText(reservation.getInitialDate().toString());
+
+
     }
 
     @Override
