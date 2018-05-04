@@ -36,7 +36,7 @@ public class DrawerActivity extends AppCompatActivity implements NavigationView.
     }
 
     public void setDrawerLayout() {
-        drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        drawer = findViewById(R.id.drawer_layout);
         toggle = new ActionBarDrawerToggle(this, drawer, toolbar,
                 R.string.navigation_drawer_open, R.string.navigation_drawer_close) {
             public void onDrawerOpened(View drawerView) {
@@ -111,12 +111,17 @@ public class DrawerActivity extends AppCompatActivity implements NavigationView.
 
         Fragment fragment = null;
 
-        if (id == R.id.nav_packages) {
-            fragment = new PackagesFragment();
-        } else if (id == R.id.nav_profile) {
-            fragment = new ProfileFragment();
-        } else if (id == R.id.nav_signout) {
-            signOut();
+        switch (id) {
+            case R.id.nav_packages:
+                fragment = new PackagesFragment();
+                break;
+            case R.id.nav_profile:
+                fragment = new ProfileFragment();
+                break;
+            case R.id.nav_signout:
+                signOut();
+                break;
+            default:
         }
 
         getSupportFragmentManager().popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
