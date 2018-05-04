@@ -20,6 +20,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
 import itesm.mx.expediciones_biosfera.R;
+import itesm.mx.expediciones_biosfera.behavior.fragments.AdminReservationsList;
 import itesm.mx.expediciones_biosfera.behavior.fragments.PackagesFragment;
 import itesm.mx.expediciones_biosfera.behavior.fragments.ProfileFragment;
 
@@ -117,6 +118,8 @@ public class DrawerActivity extends AppCompatActivity implements NavigationView.
             fragment = new ProfileFragment();
         } else if (id == R.id.nav_signout) {
             signOut();
+        } else if (id == R.id.nav_reservations){
+            fragment = new AdminReservationsList();
         }
 
         getSupportFragmentManager().popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
