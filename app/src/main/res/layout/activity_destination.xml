@@ -58,7 +58,7 @@
             android:text="Fecha"
             android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
         <TextView
-            android:id="@+id/tv_date"
+            android:id="@+id/text_date"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="description"
@@ -74,7 +74,7 @@
             android:text="Precio"
             android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
         <TextView
-            android:id="@+id/tv_price"
+            android:id="@+id/text_price"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="description"

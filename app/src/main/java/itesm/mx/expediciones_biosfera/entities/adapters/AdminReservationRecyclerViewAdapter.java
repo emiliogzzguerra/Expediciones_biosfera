@@ -1,8 +1,6 @@
 package itesm.mx.expediciones_biosfera.entities.adapters;
 
 import android.content.Context;
-import android.content.Intent;
-import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -12,8 +10,6 @@ import android.widget.TextView;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
@@ -94,11 +90,11 @@ public class AdminReservationRecyclerViewAdapter extends RecyclerView.Adapter<Ad
         TextView tvDate, tvPrice, tvCustomer, tvDestination, tvStatus;
         ViewHolder(View view){
             super(view);
-            tvDate = view.findViewById(R.id.tv_date);
-            tvCustomer = view.findViewById(R.id.tv_customer);
-            tvDestination = view.findViewById(R.id.tv_destination);
-            tvPrice = view.findViewById(R.id.tv_price);
-            tvStatus = view.findViewById(R.id.tv_status);
+            tvDate = view.findViewById(R.id.text_date);
+            tvCustomer = view.findViewById(R.id.text_customer);
+            tvDestination = view.findViewById(R.id.text_destination);
+            tvPrice = view.findViewById(R.id.text_price);
+            tvStatus = view.findViewById(R.id.text_status);
         }
     }
 }

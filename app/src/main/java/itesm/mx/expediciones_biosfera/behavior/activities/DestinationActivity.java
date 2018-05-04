@@ -1,18 +1,12 @@
 package itesm.mx.expediciones_biosfera.behavior.activities;
 
 import android.content.Intent;
-import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.firestore.DocumentReference;
-import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.android.gms.maps.OnMapReadyCallback;
 
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -21,16 +15,13 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
-import org.w3c.dom.Text;
 
-import java.sql.Date;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Map;
 
 import itesm.mx.expediciones_biosfera.R;
 import itesm.mx.expediciones_biosfera.entities.models.Destination;
-import itesm.mx.expediciones_biosfera.entities.models.Trip;
 
 public class DestinationActivity extends AppCompatActivity implements OnMapReadyCallback {
     private GoogleMap mMap;
@@ -56,9 +47,9 @@ public class DestinationActivity extends AppCompatActivity implements OnMapReady
         mapFragment.getMapAsync(this);
         ivPhoto = findViewById(R.id.iv_main_image);
         tvLocation = findViewById(R.id.tv_location);
-        tvDate = findViewById(R.id.tv_date);
+        tvDate = findViewById(R.id.text_date);
         tvDescription = findViewById(R.id.tv_description);
-        tvPrice = findViewById(R.id.tv_price);
+        tvPrice = findViewById(R.id.text_price);
         tvDuration = findViewById(R.id.tv_duration);
         tvCapacity = findViewById(R.id.tv_capacity);
 
