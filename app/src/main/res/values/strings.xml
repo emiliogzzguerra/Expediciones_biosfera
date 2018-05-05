@@ -19,7 +19,6 @@
     <string name="nav_drawer_sign_out">Cerrar Sesión</string>
 
     <!-- TicketingActivity -->
-    <string name="ticketing_status_text">ICON</string>
     <string name="ticketing_header_text">¡Felicidades!</string>
     <string name="ticketing_description_text">Tu paquete para ir a %1$s el %2$s está disponible.</string>
     <string name="ticketing_next_steps_text">Lo que sigue es que pagues la cantidad acordada de $ %1$s a cualquiera de las siguientes cuentas bancarias.</string>

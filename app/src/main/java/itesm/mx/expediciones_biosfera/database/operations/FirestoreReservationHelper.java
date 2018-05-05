@@ -1,5 +1,6 @@
 package itesm.mx.expediciones_biosfera.database.operations;
 
+import android.net.Uri;
 import android.support.annotation.NonNull;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -97,4 +98,12 @@ public class FirestoreReservationHelper {
                 .set(data, SetOptions.merge());
     }
 
+    public void setTicketUrl(String reservationReference, String ticketReference) {
+        Map<String, Object> data = new HashMap<>();
+
+        data.put("ticket", ticketReference);
+
+        db.collection("reservations").document(reservationReference)
+                .set(data, SetOptions.merge());
+    }
 }

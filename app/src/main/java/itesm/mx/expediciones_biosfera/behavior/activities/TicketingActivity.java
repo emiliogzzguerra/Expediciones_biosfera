@@ -24,6 +24,8 @@ import java.io.FileNotFoundException;
 import java.io.InputStream;
 
 import itesm.mx.expediciones_biosfera.R;
+import itesm.mx.expediciones_biosfera.database.operations.FirestoreReservationHelper;
+import itesm.mx.expediciones_biosfera.entities.models.Reservation;
 
 /**
  * Created by emiliogonzalez on 5/4/18.
@@ -33,9 +35,9 @@ public class TicketingActivity extends AppCompatActivity {
 
     public static final int REQUEST_IMAGE_CAPTURE = 1;
     public static final int PICK_IMAGE = 2;
+    public static final String RESERVATION_OBJECT = "RESERVATION_OBJECT";
+    public static final String RESERVATION_REFERENCE = "RESERVATION_REFERENCE";
 
-
-    private TextView tvStatus;
     private TextView tvHeader;
     private TextView tvDescription;
     private TextView tvNextSteps;
@@ -46,6 +48,8 @@ public class TicketingActivity extends AppCompatActivity {
     private TextView btnUploadPicture;
     private ImageView ivPreviewImage;
     private Bitmap ticket;
+    private Reservation reservation;
+    private String reservationReference;
 
     private void takePicture() {
         Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
@@ -61,18 +65,22 @@ public class TicketingActivity extends AppCompatActivity {
         startActivityForResult(Intent.createChooser(intent, "Select Picture"), PICK_IMAGE);
     }
 
-    private void uploadTicketToFirebase() {
+    private StorageReference getTicketRef(){
         FirebaseStorage storage = FirebaseStorage.getInstance();
-
-        // Create a storage reference from our app
         StorageReference storageRef = storage.getReferenceFromUrl("gs://expedicionesbiosfera.appspot.com/tickets");
+        return storageRef.child(System.currentTimeMillis()+".jpg");
+    }
 
-        // Create a reference to "mountains.jpg"
-        StorageReference ticketRef = storageRef.child("ticket.jpg");
-
+    private byte[] getDataFromImage(){
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         ticket.compress(Bitmap.CompressFormat.JPEG, 100, baos);
-        byte[] data = baos.toByteArray();
+        return baos.toByteArray();
+    }
+
+    private void uploadTicketToFirebase() {
+        final StorageReference ticketRef = getTicketRef();
+
+        byte[] data = getDataFromImage();
 
         UploadTask uploadTask = ticketRef.putBytes(data);
         uploadTask.addOnFailureListener(new OnFailureListener() {
@@ -85,27 +93,34 @@ public class TicketingActivity extends AppCompatActivity {
             @Override
             public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
                 System.out.println("SUCCESS!!!");
-                Uri downloadUrl = taskSnapshot.getDownloadUrl();
+                Uri ticketReference = taskSnapshot.getDownloadUrl();
+                updateReservationObject(ticketReference.toString());
             }
         });
     }
 
+    private void updateReservationObject(String ticketReference) {
+        FirestoreReservationHelper reservationHelper = new FirestoreReservationHelper();
+        if(reservationReference != null){
+            reservationHelper.setTicketUrl(reservationReference,ticketReference);
+            reservationHelper.setPaidPending(reservationReference);
+        }
+    }
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
+        if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK  && data != null) {
             System.out.println("Request image capture");
             Bundle extras = data.getExtras();
             ticket = (Bitmap) extras.get("data");
             ivPreviewImage.setImageBitmap(ticket);
         }
-        if (requestCode == PICK_IMAGE && resultCode == RESULT_OK
-                && null != data) {
+        if (requestCode == PICK_IMAGE && resultCode == RESULT_OK && data != null) {
             Uri selectedImage = data.getData();
             InputStream imageStream = null;
             try {
                 imageStream = getContentResolver().openInputStream(selectedImage);
             } catch (FileNotFoundException e) {
-                // TODO Auto-generated catch block
                 e.printStackTrace();
             }
             ticket = BitmapFactory.decodeStream(imageStream);
@@ -118,7 +133,13 @@ public class TicketingActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_ticketing);
 
-        tvStatus = (TextView) findViewById(R.id.status_text);
+        Intent intent = this.getIntent();
+        Bundle bundle = intent.getExtras();
+        if(bundle != null) {
+            reservation = (Reservation) bundle.getSerializable(RESERVATION_OBJECT);
+            reservationReference = (String) bundle.getSerializable(RESERVATION_REFERENCE);
+        }
+
         tvHeader = (TextView) findViewById(R.id.header_text);
         tvDescription = (TextView) findViewById(R.id.description_text);
         tvNextSteps = (TextView) findViewById(R.id.next_steps_text);
@@ -129,7 +150,6 @@ public class TicketingActivity extends AppCompatActivity {
         btnTakePicture = (Button) findViewById(R.id.take_picture_button);
         btnUploadPicture = (TextView) findViewById(R.id.upload_picture_button);
 
-        tvStatus.setText(R.string.ticketing_status_text);
         tvHeader.setText(R.string.ticketing_header_text);
         tvDescription.setText(R.string.ticketing_description_text);
         tvNextSteps.setText(R.string.ticketing_next_steps_text);
@@ -156,7 +176,7 @@ public class TicketingActivity extends AppCompatActivity {
         btnUploadPicture.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                uploadTicketToFirebase();
             }
         });
     }
