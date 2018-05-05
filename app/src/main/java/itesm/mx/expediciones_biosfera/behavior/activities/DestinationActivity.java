@@ -44,7 +44,6 @@ public class DestinationActivity extends AppCompatActivity implements OnMapReady
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_destination);
-
         Intent intent = this.getIntent();
         Bundle bundle = intent.getExtras();
         if(bundle != null) {
@@ -139,13 +138,11 @@ public class DestinationActivity extends AppCompatActivity implements OnMapReady
         if(Build.VERSION.SDK_INT >= 26) {
             tvDescription.setJustificationMode(JUSTIFICATION_MODE_INTER_WORD);
         }
-
     }
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
         this.mMap = googleMap;
-
         LatLng location = new LatLng(destination.getLat(), destination.getLon());
 
         mMap.addMarker(new MarkerOptions().position(location).title("Marker"));
@@ -159,4 +156,3 @@ public class DestinationActivity extends AppCompatActivity implements OnMapReady
     }
 
 }
-

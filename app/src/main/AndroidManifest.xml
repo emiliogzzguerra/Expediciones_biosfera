@@ -13,15 +13,21 @@
             android:name="com.google.android.geo.API_KEY"
             android:value="AIzaSyDARQrWR6PN26rtmEL-OX5ZIH6RZlUPCPc" />
         <activity android:name=".behavior.activities.MainActivity"/>
+        <activity android:name=".behavior.activities.DestinationActivity"/>
+        <activity android:name=".behavior.activities.DestinationListActivity">
+        </activity>
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="AIzaSyDARQrWR6PN26rtmEL-OX5ZIH6RZlUPCPc" />
         <activity android:name=".behavior.activities.AuthenticationActivity">
+        </activity>
+        <activity android:name=".behavior.activities.DrawerActivity"
+            android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".behavior.activities.DrawerActivity"
-            android:theme="@style/AppTheme.NoActionBar"/>
-        <activity android:name=".behavior.activities.DestinationActivity"/>
     </application>
 </manifest>
