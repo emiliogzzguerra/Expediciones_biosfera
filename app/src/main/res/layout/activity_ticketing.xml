@@ -50,6 +50,12 @@
         android:layout_height="wrap_content"
         android:text="Tomar Foto" />
 
+    <ImageView
+        android:id="@+id/preview_image"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:srcCompat="@drawable/ic_launcher_background" />
+
     <Button
         android:id="@+id/upload_picture_button"
         android:layout_width="match_parent"
