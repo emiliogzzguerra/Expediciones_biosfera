@@ -48,7 +48,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/example_image"
-            android:text="Una vez que hayas realizado el pago, regresa a esta pantalla para mandarnos una foto de tu comprobante y ¡Listo!"
+            android:text="@string/ticketing_take_picture_text"
             android:paddingTop="10dp"/>
 
         <LinearLayout
@@ -56,36 +56,39 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:layout_below="@+id/take_picture_text">
+            android:layout_below="@+id/take_picture_text"
+            android:paddingTop="10dp">
 
             <Button
                 android:id="@+id/select_picture_button"
                 android:layout_height="wrap_content"
                 android:layout_width="0dp"
                 android:layout_weight="0.5"
-                android:text="Seleccionar Foto" />
+                android:text="@string/ticketing_select_picture_button"/>
 
             <Button
                 android:id="@+id/take_picture_button"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="0.5"
-                android:text="Tomar Foto"/>
+                android:text="@string/ticketing_take_picture_button"/>
         </LinearLayout>
 
         <ImageView
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp"
             android:id="@+id/preview_image"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:minHeight="250dp"
             android:layout_alignParentStart="true"
-            android:layout_below="@+id/buttons_layout"
-            app:srcCompat="@drawable/ticketing_example" />
+            android:layout_below="@+id/buttons_layout" />
 
         <Button
             android:id="@+id/upload_picture_button"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Subir foto"
+            android:text="@string/ticketing_upload_picture_button"
             android:layout_below="@+id/preview_image"/>
     </RelativeLayout>
 </ScrollView>

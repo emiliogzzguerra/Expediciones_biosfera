@@ -1,6 +1,7 @@
 package itesm.mx.expediciones_biosfera.behavior.activities;
 
 import android.content.Intent;
+import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
@@ -22,6 +23,8 @@ import com.google.firebase.storage.UploadTask;
 import java.io.ByteArrayOutputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 import itesm.mx.expediciones_biosfera.R;
 import itesm.mx.expediciones_biosfera.database.operations.FirestoreReservationHelper;
@@ -37,12 +40,11 @@ public class TicketingActivity extends AppCompatActivity {
     public static final int PICK_IMAGE = 2;
     public static final String RESERVATION_OBJECT = "RESERVATION_OBJECT";
     public static final String RESERVATION_REFERENCE = "RESERVATION_REFERENCE";
+    public static final String DESTINATION_TITLE = "DESTINATION_TITLE";
 
-    private TextView tvHeader;
     private TextView tvDescription;
     private TextView tvNextSteps;
     private ImageView ivExample;
-    private TextView tvTakePicture;
     private Button btnSelectPicture;
     private Button btnTakePicture;
     private TextView btnUploadPicture;
@@ -50,6 +52,7 @@ public class TicketingActivity extends AppCompatActivity {
     private Bitmap ticket;
     private Reservation reservation;
     private String reservationReference;
+    private String destinationTitle;
 
     private void takePicture() {
         Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
@@ -72,9 +75,13 @@ public class TicketingActivity extends AppCompatActivity {
     }
 
     private byte[] getDataFromImage(){
-        ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        ticket.compress(Bitmap.CompressFormat.JPEG, 100, baos);
-        return baos.toByteArray();
+        if(ticket != null){
+            ByteArrayOutputStream baos = new ByteArrayOutputStream();
+            ticket.compress(Bitmap.CompressFormat.JPEG, 100, baos);
+            return baos.toByteArray();
+        } else {
+            return null;
+        }
     }
 
     private void uploadTicketToFirebase() {
@@ -113,6 +120,7 @@ public class TicketingActivity extends AppCompatActivity {
             System.out.println("Request image capture");
             Bundle extras = data.getExtras();
             ticket = (Bitmap) extras.get("data");
+            ivPreviewImage.setVisibility(View.VISIBLE);
             ivPreviewImage.setImageBitmap(ticket);
         }
         if (requestCode == PICK_IMAGE && resultCode == RESULT_OK && data != null) {
@@ -124,6 +132,7 @@ public class TicketingActivity extends AppCompatActivity {
                 e.printStackTrace();
             }
             ticket = BitmapFactory.decodeStream(imageStream);
+            ivPreviewImage.setVisibility(View.VISIBLE);
             ivPreviewImage.setImageBitmap(ticket);
         }
     }
@@ -138,25 +147,34 @@ public class TicketingActivity extends AppCompatActivity {
         if(bundle != null) {
             reservation = (Reservation) bundle.getSerializable(RESERVATION_OBJECT);
             reservationReference = (String) bundle.getSerializable(RESERVATION_REFERENCE);
+            destinationTitle = (String) bundle.getSerializable(DESTINATION_TITLE);
         }
 
-        tvHeader = (TextView) findViewById(R.id.header_text);
+        reservation = new Reservation();
+        reservation.setInitialDate(new Date());
+        reservation.setPrice(200);
+
+        destinationTitle = "Dunas de Juarez";
+
         tvDescription = (TextView) findViewById(R.id.description_text);
         tvNextSteps = (TextView) findViewById(R.id.next_steps_text);
         ivExample = (ImageView) findViewById(R.id.example_image);
         ivPreviewImage = (ImageView) findViewById(R.id.preview_image);
-        tvTakePicture = (TextView) findViewById(R.id.take_picture_text);
         btnSelectPicture = (Button) findViewById(R.id.select_picture_button);
         btnTakePicture = (Button) findViewById(R.id.take_picture_button);
         btnUploadPicture = (TextView) findViewById(R.id.upload_picture_button);
 
-        tvHeader.setText(R.string.ticketing_header_text);
-        tvDescription.setText(R.string.ticketing_description_text);
-        tvNextSteps.setText(R.string.ticketing_next_steps_text);
-        tvTakePicture.setText(R.string.ticketing_take_picture_text);
-        btnSelectPicture.setText(R.string.ticketing_select_picture_button);
-        btnTakePicture.setText(R.string.ticketing_take_picture_button);
-        btnUploadPicture.setText(R.string.ticketing_upload_picture_button);
+        ivPreviewImage.setVisibility(View.GONE);
+
+        Resources res = getResources();
+
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy");
+
+        tvDescription.setText(res.getString(R.string.ticketing_description_text,
+                destinationTitle,simpleDateFormat.format(reservation.getInitialDate())));
+
+        tvNextSteps.setText(res.getString(R.string.ticketing_next_steps_text,
+                (int) reservation.getPrice()));
         ivExample.setImageResource(R.drawable.ticketing_example);
 
         btnTakePicture.setOnClickListener(new View.OnClickListener() {

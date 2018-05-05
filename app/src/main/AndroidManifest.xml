@@ -21,7 +21,8 @@
             android:theme="@style/AppTheme.NoActionBar">
         </activity>
         <activity android:name=".behavior.activities.TicketingActivity"
-            android:theme="@style/AppTheme.NoActionBar">
+            android:theme="@style/AppTheme.NoActionBar"
+            android:screenOrientation="portrait">
         </activity>
     </application>
 
