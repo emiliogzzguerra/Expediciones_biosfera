@@ -27,4 +27,13 @@
     <string name="reservation_summary">Tu viaje a %1$s con %2$d personas,</string>
     <string name="reservation_summary_part_two">empezando el %1$s/%2$s/%3$s tiene un costo aproximado de</string>
     <string name="reservation_price_estimate">$%1$d</string>
+
+    <!--Destination Acitivity-->
+    <string name="map_header">¿A dónde vamos?</string>
+    <string name="description_header">Conocerás esto y mucho más...</string>
+    <string name="duration_header">¿Cuánto tiempo?</string>
+    <string name="price_header">Costo por persona</string>
+    <string name="duration_text">%1$d días</string>
+    <string name="price_text">$%1$d.00 MXN</string>
+    <string name="btn_reserve">Reservar</string>
 </resources>
