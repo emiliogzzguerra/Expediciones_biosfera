@@ -6,12 +6,20 @@ import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
+
+import java.io.ByteArrayOutputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
 
@@ -35,14 +43,51 @@ public class TicketingActivity extends AppCompatActivity {
     private TextView tvTakePicture;
     private Button btnSelectPicture;
     private Button btnTakePicture;
-    private TextView btUploadPicture;
+    private TextView btnUploadPicture;
     private ImageView ivPreviewImage;
+    private Bitmap ticket;
 
-    private void dispatchTakePictureIntent() {
+    private void takePicture() {
         Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
             startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
         }
+    }
+
+    private void selectFromCarousel() {
+        Intent intent = new Intent();
+        intent.setType("image/*");
+        intent.setAction(Intent.ACTION_GET_CONTENT);
+        startActivityForResult(Intent.createChooser(intent, "Select Picture"), PICK_IMAGE);
+    }
+
+    private void uploadTicketToFirebase() {
+        FirebaseStorage storage = FirebaseStorage.getInstance();
+
+        // Create a storage reference from our app
+        StorageReference storageRef = storage.getReferenceFromUrl("gs://expedicionesbiosfera.appspot.com/tickets");
+
+        // Create a reference to "mountains.jpg"
+        StorageReference ticketRef = storageRef.child("ticket.jpg");
+
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        ticket.compress(Bitmap.CompressFormat.JPEG, 100, baos);
+        byte[] data = baos.toByteArray();
+
+        UploadTask uploadTask = ticketRef.putBytes(data);
+        uploadTask.addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception exception) {
+                // Handle unsuccessful uploads
+                System.out.println("FAILURE!!!");
+            }
+        }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+            @Override
+            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                System.out.println("SUCCESS!!!");
+                Uri downloadUrl = taskSnapshot.getDownloadUrl();
+            }
+        });
     }
 
     @Override
@@ -50,8 +95,8 @@ public class TicketingActivity extends AppCompatActivity {
         if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
             System.out.println("Request image capture");
             Bundle extras = data.getExtras();
-            Bitmap imageBitmap = (Bitmap) extras.get("data");
-            ivPreviewImage.setImageBitmap(imageBitmap);
+            ticket = (Bitmap) extras.get("data");
+            ivPreviewImage.setImageBitmap(ticket);
         }
         if (requestCode == PICK_IMAGE && resultCode == RESULT_OK
                 && null != data) {
@@ -63,8 +108,8 @@ public class TicketingActivity extends AppCompatActivity {
                 // TODO Auto-generated catch block
                 e.printStackTrace();
             }
-            Bitmap yourSelectedImage = BitmapFactory.decodeStream(imageStream);
-            ivPreviewImage.setImageBitmap(yourSelectedImage);
+            ticket = BitmapFactory.decodeStream(imageStream);
+            ivPreviewImage.setImageBitmap(ticket);
         }
     }
 
@@ -82,7 +127,7 @@ public class TicketingActivity extends AppCompatActivity {
         tvTakePicture = (TextView) findViewById(R.id.take_picture_text);
         btnSelectPicture = (Button) findViewById(R.id.select_picture_button);
         btnTakePicture = (Button) findViewById(R.id.take_picture_button);
-        btUploadPicture = (TextView) findViewById(R.id.upload_picture_button);
+        btnUploadPicture = (TextView) findViewById(R.id.upload_picture_button);
 
         tvStatus.setText(R.string.ticketing_status_text);
         tvHeader.setText(R.string.ticketing_header_text);
@@ -91,26 +136,29 @@ public class TicketingActivity extends AppCompatActivity {
         tvTakePicture.setText(R.string.ticketing_take_picture_text);
         btnSelectPicture.setText(R.string.ticketing_select_picture_button);
         btnTakePicture.setText(R.string.ticketing_take_picture_button);
-        btUploadPicture.setText(R.string.ticketing_upload_picture_button);
+        btnUploadPicture.setText(R.string.ticketing_upload_picture_button);
         ivExample.setImageResource(R.drawable.ticketing_example);
 
         btnTakePicture.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                dispatchTakePictureIntent();
+                takePicture();
             }
         });
 
         btnSelectPicture.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent();
-                intent.setType("image/*");
-                intent.setAction(Intent.ACTION_GET_CONTENT);
-                startActivityForResult(Intent.createChooser(intent, "Select Picture"), PICK_IMAGE);
+                selectFromCarousel();
             }
         });
 
+        btnUploadPicture.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+            }
+        });
     }
 
 
