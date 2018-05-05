@@ -34,6 +34,8 @@ import itesm.mx.expediciones_biosfera.entities.models.Reservation;
 
 public class ReservationActivity extends AppCompatActivity implements View.OnClickListener{
 
+    public static final String DESTINATION_OBJECT = "destination_object";
+
     private FirebaseFirestore db;
     private TextView tvHeader;
     private TextView tvSelectSize;

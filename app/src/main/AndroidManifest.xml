@@ -22,9 +22,7 @@
         </activity>
         <activity android:name=".behavior.activities.DrawerActivity"
             android:theme="@style/AppTheme.NoActionBar"/>
-        <activity android:name=".behavior.activities.ReservationActivity"
-            android:theme="@style/AppTheme.NoActionBar"/>
-        <activity android:name=".behavior.activities.DestinationActivity"
-            android:theme="@style/AppTheme.NoActionBar"/>
+        <activity android:name=".behavior.activities.ReservationActivity"/>
+        <activity android:name=".behavior.activities.DestinationActivity"/>
     </application>
 </manifest>
