@@ -9,10 +9,12 @@ import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -88,20 +90,28 @@ public class TicketingActivity extends AppCompatActivity {
         final StorageReference ticketRef = getTicketRef();
 
         byte[] data = getDataFromImage();
+        Toast newToast;
 
         UploadTask uploadTask = ticketRef.putBytes(data);
         uploadTask.addOnFailureListener(new OnFailureListener() {
             @Override
             public void onFailure(@NonNull Exception exception) {
                 // Handle unsuccessful uploads
-                System.out.println("FAILURE!!!");
+                Log.d("UPLOAD","Failure, unsuccesful upload");
+                Toast failureToast = Toast.makeText(getApplicationContext(),
+                        "No se pudo mandar con éxito", Toast.LENGTH_LONG);
+                failureToast.show();
             }
         }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
             @Override
             public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                System.out.println("SUCCESS!!!");
+                Log.d("UPLOAD","Succesful upload");
                 Uri ticketReference = taskSnapshot.getDownloadUrl();
                 updateReservationObject(ticketReference.toString());
+                Toast successToast = Toast.makeText(getApplicationContext(),
+                        "Enviado con éxito", Toast.LENGTH_LONG);
+                successToast.show();
+                sendUserToResevationList();
             }
         });
     }
@@ -114,10 +124,13 @@ public class TicketingActivity extends AppCompatActivity {
         }
     }
 
+    private void sendUserToResevationList() {
+        //TODO Mandar al usuario de regreso a la lista de reservaciones
+    }
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK  && data != null) {
-            System.out.println("Request image capture");
             Bundle extras = data.getExtras();
             ticket = (Bitmap) extras.get("data");
             ivPreviewImage.setVisibility(View.VISIBLE);
@@ -149,12 +162,6 @@ public class TicketingActivity extends AppCompatActivity {
             reservationReference = (String) bundle.getSerializable(RESERVATION_REFERENCE);
             destinationTitle = (String) bundle.getSerializable(DESTINATION_TITLE);
         }
-
-        reservation = new Reservation();
-        reservation.setInitialDate(new Date());
-        reservation.setPrice(200);
-
-        destinationTitle = "Dunas de Juarez";
 
         tvDescription = (TextView) findViewById(R.id.description_text);
         tvNextSteps = (TextView) findViewById(R.id.next_steps_text);
@@ -198,6 +205,4 @@ public class TicketingActivity extends AppCompatActivity {
             }
         });
     }
-
-
 }
