@@ -7,50 +7,54 @@
 
     <RelativeLayout
         android:layout_width="fill_parent"
-        android:layout_height="fill_parent" >
+        android:layout_height="fill_parent"
+        android:padding="16dp">
 
         <TextView
             android:id="@+id/header_text"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentStart="true"
-            android:text="¡Felicidades!" />
+            android:text="@string/ticketing_header_text"
+            style="@style/section_header"/>
+
 
         <TextView
             android:id="@+id/description_text"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/header_text"
-            android:text="Tu paquete para ir a %1$s el %2$s está disponible." />
+            android:text="Tu paquete para ir a %1$s el %2$s está disponible."
+            android:paddingTop="10dp"/>
 
         <TextView
             android:id="@+id/next_steps_text"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/description_text"
-            android:text="Lo que sigue es que pagues la cantidad acordada de $ %1$s a cualquiera de las siguientes cuentas bancarias." />
+            android:text="Lo que sigue es que pagues la cantidad acordada de $ %1$s a cualquiera de las siguientes cuentas bancarias."
+            android:paddingTop="10dp"/>
 
         <ImageView
             android:id="@+id/example_image"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/next_steps_text"
-            app:srcCompat="@drawable/ticketing_example" />
+            app:srcCompat="@drawable/ticketing_example"
+            android:paddingTop="10dp"/>
 
         <TextView
             android:id="@+id/take_picture_text"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/example_image"
-            android:text="Una vez que hayas realizado el pago, regresa a esta pantalla para mandarnos una foto de tu comprobante y ¡Listo!" />
-
-
+            android:text="Una vez que hayas realizado el pago, regresa a esta pantalla para mandarnos una foto de tu comprobante y ¡Listo!"
+            android:paddingTop="10dp"/>
 
         <LinearLayout
             android:id="@+id/buttons_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
             android:orientation="horizontal"
             android:layout_below="@+id/take_picture_text">
 
@@ -73,8 +77,9 @@
             android:id="@+id/preview_image"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
             android:layout_below="@+id/buttons_layout"
-            app:srcCompat="@drawable/ticketing_example"/>
+            app:srcCompat="@drawable/ticketing_example" />
 
         <Button
             android:id="@+id/upload_picture_button"
