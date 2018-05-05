@@ -12,6 +12,7 @@ public class Customer {
     private String description;
     private List<Reservation> reservations;
     private List<Trip> trips;
+    private boolean admin;
 
     public String getName() {
         return name;
@@ -37,6 +38,14 @@ public class Customer {
         this.description = description;
     }
 
+    public boolean getAdmin() {
+        return admin;
+    }
+
+    public void setAdmin(boolean admin) {
+        this.admin = admin;
+    }
+
     public List<Reservation> getReservations() {
         return reservations;
     }
@@ -57,13 +66,15 @@ public class Customer {
     public Customer(String name, String email){
         this.name = name;
         this.email = email;
+        this.admin = false;
     }
-    public Customer(String name, String email, String description, List<Reservation> reservations, List<Trip> trips) {
+    public Customer(String name, String email, String description, List<Reservation> reservations, List<Trip> trips, boolean admin) {
 
         this.name = name;
         this.email = email;
         this.description = description;
         this.reservations = reservations;
         this.trips = trips;
+        this.admin = admin;
     }
 }
