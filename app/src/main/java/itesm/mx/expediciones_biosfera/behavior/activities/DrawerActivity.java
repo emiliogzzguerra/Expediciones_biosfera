@@ -37,7 +37,7 @@ public class DrawerActivity extends AppCompatActivity implements NavigationView.
     }
 
     public void setDrawerLayout() {
-        drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        drawer = findViewById(R.id.drawer_layout);
         toggle = new ActionBarDrawerToggle(this, drawer, toolbar,
                 R.string.navigation_drawer_open, R.string.navigation_drawer_close) {
             public void onDrawerOpened(View drawerView) {

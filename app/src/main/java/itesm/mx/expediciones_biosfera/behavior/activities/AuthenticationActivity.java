@@ -23,8 +23,10 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 import itesm.mx.expediciones_biosfera.R;
+import itesm.mx.expediciones_biosfera.entities.models.Customer;
 
 public class AuthenticationActivity extends AppCompatActivity implements View.OnClickListener {
     private GoogleSignInOptions gso;
@@ -32,6 +34,7 @@ public class AuthenticationActivity extends AppCompatActivity implements View.On
     private FirebaseAuth firebaseAuth;
     private SignInButton signInButton;
     private ImageView ivLogo;
+    private FirebaseFirestore firestoreDB;
 
     private int RC_SIGN_IN = 0;
 
@@ -80,6 +83,7 @@ public class AuthenticationActivity extends AppCompatActivity implements View.On
                            // Sign in success
                            Log.d("Firebase Auth", "signInWithCredential:success");
                            FirebaseUser user = firebaseAuth.getCurrentUser();
+                           insertUserToFirestore(user);
                            String toastMessage = "Bienvenido, " + user.getDisplayName();
                            Toast.makeText(getApplicationContext(), toastMessage , Toast.LENGTH_LONG).show();
                            redirectToDrawer(user);
@@ -89,6 +93,11 @@ public class AuthenticationActivity extends AppCompatActivity implements View.On
                        }
                     }
                 });
+    }
+
+    private void insertUserToFirestore(FirebaseUser user){
+        firestoreDB.collection("users").document(user.getUid()).set(
+                new Customer(user.getDisplayName(), user.getEmail()));
     }
 
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -132,7 +141,7 @@ public class AuthenticationActivity extends AppCompatActivity implements View.On
         configureGoogleSignIn();
         setImage();
         setSignInWithGoogleButton();
-
+        firestoreDB = FirebaseFirestore.getInstance();
         firebaseAuth = FirebaseAuth.getInstance();
     }
 }

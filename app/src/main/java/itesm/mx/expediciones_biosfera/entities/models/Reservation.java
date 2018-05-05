@@ -3,30 +3,26 @@ package itesm.mx.expediciones_biosfera.entities.models;
 import android.graphics.Bitmap;
 import android.media.Image;
 
-import java.util.Date;
+/**
+ * Created by avillarreal on 4/12/18.
+ */
 
 public class Reservation {
     private int quantity;
     private double price;
-    private String isConfirmed;
-    private String isPaid;
-    private String ticketUrl;
-    private String customerReference;
-    private String tripReference;
-    private Date initialDate;
+    private boolean isConfirmed;
+    private Bitmap ticket;
+    private Customer customer;
+    private Trip trip;
 
-    public Reservation(){}
-    public Reservation(int quantity, double price, String isConfirmed, String isPaid,
-                       String ticketUrl, String customerReference, String tripReference,
-                       Date initialDate) {
+    public Reservation(int quantity, double price, boolean isConfirmed, Bitmap ticket, Customer customer, Trip trip) {
+
         this.quantity = quantity;
         this.price = price;
         this.isConfirmed = isConfirmed;
-        this.isPaid = isPaid;
-        this.ticketUrl = ticketUrl;
-        this.customerReference = customerReference;
-        this.tripReference = tripReference;
-        this.initialDate = initialDate;
+        this.ticket = ticket;
+        this.customer = customer;
+        this.trip = trip;
     }
 
     public int getQuantity() {
@@ -45,51 +41,35 @@ public class Reservation {
         this.price = price;
     }
 
-    public String getIsConfirmed() {
+    public boolean isConfirmed() {
         return isConfirmed;
     }
 
-    public void setIsConfirmed(String isConfirmed) {
-        this.isConfirmed = isConfirmed;
+    public void setConfirmed(boolean confirmed) {
+        isConfirmed = confirmed;
     }
 
-    public String getIsPaid() {
-        return isPaid;
+    public Bitmap getTicket() {
+        return ticket;
     }
 
-    public void setIsPaid(String isPaid) {
-        this.isPaid = isPaid;
+    public void setTicket(Bitmap ticket) {
+        this.ticket = ticket;
     }
 
-    public String getTicketUrl() {
-        return ticketUrl;
+    public Customer getCustomer() {
+        return customer;
     }
 
-    public void setTicketUrl(String ticketUrl) {
-        this.ticketUrl = ticketUrl;
+    public void setCustomer(Customer customer) {
+        this.customer = customer;
     }
 
-    public String getCustomerReference() {
-        return customerReference;
+    public Trip getTrip() {
+        return trip;
     }
 
-    public void setCustomerReference(String customerReference) {
-        this.customerReference = customerReference;
-    }
-
-    public String getTripReference() {
-        return tripReference;
-    }
-
-    public void setTripReference(String tripReference) {
-        this.tripReference = tripReference;
-    }
-
-    public Date getInitialDate() {
-        return initialDate;
-    }
-
-    public void setInitialDate(Date initialDate) {
-        this.initialDate = initialDate;
+    public void setTrip(Trip trip) {
+        this.trip = trip;
     }
 }
