@@ -1,30 +1,33 @@
 package itesm.mx.expediciones_biosfera.entities.models;
 
-import android.graphics.Bitmap;
-import android.media.Image;
-
-import com.google.firebase.Timestamp;
-
 import java.util.Date;
-
-/**
- * Created by avillarreal on 4/12/18.
- */
 
 public class Reservation {
     private int quantity;
     private double price;
-    private boolean isConfirmed;
-    private Bitmap ticket;
+    private String isConfirmed;
+    private String isPaid;
+    /*
+    Possible states of isConfirmed and isPaid:
+    "pending"
+    "aproved"
+    "denied"
+    */
+    private String ticketUrl;
     private String customerReference;
     private String tripReference;
     private Date initialDate;
 
-    public Reservation(int quantity, double price, boolean isConfirmed, Bitmap ticket, String customerReference, String tripReference, Date initialDate) {
+
+    public Reservation(){}
+    public Reservation(int quantity, double price, String isConfirmed, String isPaid,
+                       String ticketUrl, String customerReference, String tripReference,
+                       Date initialDate) {
         this.quantity = quantity;
         this.price = price;
         this.isConfirmed = isConfirmed;
-        this.ticket = ticket;
+        this.isPaid = isPaid;
+        this.ticketUrl = ticketUrl;
         this.customerReference = customerReference;
         this.tripReference = tripReference;
         this.initialDate = initialDate;
@@ -46,20 +49,28 @@ public class Reservation {
         this.price = price;
     }
 
-    public boolean isConfirmed() {
+    public String getIsConfirmed() {
         return isConfirmed;
     }
 
-    public void setConfirmed(boolean confirmed) {
-        isConfirmed = confirmed;
+    public void setIsConfirmed(String isConfirmed) {
+        this.isConfirmed = isConfirmed;
     }
 
-    public Bitmap getTicket() {
-        return ticket;
+    public String getIsPaid() {
+        return isPaid;
     }
 
-    public void setTicket(Bitmap ticket) {
-        this.ticket = ticket;
+    public void setIsPaid(String isPaid) {
+        this.isPaid = isPaid;
+    }
+
+    public String getTicketUrl() {
+        return ticketUrl;
+    }
+
+    public void setTicketUrl(String ticketUrl) {
+        this.ticketUrl = ticketUrl;
     }
 
     public String getCustomerReference() {

@@ -20,6 +20,7 @@ import itesm.mx.expediciones_biosfera.entities.models.Destination;
  * Created by avillarreal on 4/26/18.
  */
 
+
 public class DestinationRecyclerViewAdapter extends RecyclerView.Adapter<DestinationRecyclerViewAdapter.ViewHolder> {
     private List<Destination> destinationList;
     private Context context;
@@ -57,7 +58,6 @@ public class DestinationRecyclerViewAdapter extends RecyclerView.Adapter<Destina
                 .load(imageUrl)
                 .dontAnimate()
                 .into(holder.ivDestinationMain);
-
         holder.itemView.setOnClickListener(new View.OnClickListener(){
             public void onClick(View v){
                 sendToDetailedView(destination);
@@ -86,7 +86,6 @@ public class DestinationRecyclerViewAdapter extends RecyclerView.Adapter<Destina
             super(view);
             tvDestinationName = view.findViewById(R.id.text_destination_name);
             ivDestinationMain = view.findViewById(R.id.image_destination_main);
-
         }
     }
 }
