@@ -9,6 +9,8 @@ import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.SeekBar;
 import android.widget.TextView;
+import android.widget.Toast;
+
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import java.util.Calendar;
@@ -64,6 +66,11 @@ public class ReservationActivity extends AppCompatActivity implements View.OnCli
 
     }
 
+    public void redirectToPackages() {
+        Intent intent = new Intent(this, DrawerActivity.class);
+        startActivity(intent);
+    }
+
     private void createReservation() {
         FirebaseAuth firebaseAuth;
         FirebaseUser fbuser;
@@ -76,6 +83,8 @@ public class ReservationActivity extends AppCompatActivity implements View.OnCli
                     null, userReference, destination.getReference(),
                             calendarDate.getTime());
         FirestoreReservationHelper.addReservation(reservation);
+        Toast.makeText(this, "Se ha creado una nueva solicitud", Toast.LENGTH_SHORT).show();
+        redirectToPackages();
     }
 
     @Override
