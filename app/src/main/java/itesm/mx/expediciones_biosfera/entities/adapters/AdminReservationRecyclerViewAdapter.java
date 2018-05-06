@@ -1,6 +1,7 @@
 package itesm.mx.expediciones_biosfera.entities.adapters;
 
 import android.content.Context;
+import android.content.res.Resources;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -41,6 +42,23 @@ public class AdminReservationRecyclerViewAdapter extends RecyclerView.Adapter<Ad
         return new AdminReservationRecyclerViewAdapter.ViewHolder(view);
     }
 
+    public String getStatusMessage(String status) {
+        Resources resources = this.context.getResources();
+        int resourceId;
+        switch (status) {
+            case "approved":
+                resourceId = R.string.approved;
+                break;
+            case "denied":
+                resourceId = R.string.denied;
+                break;
+            default:
+                resourceId = R.string.pending;
+                break;
+        }
+        return resources.getString(resourceId);
+    }
+
     @Override
     public void onBindViewHolder(final AdminReservationRecyclerViewAdapter.ViewHolder holder, int position){
         final int itemPosition = position;
@@ -77,11 +95,13 @@ public class AdminReservationRecyclerViewAdapter extends RecyclerView.Adapter<Ad
         holder.tvPrice.setText("$"+String.valueOf(reservation.getPrice()));
         holder.tvDate.setText(reservation.getInitialDate().toString());
         if(reservation.getIsPaid() != null) {
+            String status = "";
             if (!reservation.getIsConfirmed().equals("Aprobado")) {
-                holder.tvStatus.setText("Confirmacion: " + reservation.getIsConfirmed());
+                status = "Confirmación: " + getStatusMessage(reservation.getIsConfirmed());
             } else if (reservation.getIsPaid() != null) {
-                holder.tvStatus.setText("Pago: " + reservation.getIsPaid());
+                status = "Pago: " + getStatusMessage(reservation.getIsPaid());
             }
+            holder.tvStatus.setText(status);
         }
     }
 
