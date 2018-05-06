@@ -29,5 +29,8 @@
         <activity android:name=".behavior.activities.DrawerActivity"
             android:theme="@style/AppTheme.NoActionBar">
         </activity>
+        <activity android:name=".behavior.activities.AdminDrawerActivity"
+            android:theme="@style/AppTheme.NoActionBar">
+        </activity>
     </application>
 </manifest>
