@@ -16,6 +16,7 @@
     <string name="navigation_drawer_close">Close navigation drawer</string>
     <string name="nav_drawer_packages">Paquetes</string>
     <string name="nav_drawer_profile">Perfil</string>
+    <string name="nav_drawer_reservations">Reservaciones</string>
     <string name="nav_drawer_sign_out">Cerrar Sesión</string>
 
     <!--Destination Acitivity-->

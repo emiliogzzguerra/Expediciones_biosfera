@@ -44,7 +44,7 @@ public class ReservationsListFragment extends Fragment {
     private FirebaseFirestore firestoreDB;
     private ListenerRegistration firestoreListener;
 
-    private boolean isAdmin = false;//TODO: CHECK IF USER IS ADMIN
+    private boolean isAdmin = true;//TODO: CHECK IF USER IS ADMIN
     private FirebaseAuth firebaseAuth;
     FirebaseUser fbuser;
 

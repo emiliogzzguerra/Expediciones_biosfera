@@ -37,6 +37,7 @@ public class DestinationActivity extends AppCompatActivity implements OnMapReady
     TextView tvDescription;
     TextView tvDuration;
     TextView tvPrice;
+    TextView tvLocation;
 
     Slider sliderImages;
 
@@ -64,7 +65,7 @@ public class DestinationActivity extends AppCompatActivity implements OnMapReady
 
     private void configureActionBar() {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        String actionBarTitle = destination.getState() + ", " + destination.getCity();
+        String actionBarTitle = destination.getName();
         getSupportActionBar().setTitle(actionBarTitle);
     }
 
@@ -75,6 +76,7 @@ public class DestinationActivity extends AppCompatActivity implements OnMapReady
         tvDescription = findViewById(R.id.text_description);
         tvDuration = findViewById(R.id.text_duration);
         tvPrice = findViewById(R.id.text_price);
+        tvLocation = findViewById(R.id.text_location);
         mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
 
     }
@@ -134,6 +136,7 @@ public class DestinationActivity extends AppCompatActivity implements OnMapReady
         tvDescription.setText(description);
         tvDuration.setText(duration);
         tvPrice.setText(price);
+        tvLocation.setText(destination.getCity() + ", " + destination.getState());
 
         if(Build.VERSION.SDK_INT >= 26) {
             tvDescription.setJustificationMode(JUSTIFICATION_MODE_INTER_WORD);
