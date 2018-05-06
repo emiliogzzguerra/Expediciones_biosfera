@@ -15,9 +15,6 @@
         <activity android:name=".behavior.activities.DestinationActivity"/>
         <activity android:name=".behavior.activities.DestinationListActivity">
         </activity>
-        <meta-data
-            android:name="com.google.android.geo.API_KEY"
-            android:value="AIzaSyDARQrWR6PN26rtmEL-OX5ZIH6RZlUPCPc" />
         <activity android:name=".behavior.activities.AuthenticationActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -31,5 +28,6 @@
         <activity android:name=".behavior.activities.AdminDrawerActivity"
             android:theme="@style/AppTheme.NoActionBar">
         </activity>
+        <activity android:name=".behavior.activities.ReservationActivity"/>
     </application>
 </manifest>
