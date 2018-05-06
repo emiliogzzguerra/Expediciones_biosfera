@@ -12,7 +12,7 @@ import com.google.android.gms.common.SupportErrorDialogFragment;
 import itesm.mx.expediciones_biosfera.R;
 import itesm.mx.expediciones_biosfera.entities.models.Reservation;
 
-public class ReservationDetailActivity extends AppCompatActivity {
+public class ReservationAdminDetailActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -20,7 +20,7 @@ public class ReservationDetailActivity extends AppCompatActivity {
         setContentView(R.layout.activity_reservation_detail);
 
         Reservation reservation = (Reservation) getIntent().getSerializableExtra("reservation");
-        Toast.makeText(this, reservation.getCustomerReference(), Toast.LENGTH_SHORT).show();
+
 
         String destination = getIntent().getExtras().getString("destination");
         String customer = getIntent().getExtras().getString("customer");
@@ -66,6 +66,8 @@ public class ReservationDetailActivity extends AppCompatActivity {
 
         btnAccept.setOnClickListener(accion);
         btnReject.setOnClickListener(accion);
+
+
 
     }
 }

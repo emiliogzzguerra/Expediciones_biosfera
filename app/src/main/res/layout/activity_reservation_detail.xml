@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="itesm.mx.expediciones_biosfera.behavior.activities.ReservationDetailActivity">
+    tools:context="itesm.mx.expediciones_biosfera.behavior.activities.ReservationAdminDetailActivity">
 
     <TextView
         android:id="@+id/text_customer"
