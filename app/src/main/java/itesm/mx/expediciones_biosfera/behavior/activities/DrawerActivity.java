@@ -15,12 +15,9 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
-
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-
 import java.util.ArrayList;
-
 import itesm.mx.expediciones_biosfera.R;
 import itesm.mx.expediciones_biosfera.behavior.fragments.AdminReservationsListFragment;
 import itesm.mx.expediciones_biosfera.behavior.fragments.PackagesFragment;
@@ -36,6 +33,31 @@ public class DrawerActivity extends AppCompatActivity implements NavigationView.
     private ActionBarDrawerToggle toggle;
 
     UserOperations dao;
+
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_drawer);
+
+        setToolbar();
+        setDrawerLayout();
+        configureNavigationView();
+        getFirebaseUser();
+
+        //Si el usuario está registrado, la aplicación te dirige a la pantalla de paquetes.
+        //De lo contrario, la aplicación te dirige a la pantalla de perfil.
+        if(userExists(currentUser.getUid())){
+            PackagesFragment packagesFragment = new PackagesFragment();
+            getSupportFragmentManager().beginTransaction().add(R.id.content_frame,
+                    packagesFragment).commit();
+        }else{
+            ProfileFragment profileFragment = new ProfileFragment();
+            getSupportFragmentManager().beginTransaction().add(R.id.content_frame,
+                    profileFragment).commit();
+        }
+
+
+
+    }
 
     //Regresa true si ya existe un usuario con Firebase ID en la tabla SQLite
     //False de lo contrario
@@ -97,31 +119,6 @@ public class DrawerActivity extends AppCompatActivity implements NavigationView.
     public void getFirebaseUser() {
         firebaseAuth = FirebaseAuth.getInstance();
         currentUser = firebaseAuth.getCurrentUser();
-    }
-
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_drawer);
-
-        setToolbar();
-        setDrawerLayout();
-        configureNavigationView();
-        getFirebaseUser();
-
-        //Si el usuario está registrado, la aplicación te dirige a la pantalla de paquetes.
-        //De lo contrario, la aplicación te dirige a la pantalla de perfil.
-        if(userExists(currentUser.getUid())){
-            PackagesFragment packagesFragment = new PackagesFragment();
-            getSupportFragmentManager().beginTransaction().add(R.id.content_frame,
-                    packagesFragment).commit();
-        }else{
-            ProfileFragment profileFragment = new ProfileFragment();
-            getSupportFragmentManager().beginTransaction().add(R.id.content_frame,
-                    profileFragment).commit();
-        }
-
-
-
     }
 
     public void signOut() {

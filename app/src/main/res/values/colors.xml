@@ -9,4 +9,6 @@
   <color name="primaryTextColor">#fafafa</color>
   <color name="secondaryTextColor">#fafafa</color>
   <color name="colorAccent">#ffffff</color>
+  <color name="colorBlack">#000000</color>
+  <color name="colorGray">#818181</color>
 </resources>
