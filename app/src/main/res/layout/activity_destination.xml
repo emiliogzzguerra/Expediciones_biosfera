@@ -32,12 +32,20 @@
             android:layout_marginBottom="5dp"
             android:text="@string/map_header"
             style="@style/destination_section_header"/>
+        <TextView
+            android:id="@+id/text_location"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/text_map_header"
+            android:paddingStart="10dp"
+            android:paddingEnd="10dp"
+            android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
 
         <RelativeLayout
             android:id="@+id/map_layout"
             android:layout_width="match_parent"
             android:layout_height="300dp"
-            android:layout_below="@id/text_map_header">
+            android:layout_below="@id/text_location">
 
             <fragment
                 xmlns:android="http://schemas.android.com/apk/res/android"

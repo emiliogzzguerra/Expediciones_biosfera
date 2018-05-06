@@ -43,7 +43,7 @@ public class DestinationRecyclerViewAdapter extends RecyclerView.Adapter<Destina
         final int itemPosition = position;
         final Destination destination = destinationList.get(itemPosition);
 
-        String destinationName = destination.getState() + ", " + destination.getCity();
+        String destinationName = destination.getName();
         holder.tvDestinationName.setText(destinationName);
         String imageUrl;
         if (destination.getImageUrls().size() > 0) {
