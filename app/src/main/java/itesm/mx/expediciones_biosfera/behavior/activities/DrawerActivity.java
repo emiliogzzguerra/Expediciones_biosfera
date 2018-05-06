@@ -43,8 +43,6 @@ public class DrawerActivity extends AppCompatActivity implements NavigationView.
         configureNavigationView();
         getFirebaseUser();
 
-        //Si el usuario está registrado, la aplicación te dirige a la pantalla de paquetes.
-        //De lo contrario, la aplicación te dirige a la pantalla de perfil.
         if(userExists(currentUser.getUid())){
             PackagesFragment packagesFragment = new PackagesFragment();
             getSupportFragmentManager().beginTransaction().add(R.id.content_frame,
@@ -59,8 +57,6 @@ public class DrawerActivity extends AppCompatActivity implements NavigationView.
 
     }
 
-    //Regresa true si ya existe un usuario con Firebase ID en la tabla SQLite
-    //False de lo contrario
     public boolean userExists(String firebaseId){
         dao = new UserOperations(this);
         dao.open();
