@@ -1,4 +1,4 @@
-package itesm.mx.expediciones_biosfera.database.operations;
+package itesm.mx.expediciones_biosfera.utilities;
 
 import android.support.annotation.NonNull;
 
@@ -16,10 +16,6 @@ import java.util.ArrayList;
 import itesm.mx.expediciones_biosfera.entities.models.Reservation;
 import itesm.mx.expediciones_biosfera.entities.models.Destination;
 import itesm.mx.expediciones_biosfera.entities.models.Trip;
-
-/**
- * Created by emiliogonzalez on 5/1/18.
- */
 
 public class FirestoreReservationHelper {
     final static ArrayList<Reservation> list = new ArrayList<>();
@@ -49,5 +45,3 @@ public class FirestoreReservationHelper {
         reservations.add(reservation);
     }
 }
-
-

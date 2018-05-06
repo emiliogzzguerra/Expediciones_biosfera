@@ -1,6 +1,7 @@
 package itesm.mx.expediciones_biosfera.behavior.activities;
 
 import android.content.Intent;
+import android.content.res.Resources;
 import android.os.Build;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -23,6 +24,7 @@ import ir.apend.slider.ui.Slider;
 import itesm.mx.expediciones_biosfera.R;
 import itesm.mx.expediciones_biosfera.entities.models.Destination;
 import itesm.mx.expediciones_biosfera.entities.models.Reservation;
+import itesm.mx.expediciones_biosfera.utilities.StringFormatHelper;
 
 import static android.text.Layout.JUSTIFICATION_MODE_INTER_WORD;
 
@@ -137,7 +139,7 @@ public class DestinationActivity extends AppCompatActivity implements OnMapReady
     private void setViews() {
         String description = destination.getDescription().replaceAll("\\\\n", "\n\n");
         String duration = String.format(getResources().getString(R.string.duration_text), destination.getDuration());
-        String price = String.format(getResources().getString(R.string.price_text), destination.getPrice());
+        String price = StringFormatHelper.getPriceFormat(destination.getPrice(), getResources());
 
         tvDescription.setText(description);
         tvDuration.setText(duration);
@@ -180,7 +182,7 @@ public class DestinationActivity extends AppCompatActivity implements OnMapReady
         Intent intent = new Intent(this, ReservationActivity.class);
         Bundle bundle = new Bundle();
         bundle.putSerializable(ReservationActivity.DESTINATION_OBJECT, destination);
-
+        intent.putExtras(bundle);
         startActivity(intent);
     }
 

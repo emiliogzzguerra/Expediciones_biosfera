@@ -17,7 +17,12 @@
 
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 
-    <style name="destination_section_header" parent="AppTheme">
+    <style name="section_header" parent="AppTheme">
+        <item name="android:textSize">24sp</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="section_header_padding" parent="AppTheme">
         <item name="android:textSize">24sp</item>
         <item name="android:textStyle">bold</item>
         <item name="android:paddingStart">10dp</item>

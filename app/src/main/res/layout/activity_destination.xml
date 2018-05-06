@@ -31,7 +31,7 @@
             android:layout_marginTop="16dp"
             android:layout_marginBottom="5dp"
             android:text="@string/map_header"
-            style="@style/destination_section_header"/>
+            style="@style/section_header_padding"/>
 
         <RelativeLayout
             android:id="@+id/map_layout"
@@ -70,7 +70,7 @@
             android:layout_marginBottom="5dp"
             android:layout_below="@+id/map_layout"
             android:text="@string/description_header"
-            style="@style/destination_section_header"/>
+            style="@style/section_header_padding"/>
 
         <TextView
             android:id="@+id/text_description"
@@ -89,7 +89,7 @@
             android:layout_marginBottom="5dp"
             android:layout_below="@+id/text_description"
             android:text="@string/duration_header"
-            style="@style/destination_section_header"/>
+            style="@style/section_header_padding"/>
 
         <TextView
             android:id="@+id/text_duration"
@@ -108,7 +108,7 @@
             android:layout_marginBottom="5dp"
             android:layout_below="@+id/text_duration"
             android:text="@string/price_header"
-            style="@style/destination_section_header"/>
+            style="@style/section_header_padding"/>
 
         <TextView
             android:id="@+id/text_price"

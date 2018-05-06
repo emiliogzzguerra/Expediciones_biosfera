@@ -2,138 +2,78 @@ package itesm.mx.expediciones_biosfera.behavior.activities;
 
 import android.app.DatePickerDialog;
 import android.content.Intent;
-import android.content.res.Resources;
 import android.os.Bundle;
-import android.provider.MediaStore;
-import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.SeekBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;
-
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.Locale;
-
 import itesm.mx.expediciones_biosfera.R;
-import itesm.mx.expediciones_biosfera.behavior.fragments.DatePickerFragment;
-import itesm.mx.expediciones_biosfera.database.operations.FirestoreReservationHelper;
-import itesm.mx.expediciones_biosfera.entities.models.Customer;
+import itesm.mx.expediciones_biosfera.utilities.FirestoreReservationHelper;
+import itesm.mx.expediciones_biosfera.entities.models.Destination;
 import itesm.mx.expediciones_biosfera.entities.models.Reservation;
-
-/**
- * Created by emiliogonzalez on 4/27/18.
- */
+import itesm.mx.expediciones_biosfera.utilities.StringFormatHelper;
 
 public class ReservationActivity extends AppCompatActivity implements View.OnClickListener{
 
     public static final String DESTINATION_OBJECT = "destination_object";
 
-    private FirebaseFirestore db;
-    private TextView tvHeader;
+    private Destination destination;
+
     private TextView tvSelectSize;
     private SeekBar sbSize;
     private TextView tvDate;
-    private Button btDatePicker;
-    private TextView tvSummaryPt1;
-    private TextView tvSummaryPt2;
+    private Button btnDatePicker;
+    private TextView tvSummary;
     private TextView tvEstimate;
     private int costPerPerson;
     private int totalPrice;
     private String destinationTitle;
-    private Button btPreReservation;
+    private Button btnPreReservation;
     private int progressChangedValue;
     private FirestoreReservationHelper reservationHelper;
-
+    private Calendar calendarDate;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_reservation);
 
-        reservationHelper = new FirestoreReservationHelper();
+        Intent intent = this.getIntent();
+        Bundle bundle = intent.getExtras();
+        if(bundle != null) {
+            destination = (Destination) bundle.getSerializable(DESTINATION_OBJECT);
+        }
 
-        final Resources res = getResources();
-        progressChangedValue = 2;
+        configureActionBar();
 
-        //Uncomment to get the real price per person and calculate the total price
-        //Intent intent = getIntent();
-        costPerPerson = 100; //Remove this line when uncommenting
-        destinationTitle = "Dunas de Juarez"; //Remove this line when uncommenting
-        //costPerPerson = intent.getStringExtra(Paquete.PRICE_PER_PERSON);
-        //destinationTitle = intent.getStringExtra(Paquete.DESTINATION_TITLE);
+        findViews();
 
-        tvHeader = (TextView) findViewById(R.id.tv_header);
-        tvSelectSize = (TextView) findViewById(R.id.tv_select_size);
-        sbSize = (SeekBar) findViewById(R.id.sb_size);
-        tvDate = (TextView) findViewById(R.id.tv_date);
-        btDatePicker = (Button) findViewById(R.id.btn_change);
-        tvSummaryPt1 = (TextView) findViewById(R.id.tv_summary_pt1);
-        tvSummaryPt2 = (TextView) findViewById(R.id.tv_summary_pt2);
-        tvEstimate = (TextView) findViewById(R.id.tv_estimate);
-        btPreReservation = (Button) findViewById(R.id.bt_pre_reservation);
+        setVariables();
 
-        btPreReservation.setOnClickListener(this);
+        configureSeekBar();
 
-        sbSize.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+        configureDatePicker();
 
-            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                progressChangedValue = progress;
-                tvSelectSize.setText(res.getString(R.string.reservation_select_size,progressChangedValue));
-            }
+        setView();
 
-            public void onStartTrackingTouch(SeekBar seekBar) {
-                // TODO Auto-generated method stub
-            }
+        setButtonListeners();
 
-            public void onStopTrackingTouch(SeekBar seekBar) {
-                tvSummaryPt1.setText(res.getString(R.string.reservation_summary,destinationTitle,
-                        progressChangedValue));
-
-                totalPrice = costPerPerson * sbSize.getProgress();
-                tvEstimate.setText(res.getString(R.string.reservation_price_estimate,
-                        totalPrice));
-            }
-        });
-
-        tvSelectSize.setText(res.getString(R.string.reservation_select_size,2));
-
-        // Setting initial date to the first monday that is at least 7 days away
-        final Calendar c = Calendar.getInstance();
-        c.add( Calendar.DATE, 7 );
-        while(c.get( Calendar.DAY_OF_WEEK ) != Calendar.MONDAY )
-            c.add( Calendar.DATE, 1 );
-
-        tvDate.setText(res.getString(R.string.reservation_date,
-                String.format("%02d", c.get(Calendar.DAY_OF_MONTH)),
-                String.format("%02d", c.get(Calendar.MONTH)),
-                String.format("%02d", c.get(Calendar.YEAR))));
-
-        tvSummaryPt1.setText(res.getString(R.string.reservation_summary,destinationTitle,
-                progressChangedValue));
-
-        tvSummaryPt2.setText(getResources()
-                .getString(R.string.reservation_summary_part_two,
-                        String.format("%02d", c.get(Calendar.DAY_OF_MONTH)),
-                        String.format("%02d", c.get(Calendar.MONTH)),
-                        String.format("%02d", c.get(Calendar.YEAR))));
-
-        totalPrice = costPerPerson * sbSize.getProgress();
-        tvEstimate.setText(res.getString(R.string.reservation_price_estimate,
-                                totalPrice));
     }
 
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
-            case R.id.bt_pre_reservation:
+            case R.id.btn_pre_reservation:
                 Date auxDate;
                 Reservation rAux;
                 SimpleDateFormat sdfmt1 = new SimpleDateFormat("dd/MM/yy");
@@ -151,8 +91,112 @@ public class ReservationActivity extends AppCompatActivity implements View.OnCli
         }
     }
 
-    public void showDatePickerDialog(View v) {
-        DialogFragment newFragment = new DatePickerFragment();
-        newFragment.show(getSupportFragmentManager(), "datePicker");
+    private void configureActionBar() {
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        String destinationName = destination.getState() + ", " + destination.getCity();
+        String actionBarTitle = String.format(getResources().getString(R.string.reservation_action_bar_title), destinationName);
+        getSupportActionBar().setTitle(actionBarTitle);
     }
+
+    private void findViews() {
+        tvSelectSize = findViewById(R.id.text_select_size);
+        sbSize = findViewById(R.id.sb_size);
+        tvDate = findViewById(R.id.text_date);
+        btnDatePicker = findViewById(R.id.btn_change_date);
+        tvSummary = findViewById(R.id.text_summary);
+        tvEstimate = findViewById(R.id.text_estimate);
+        btnPreReservation = findViewById(R.id.btn_pre_reservation);
+    }
+
+    private void setVariables() {
+        reservationHelper = new FirestoreReservationHelper();
+        progressChangedValue = 2;
+        costPerPerson = destination.getPrice();
+        destinationTitle = destination.getCity();
+    }
+
+    private void configureSeekBar() {
+        sbSize.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                progressChangedValue = progress;
+                tvSelectSize.setText(getResources().getString(R.string.reservation_select_size, progressChangedValue));
+            }
+
+            public void onStartTrackingTouch(SeekBar seekBar) {
+            }
+
+            public void onStopTrackingTouch(SeekBar seekBar) {
+                tvSummary.setText(String.format(getResources().getString(R.string.reservation_summary),
+                        destinationTitle, progressChangedValue, StringFormatHelper.getDateAsString(calendarDate.getTime(), false)
+                ));
+
+                totalPrice = costPerPerson * sbSize.getProgress();
+                updatePriceView();
+            }
+        });
+
+    }
+
+    private void configureDatePicker() {
+        calendarDate = Calendar.getInstance();
+        calendarDate.setTime(new Date());
+        calendarDate.add( Calendar.DATE, 7 );
+        while(calendarDate.get( Calendar.DAY_OF_WEEK ) != Calendar.MONDAY ) {
+            calendarDate.add( Calendar.DATE, 1 );
+        }
+
+        final DatePickerDialog.OnDateSetListener date = new DatePickerDialog.OnDateSetListener() {
+
+            @Override
+            public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+                calendarDate.set(Calendar.YEAR, year);
+                calendarDate.set(Calendar.MONTH, monthOfYear);
+                calendarDate.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+
+                updateDateView();
+            }
+
+        };
+
+        btnDatePicker.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                new DatePickerDialog(ReservationActivity.this,
+                        R.style.MyDatePickerDialogTheme, date,
+                        calendarDate.get(Calendar.YEAR), calendarDate.get(Calendar.MONTH), calendarDate.get(Calendar.DAY_OF_MONTH)).show();
+            }
+        });
+    }
+
+    private void updateDateView() {
+        tvDate.setText(StringFormatHelper.getDateAsString(calendarDate.getTime(), true));
+    }
+
+    private void updatePriceView() {
+        tvEstimate.setText(StringFormatHelper.getPriceFormat(totalPrice, getResources()));
+    }
+
+    private void setView() {
+        tvSelectSize.setText(getResources().getString(R.string.reservation_select_size,2));
+
+        tvSummary.setText(String.format(getResources().getString(R.string.reservation_summary),
+                destinationTitle, progressChangedValue, StringFormatHelper.getDateAsString(calendarDate.getTime(), false)));
+
+        totalPrice = costPerPerson * sbSize.getProgress();
+
+        updatePriceView();
+        updateDateView();
+    }
+
+    private void setButtonListeners() {
+        btnPreReservation.setOnClickListener(this);
+    }
+
+    @Override
+    public boolean onSupportNavigateUp(){
+        finish();
+        return true;
+    }
+
 }
