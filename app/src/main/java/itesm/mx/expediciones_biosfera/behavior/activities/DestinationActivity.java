@@ -1,11 +1,13 @@
 package itesm.mx.expediciones_biosfera.behavior.activities;
 
 import android.content.Intent;
+import android.content.res.Resources;
 import android.os.Build;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ScrollView;
 import android.widget.TextView;
@@ -21,11 +23,14 @@ import ir.apend.slider.model.Slide;
 import ir.apend.slider.ui.Slider;
 import itesm.mx.expediciones_biosfera.R;
 import itesm.mx.expediciones_biosfera.entities.models.Destination;
+import itesm.mx.expediciones_biosfera.entities.models.Reservation;
+import itesm.mx.expediciones_biosfera.utilities.StringFormatHelper;
+
 import static android.text.Layout.JUSTIFICATION_MODE_INTER_WORD;
 
-public class DestinationActivity extends AppCompatActivity implements OnMapReadyCallback {
+public class DestinationActivity extends AppCompatActivity implements OnMapReadyCallback, View.OnClickListener {
 
-    public static final String DESTINATION_OBJECT = "material_type";
+    public static final String DESTINATION_OBJECT = "destination_object";
 
     private GoogleMap mMap;
     SupportMapFragment mapFragment;
@@ -38,6 +43,8 @@ public class DestinationActivity extends AppCompatActivity implements OnMapReady
     TextView tvDuration;
     TextView tvPrice;
     TextView tvLocation;
+
+    Button btnReserve;
 
     Slider sliderImages;
 
@@ -59,7 +66,7 @@ public class DestinationActivity extends AppCompatActivity implements OnMapReady
 
         configureSlider();
 
-        setTextViews();
+        setViews();
 
     }
 
@@ -78,6 +85,7 @@ public class DestinationActivity extends AppCompatActivity implements OnMapReady
         tvPrice = findViewById(R.id.text_price);
         tvLocation = findViewById(R.id.text_location);
         mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
+        btnReserve = findViewById(R.id.btn_rsvp);
 
     }
 
@@ -129,10 +137,11 @@ public class DestinationActivity extends AppCompatActivity implements OnMapReady
 
     }
 
-    private void setTextViews() {
+    private void setViews() {
         String description = destination.getDescription().replaceAll("\\\\n", "\n\n");
         String duration = String.format(getResources().getString(R.string.duration_text), destination.getDuration());
-        String price = String.format(getResources().getString(R.string.price_text), destination.getPrice());
+        String price = StringFormatHelper.getPriceFormat(destination.getPrice(), getResources());
+
         tvDescription.setText(description);
         tvDuration.setText(duration);
         tvPrice.setText(price);
@@ -141,6 +150,9 @@ public class DestinationActivity extends AppCompatActivity implements OnMapReady
         if(Build.VERSION.SDK_INT >= 26) {
             tvDescription.setJustificationMode(JUSTIFICATION_MODE_INTER_WORD);
         }
+
+        btnReserve.setOnClickListener(this);
+
     }
 
     @Override
@@ -156,6 +168,23 @@ public class DestinationActivity extends AppCompatActivity implements OnMapReady
     public boolean onSupportNavigateUp(){
         finish();
         return true;
+    }
+
+    @Override
+    public void onClick(View view) {
+        switch(view.getId()) {
+            case R.id.btn_rsvp:
+                startReservation();
+                break;
+        }
+    }
+
+    private void startReservation() {
+        Intent intent = new Intent(this, ReservationActivity.class);
+        Bundle bundle = new Bundle();
+        bundle.putSerializable(ReservationActivity.DESTINATION_OBJECT, destination);
+        intent.putExtras(bundle);
+        startActivity(intent);
     }
 
 }
