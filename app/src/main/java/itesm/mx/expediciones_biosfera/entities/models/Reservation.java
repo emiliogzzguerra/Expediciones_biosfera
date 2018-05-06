@@ -13,6 +13,7 @@ public class Reservation implements Serializable{
     private String tripReference;
     private Date initialDate;
 
+
     public Reservation(){}
     public Reservation(int quantity, double price, String isConfirmed, String isPaid,
                        String ticketUrl, String customerReference, String tripReference,
@@ -90,4 +91,5 @@ public class Reservation implements Serializable{
     public void setInitialDate(Date initialDate) {
         this.initialDate = initialDate;
     }
+
 }

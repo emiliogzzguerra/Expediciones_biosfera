@@ -11,31 +11,27 @@
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="AIzaSyDARQrWR6PN26rtmEL-OX5ZIH6RZlUPCPc" />
-
-        <activity android:name=".behavior.activities.MainActivity" />
-        <activity android:name=".behavior.activities.DestinationActivity" />
-        <activity android:name=".behavior.activities.DestinationListActivity" />
-
-        <meta-data
-            android:name="com.google.android.geo.API_KEY"
-            android:value="AIzaSyDARQrWR6PN26rtmEL-OX5ZIH6RZlUPCPc" />
-
-        <activity android:name=".behavior.activities.AuthenticationActivity" >
+        <activity android:name=".behavior.activities.MainActivity"/>
+        <activity android:name=".behavior.activities.DestinationActivity"/>
+        <activity android:name=".behavior.activities.DestinationListActivity">
+        </activity>
+        <activity android:name=".behavior.activities.AuthenticationActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
-        <activity
-            android:name=".behavior.activities.DrawerActivity"
+        <activity android:name=".behavior.activities.DrawerActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustResize"
             android:theme="@style/AppTheme.NoActionBar">
         </activity>
         <activity android:name=".behavior.activities.AdminDrawerActivity"
             android:theme="@style/AppTheme.NoActionBar">
         </activity>
+        <activity android:name=".behavior.activities.ReservationActivity"/>
         <activity android:name=".behavior.activities.ReservationAdminDetailActivity" />
-        <activity android:name=".behavior.activities.ReservationCustomerDetailActivity"></activity>
+        <activity android:name=".behavior.activities.ReservationCustomerDetailActivity" />
     </application>
-
 </manifest>

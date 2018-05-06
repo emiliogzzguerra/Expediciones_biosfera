@@ -45,33 +45,11 @@ public class ReservationsListFragment extends Fragment {
     private FirebaseFirestore firestoreDB;
     private ListenerRegistration firestoreListener;
 
-    private boolean isAdmin = false;//TODO: CHECK IF USER IS ADMIN
+    private boolean isAdmin;
     private FirebaseAuth firebaseAuth;
     private Customer customer;
 
     FirebaseUser fbuser;
-
-    public void admin(){
-
-        final FirebaseUser currentUser = firebaseAuth.getCurrentUser();
-        if(currentUser != null) {
-            firestoreDB.collection("users").document(currentUser.getUid()).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-                @Override
-                public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                    DocumentSnapshot document = task.getResult();
-                    if(document.exists()) {
-                        //Set existing user
-                        customer = document.toObject(Customer.class);
-                    }
-                    updateIsAdmin(customer.getAdmin());
-                }
-            });
-        }
-    }
-
-    public void updateIsAdmin(boolean admin){
-        isAdmin = admin;
-    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -124,6 +102,30 @@ public class ReservationsListFragment extends Fragment {
                 });
         return view;
     }
+
+
+    public void admin(){
+
+        final FirebaseUser currentUser = firebaseAuth.getCurrentUser();
+        if(currentUser != null) {
+            firestoreDB.collection("users").document(currentUser.getUid()).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                @Override
+                public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                    DocumentSnapshot document = task.getResult();
+                    if(document.exists()) {
+                        //Set existing user
+                        customer = document.toObject(Customer.class);
+                    }
+                    updateIsAdmin(customer.getAdmin());
+                }
+            });
+        }
+    }
+
+    public void updateIsAdmin(boolean admin){
+        isAdmin = admin;
+    }
+
 
     private void loadReservationList(){
         firestoreDB.collection("reservations")

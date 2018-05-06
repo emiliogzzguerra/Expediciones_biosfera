@@ -3,11 +3,8 @@ package itesm.mx.expediciones_biosfera.entities.models;
 import java.io.Serializable;
 import java.util.List;
 
-/**
- * Created by avillarreal on 4/12/18.
- */
-
-public class Destination  implements Serializable{
+public class Destination implements Serializable{
+    private String reference;
     private String state;
     private String city;
     private String name;
@@ -20,7 +17,8 @@ public class Destination  implements Serializable{
 
     public Destination(){ }
 
-    public Destination(String state, String city, int duration, int price, double lat, double lon, String description, List<String> imageUrls, String name) {
+    public Destination(String reference, String state, String city, int duration, int price, double lat, double lon, String description, List<String> imageUrls) {
+        this.reference = reference;
         this.state = state;
         this.city = city;
         this.duration = duration;
@@ -31,6 +29,14 @@ public class Destination  implements Serializable{
         this.imageUrls = imageUrls;
         this.name = name;
 
+    }
+
+    public String getReference() {
+        return reference;
+    }
+
+    public void setReference(String reference) {
+        this.reference = reference;
     }
 
     public String getState() {
