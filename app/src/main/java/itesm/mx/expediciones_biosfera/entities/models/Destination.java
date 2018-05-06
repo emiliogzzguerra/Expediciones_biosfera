@@ -10,6 +10,7 @@ import java.util.List;
 public class Destination  implements Serializable{
     private String state;
     private String city;
+    private String name;
     private int duration;
     private int price;
     private double lat;
@@ -19,7 +20,7 @@ public class Destination  implements Serializable{
 
     public Destination(){ }
 
-    public Destination(String state, String city, int duration, int price, double lat, double lon, String description, List<String> imageUrls) {
+    public Destination(String state, String city, int duration, int price, double lat, double lon, String description, List<String> imageUrls, String name) {
         this.state = state;
         this.city = city;
         this.duration = duration;
@@ -28,6 +29,8 @@ public class Destination  implements Serializable{
         this.lon = lon;
         this.description = description;
         this.imageUrls = imageUrls;
+        this.name = name;
+
     }
 
     public String getState() {
@@ -92,5 +95,13 @@ public class Destination  implements Serializable{
 
     public void setImageUrls(List<String> imageUrls) {
         this.imageUrls = imageUrls;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 }
