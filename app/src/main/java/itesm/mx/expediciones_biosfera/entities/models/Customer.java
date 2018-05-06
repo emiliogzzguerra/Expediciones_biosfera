@@ -53,6 +53,11 @@ public class Customer {
         this.trips = trips;
     }
 
+    public Customer(){}
+    public Customer(String name, String email){
+        this.name = name;
+        this.email = email;
+    }
     public Customer(String name, String email, String description, List<Reservation> reservations, List<Trip> trips) {
 
         this.name = name;

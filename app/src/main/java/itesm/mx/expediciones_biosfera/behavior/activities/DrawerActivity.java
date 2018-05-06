@@ -22,6 +22,7 @@ import com.google.firebase.auth.FirebaseUser;
 import java.util.ArrayList;
 
 import itesm.mx.expediciones_biosfera.R;
+import itesm.mx.expediciones_biosfera.behavior.fragments.AdminReservationsListFragment;
 import itesm.mx.expediciones_biosfera.behavior.fragments.PackagesFragment;
 import itesm.mx.expediciones_biosfera.behavior.fragments.ProfileFragment;
 import itesm.mx.expediciones_biosfera.database.operations.User;
@@ -58,7 +59,7 @@ public class DrawerActivity extends AppCompatActivity implements NavigationView.
     }
 
     public void setDrawerLayout() {
-        drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        drawer = findViewById(R.id.drawer_layout);
         toggle = new ActionBarDrawerToggle(this, drawer, toolbar,
                 R.string.navigation_drawer_open, R.string.navigation_drawer_close) {
             public void onDrawerOpened(View drawerView) {
@@ -148,6 +149,8 @@ public class DrawerActivity extends AppCompatActivity implements NavigationView.
             fragment = new ProfileFragment();
         } else if (id == R.id.nav_signout) {
             signOut();
+        } else if (id == R.id.nav_reservations){
+            fragment = new AdminReservationsListFragment();
         }
 
         getSupportFragmentManager().popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);

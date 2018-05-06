@@ -1,47 +1,33 @@
 package itesm.mx.expediciones_biosfera.entities.models;
 
-import android.graphics.Bitmap;
-import android.support.annotation.NonNull;
-
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.firestore.DocumentReference;
-import com.google.firebase.firestore.DocumentSnapshot;
-import com.google.firebase.firestore.QueryDocumentSnapshot;
-
+import java.io.Serializable;
 import java.util.List;
 
 /**
  * Created by avillarreal on 4/12/18.
  */
 
-public class Destination {
-    private String name;
+public class Destination  implements Serializable{
     private String state;
     private String city;
+    private int duration;
+    private int price;
     private double lat;
     private double lon;
     private String description;
-    private List<Bitmap> images;
+    private List<String> imageUrls;
 
-    public Destination() {};
+    public Destination(){ }
 
-    public Destination(String name, String state, String city, double lat, double lon, String description, List<Bitmap> images) {
-        this.name = name;
+    public Destination(String state, String city, int duration, int price, double lat, double lon, String description, List<String> imageUrls) {
         this.state = state;
         this.city = city;
+        this.duration = duration;
+        this.price = price;
         this.lat = lat;
         this.lon = lon;
         this.description = description;
-        this.images = images;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
+        this.imageUrls = imageUrls;
     }
 
     public String getState() {
@@ -58,6 +44,22 @@ public class Destination {
 
     public void setCity(String city) {
         this.city = city;
+    }
+
+    public int getDuration() {
+        return duration;
+    }
+
+    public void setDuration(int duration) {
+        this.duration = duration;
+    }
+
+    public int getPrice() {
+        return price;
+    }
+
+    public void setPrice(int price) {
+        this.price = price;
     }
 
     public double getLat() {
@@ -84,11 +86,11 @@ public class Destination {
         this.description = description;
     }
 
-    public List<Bitmap> getImages() {
-        return images;
+    public List<String> getImageUrls() {
+        return imageUrls;
     }
 
-    public void setNewImages(List<Bitmap> images) {
-        this.images = images;
+    public void setImageUrls(List<String> imageUrls) {
+        this.imageUrls = imageUrls;
     }
 }

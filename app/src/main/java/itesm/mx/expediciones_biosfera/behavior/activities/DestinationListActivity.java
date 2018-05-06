@@ -1,16 +1,13 @@
-package itesm.mx.expediciones_biosfera.behavior.fragments;
+package itesm.mx.expediciones_biosfera.behavior.activities;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -28,31 +25,23 @@ import itesm.mx.expediciones_biosfera.R;
 import itesm.mx.expediciones_biosfera.entities.adapters.DestinationRecyclerViewAdapter;
 import itesm.mx.expediciones_biosfera.entities.models.Destination;
 
-public class PackagesFragment extends Fragment {
+/**
+ * Created by avillarreal on 4/26/18.
+ */
 
+public class DestinationListActivity extends AppCompatActivity {
     private RecyclerView recyclerView;
     private DestinationRecyclerViewAdapter mAdapter;
 
     private FirebaseFirestore firestoreDB;
     private ListenerRegistration firestoreListener;
 
-    public PackagesFragment() {
-    }
-
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        View view =  inflater.inflate(R.layout.fragment_packages, container, false);
-
-        recyclerView = view.findViewById(R.id.rvDestinationList);
-
-        return view;
-    }
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_destination_list);
 
+        recyclerView = findViewById(R.id.rvDestinationList);
         firestoreDB = FirebaseFirestore.getInstance();
 
         loadDestinationList();
@@ -73,14 +62,14 @@ public class PackagesFragment extends Fragment {
                             destinationList.add(destination);
                         }
 
-                        mAdapter = new DestinationRecyclerViewAdapter(destinationList, getContext(), firestoreDB);
+                        mAdapter = new DestinationRecyclerViewAdapter(destinationList, getApplicationContext(), firestoreDB);
                         recyclerView.setAdapter(mAdapter);
                     }
                 });
     }
 
     @Override
-    public void onDestroy(){
+    protected void onDestroy(){
         super.onDestroy();
         firestoreListener.remove();
     }
@@ -99,8 +88,8 @@ public class PackagesFragment extends Fragment {
                                 destinationList.add(destination);
                             }
 
-                            mAdapter = new DestinationRecyclerViewAdapter(destinationList, getContext(), firestoreDB);
-                            RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getContext());
+                            mAdapter = new DestinationRecyclerViewAdapter(destinationList, getApplicationContext(), firestoreDB);
+                            RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getApplicationContext());
                             recyclerView.setLayoutManager(mLayoutManager);
                             recyclerView.setItemAnimator(new DefaultItemAnimator());
                             recyclerView.setAdapter(mAdapter);
@@ -110,5 +99,5 @@ public class PackagesFragment extends Fragment {
                     }
                 });
     }
-
 }
+

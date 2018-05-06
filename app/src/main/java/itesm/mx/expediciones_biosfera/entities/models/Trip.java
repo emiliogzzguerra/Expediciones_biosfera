@@ -1,15 +1,5 @@
 package itesm.mx.expediciones_biosfera.entities.models;
 
-import android.support.annotation.NonNull;
-
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.firestore.DocumentReference;
-import com.google.firebase.firestore.DocumentSnapshot;
-
-import org.w3c.dom.Document;
-
 import java.util.Date;
 import java.util.List;
 
@@ -26,7 +16,6 @@ public class Trip {
     private Destination destination;
     private List<Customer> customers;
 
-    public Trip(){ };
     public Trip(String title, Date date, int capacity, double price, int duration, Destination destination, List<Customer> customers) {
         this.title = title;
         this.date = date;
@@ -36,7 +25,6 @@ public class Trip {
         this.destination = destination;
         this.customers = customers;
     }
-
 
     public String getTitle() {
         return title;
@@ -82,10 +70,10 @@ public class Trip {
         return destination;
     }
 
-
-    public  void setDestination(Destination destination) {
+    public void setDestination(Destination destination) {
         this.destination = destination;
     }
+
     public List<Customer> getCustomers() {
         return customers;
     }
