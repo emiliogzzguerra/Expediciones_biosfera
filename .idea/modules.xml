@@ -3,6 +3,7 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/Expediciones_Biosfera.iml" filepath="$PROJECT_DIR$/Expediciones_Biosfera.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Expediciones_biosfera.iml" filepath="$PROJECT_DIR$/Expediciones_biosfera.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
     </modules>
   </component>

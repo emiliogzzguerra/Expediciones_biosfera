@@ -1,8 +1,9 @@
 package itesm.mx.expediciones_biosfera.entities.models;
 
+import java.io.Serializable;
 import java.util.Date;
 
-public class Reservation {
+public class Reservation implements Serializable{
     private int quantity;
     private double price;
     private String isConfirmed;

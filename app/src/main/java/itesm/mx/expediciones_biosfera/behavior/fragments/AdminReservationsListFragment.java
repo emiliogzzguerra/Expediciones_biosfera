@@ -2,6 +2,8 @@ package itesm.mx.expediciones_biosfera.behavior.fragments;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -40,6 +42,10 @@ public class AdminReservationsListFragment extends Fragment {
     private FirebaseFirestore firestoreDB;
     private ListenerRegistration firestoreListener;
 
+    private boolean isAdmin;
+    private FirebaseAuth firebaseAuth;
+    FirebaseUser fbuser;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -48,6 +54,8 @@ public class AdminReservationsListFragment extends Fragment {
         firestoreDB = FirebaseFirestore.getInstance();
 
         loadReservationList();
+
+
 
         firestoreListener = firestoreDB.collection("reservations")
                 .addSnapshotListener(new EventListener<QuerySnapshot>() {
@@ -81,9 +89,22 @@ public class AdminReservationsListFragment extends Fragment {
                         if(task.isSuccessful()){
                             List<Reservation> reservationList = new ArrayList<>();
 
+                            firebaseAuth = FirebaseAuth.getInstance();
+                            fbuser = firebaseAuth.getCurrentUser();
+                            String fbid = fbuser.getUid();
+
+                            isAdmin = true;//TODO: CHECK IF USER IS ADMIN
+
                             for(DocumentSnapshot doc : task.getResult()){
                                 Reservation reservation = doc.toObject(Reservation.class);
-                                reservationList.add(reservation);
+                                if(isAdmin){
+                                    reservationList.add(reservation);
+                                }else{
+                                    if(reservation.getCustomerReference().equals(fbid)){
+                                        reservationList.add(reservation);
+                                    }
+
+                                }
                             }
 
                             mAdapter = new AdminReservationRecyclerViewAdapter(reservationList, getActivity().getApplicationContext(), firestoreDB);
