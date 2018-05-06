@@ -5,17 +5,12 @@
 
     <group android:checkableBehavior="single">
         <item
-            android:id="@+id/nav_packages"
-            android:title="@string/nav_drawer_packages" />
-        <item
-            android:id="@+id/nav_profile"
-            android:title="@string/nav_drawer_profile" />
+            android:id="@+id/nav_reservations"
+            android:title="@string/nav_drawer_reservations" />
         <item
             android:id="@+id/nav_signout"
             android:title="@string/nav_drawer_sign_out" />
-        <item
-            android:id="@+id/nav_reservations"
-            android:title="Reservaciones" />
+
     </group>
 
 </menu>

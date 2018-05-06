@@ -23,8 +23,11 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 import itesm.mx.expediciones_biosfera.R;
+import itesm.mx.expediciones_biosfera.entities.models.Customer;
 
 public class AuthenticationActivity extends AppCompatActivity implements View.OnClickListener {
     private GoogleSignInOptions gso;
@@ -32,6 +35,8 @@ public class AuthenticationActivity extends AppCompatActivity implements View.On
     private FirebaseAuth firebaseAuth;
     private SignInButton signInButton;
     private ImageView ivLogo;
+    private FirebaseFirestore firestoreDB;
+    private Customer customer;
 
     private int RC_SIGN_IN = 0;
 
@@ -63,10 +68,20 @@ public class AuthenticationActivity extends AppCompatActivity implements View.On
         startActivityForResult(signInIntent, RC_SIGN_IN);
     }
 
-    public void redirectToDrawer(FirebaseUser user) {
-        Log.i("Sign In: ", "Redirect to Drawer Activity");
-        Intent intent = new Intent(this, DrawerActivity.class);
-        startActivity(intent);
+    public void redirectToDrawer(FirebaseUser user, Customer customer) {
+        if(customer != null) {
+            if(customer.getAdmin()) {
+                //Redirect to Admin Drawer
+                Log.i("Sign In", "Redirect to Admin Drawer Activity");
+                Intent intent = new Intent(this, AdminDrawerActivity.class);
+                startActivity(intent);
+            } else {
+                //Redirect to Regular User Drawer
+                 Log.i("Sign In", "Redirect to Drawer Activity");
+                 Intent intent = new Intent(this, DrawerActivity.class);
+                 startActivity(intent);
+            }
+        }
     }
 
     public void firebaseAuthWithGoogle(GoogleSignInAccount account) {
@@ -80,15 +95,41 @@ public class AuthenticationActivity extends AppCompatActivity implements View.On
                            // Sign in success
                            Log.d("Firebase Auth", "signInWithCredential:success");
                            FirebaseUser user = firebaseAuth.getCurrentUser();
-                           String toastMessage = "Bienvenido, " + user.getDisplayName();
-                           Toast.makeText(getApplicationContext(), toastMessage , Toast.LENGTH_LONG).show();
-                           redirectToDrawer(user);
+                           if(user != null) {
+                               insertUserToFirestore(user);
+                               String toastMessage = "Bienvenido, " + user.getDisplayName();
+                               Toast.makeText(getApplicationContext(), toastMessage , Toast.LENGTH_LONG).show();
+                               redirectToDrawer(user, customer);
+                           } else {
+                               Log.d("Firebase User", "No current user");
+                           }
                        } else {
                            Log.d("Firebase Auth", "signInWithCredential:failure");
                            Toast.makeText(getApplicationContext(), "La autenticación no fue exitosa", Toast.LENGTH_LONG).show();
                        }
                     }
                 });
+    }
+
+    private void insertUserToFirestore(final FirebaseUser firebaseUser){
+        firestoreDB.collection("users").document(firebaseUser.getUid()).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                if(task.isSuccessful()) {
+                    DocumentSnapshot document = task.getResult();
+                    if(!document.exists()) {
+                        customer = new Customer(firebaseUser.getDisplayName(), firebaseUser.getEmail());
+                        firestoreDB.collection("users").document(firebaseUser.getUid()).set(customer);
+                        Log.i("Insert user:", "User inserted");
+                    } else {
+                        customer = document.toObject(Customer.class);
+                        Log.i("Insert user:", "User already exists");
+                    }
+                } else {
+                    Log.d("Get User:", "Task unsuccessful");
+                }
+            }
+        });
     }
 
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -119,9 +160,22 @@ public class AuthenticationActivity extends AppCompatActivity implements View.On
     @Override
     public void onStart() {
         super.onStart();
-        FirebaseUser currentUser = firebaseAuth.getCurrentUser();
+        final FirebaseUser currentUser = firebaseAuth.getCurrentUser();
         if(currentUser != null) {
-            redirectToDrawer(currentUser);
+            firestoreDB.collection("users").document(currentUser.getUid()).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                @Override
+                public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                    DocumentSnapshot document = task.getResult();
+                    if(document.exists()) {
+                        //Set existing user
+                        customer = document.toObject(Customer.class);
+                    } else {
+                        //Create user in Firestore
+                        insertUserToFirestore(currentUser);
+                    }
+                    redirectToDrawer(currentUser, customer);
+                }
+            });
         }
     }
 
@@ -132,7 +186,7 @@ public class AuthenticationActivity extends AppCompatActivity implements View.On
         configureGoogleSignIn();
         setImage();
         setSignInWithGoogleButton();
-
+        firestoreDB = FirebaseFirestore.getInstance();
         firebaseAuth = FirebaseAuth.getInstance();
     }
 }

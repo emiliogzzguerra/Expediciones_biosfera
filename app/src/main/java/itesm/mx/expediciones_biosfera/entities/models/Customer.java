@@ -1,5 +1,6 @@
 package itesm.mx.expediciones_biosfera.entities.models;
 
+
 import java.util.List;
 
 /**
@@ -7,11 +8,21 @@ import java.util.List;
  */
 
 public class Customer {
+    private String uID;
     private String name;
     private String email;
     private String description;
     private List<Reservation> reservations;
     private List<Trip> trips;
+    private boolean admin;
+
+    public String getUID() {
+        return uID;
+    }
+
+    public void setUID(String uID) {
+        this.uID = uID;
+    }
 
     public String getName() {
         return name;
@@ -37,6 +48,14 @@ public class Customer {
         this.description = description;
     }
 
+    public boolean getAdmin() {
+        return admin;
+    }
+
+    public void setAdmin(boolean admin) {
+        this.admin = admin;
+    }
+
     public List<Reservation> getReservations() {
         return reservations;
     }
@@ -53,12 +72,19 @@ public class Customer {
         this.trips = trips;
     }
 
-    public Customer(String name, String email, String description, List<Reservation> reservations, List<Trip> trips) {
+    public Customer(){}
 
+    public Customer(String name, String email) {
+        this.name = name;
+        this.email = email;
+    }
+
+    public Customer(String name, String email, String description, List<Reservation> reservations, List<Trip> trips, boolean admin) {
         this.name = name;
         this.email = email;
         this.description = description;
         this.reservations = reservations;
         this.trips = trips;
+        this.admin = admin;
     }
 }

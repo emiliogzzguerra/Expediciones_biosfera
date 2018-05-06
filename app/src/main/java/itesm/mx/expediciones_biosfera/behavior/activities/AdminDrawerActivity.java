@@ -24,7 +24,7 @@ import itesm.mx.expediciones_biosfera.behavior.fragments.AdminReservationsListFr
 import itesm.mx.expediciones_biosfera.behavior.fragments.PackagesFragment;
 import itesm.mx.expediciones_biosfera.behavior.fragments.ProfileFragment;
 
-public class DrawerActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener{
+public class AdminDrawerActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener{
     private Toolbar toolbar;
     private FirebaseAuth firebaseAuth;
     private FirebaseUser currentUser;
@@ -58,7 +58,7 @@ public class DrawerActivity extends AppCompatActivity implements NavigationView.
     public void configureNavigationView() {
         NavigationView navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
-        navigationView.setCheckedItem(R.id.nav_packages);
+        navigationView.setCheckedItem(R.id.nav_reservations);
 
         Menu menu = navigationView.getMenu();
         for (int i = 0; i < menu.size(); i++) {
@@ -79,17 +79,15 @@ public class DrawerActivity extends AppCompatActivity implements NavigationView.
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_drawer);
+        setContentView(R.layout.activity_admin_drawer);
 
         setToolbar();
         setDrawerLayout();
         configureNavigationView();
         getFirebaseUser();
+        AdminReservationsListFragment adminReservationsListFragment = new AdminReservationsListFragment();
 
-
-        PackagesFragment packagesFragment = new PackagesFragment();
-
-        getSupportFragmentManager().beginTransaction().add(R.id.content_frame, packagesFragment).commit();
+        getSupportFragmentManager().beginTransaction().add(R.id.content_frame, adminReservationsListFragment).commit();
 
     }
 
@@ -112,14 +110,10 @@ public class DrawerActivity extends AppCompatActivity implements NavigationView.
 
         Fragment fragment = null;
 
-        if (id == R.id.nav_packages) {
-            fragment = new PackagesFragment();
-        } else if (id == R.id.nav_profile) {
-            fragment = new ProfileFragment();
-        } else if (id == R.id.nav_signout) {
-            signOut();
-        } else if (id == R.id.nav_reservations){
+        if (id == R.id.nav_reservations) {
             fragment = new AdminReservationsListFragment();
+        } else if(id == R.id.nav_signout) {
+            signOut();
         }
 
         getSupportFragmentManager().popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);

@@ -29,7 +29,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import itesm.mx.expediciones_biosfera.R;
-import itesm.mx.expediciones_biosfera.database.operations.FirestoreReservationHelper;
+import itesm.mx.expediciones_biosfera.utilities.FirestoreReservationHelper;
 import itesm.mx.expediciones_biosfera.entities.models.Reservation;
 
 /**
