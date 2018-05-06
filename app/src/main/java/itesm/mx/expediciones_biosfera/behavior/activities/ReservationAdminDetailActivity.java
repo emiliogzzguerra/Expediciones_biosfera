@@ -19,8 +19,7 @@ public class ReservationAdminDetailActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_reservation_detail);
 
-        Reservation reservation = (Reservation) getIntent().getSerializableExtra("reservation");
-
+        final Reservation reservation = (Reservation) getIntent().getSerializableExtra("reservation");
 
         String destination = getIntent().getExtras().getString("destination");
         String customer = getIntent().getExtras().getString("customer");
@@ -54,9 +53,19 @@ public class ReservationAdminDetailActivity extends AppCompatActivity {
                 switch (view.getId()){
                     case R.id.button_accept:
                         Toast.makeText(getBaseContext(), "Acepta", Toast.LENGTH_SHORT).show();
+
+                        if(reservation.getIsConfirmed().equals("pending")){ //pendiente
+                            reservation.setIsConfirmed("denied");
+                        }else if(reservation.getIsConfirmed().equals("approved")){
+
+                        }
+
                         break;
                     case R.id.button_reject:
                         Toast.makeText(getBaseContext(), "Rechaza", Toast.LENGTH_SHORT).show();
+
+                        reservation.setIsConfirmed("denied");
+
                         break;
                     default:
                         break;
@@ -66,8 +75,6 @@ public class ReservationAdminDetailActivity extends AppCompatActivity {
 
         btnAccept.setOnClickListener(accion);
         btnReject.setOnClickListener(accion);
-
-
 
     }
 }

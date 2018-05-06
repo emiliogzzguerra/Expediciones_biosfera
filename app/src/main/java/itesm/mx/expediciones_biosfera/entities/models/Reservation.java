@@ -8,12 +8,6 @@ public class Reservation implements Serializable{
     private double price;
     private String isConfirmed;
     private String isPaid;
-    /*
-    Possible states of isConfirmed and isPaid:
-    "pending"
-    "aproved"
-    "denied"
-    */
     private String ticketUrl;
     private String customerReference;
     private String tripReference;
