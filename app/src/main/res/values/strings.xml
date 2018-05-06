@@ -6,7 +6,8 @@
     <string name="sign_in_google">Iniciar Sesión con Google</string>
 
     <!-- ProfileFragment -->
-    <string name="change">Cambiar</string>
+    <string name="take">Tomar foto</string>
+    <string name="save">Guardar</string>
     <string name="occupation">Ocupación: %1$s</string>
     <string name="interests">Intereses: %1$s</string>
     <string name="phone">Telefono: %1$s</string>
