@@ -9,12 +9,8 @@ import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.SeekBar;
 import android.widget.TextView;
-
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.firestore.FirebaseFirestore;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import itesm.mx.expediciones_biosfera.R;
@@ -28,7 +24,6 @@ public class ReservationActivity extends AppCompatActivity implements View.OnCli
     public static final String DESTINATION_OBJECT = "destination_object";
 
     private Destination destination;
-
     private TextView tvSelectSize;
     private SeekBar sbSize;
     private TextView tvDate;
@@ -124,6 +119,10 @@ public class ReservationActivity extends AppCompatActivity implements View.OnCli
             }
 
             public void onStopTrackingTouch(SeekBar seekBar) {
+                if(sbSize.getProgress() == 0) {
+                    sbSize.setProgress(1);
+                }
+
                 tvSummary.setText(String.format(getResources().getString(R.string.reservation_summary),
                         destinationTitle, progressChangedValue, StringFormatHelper.getDateAsString(calendarDate.getTime(), false)
                 ));

@@ -18,7 +18,7 @@ public class StringFormatHelper {
         if( price == 0 )
            formattedPrice = "0.00";
 
-        return res.getString(R.string.reservation_price, formattedPrice);
+        return res.getString(R.string.price_text, formattedPrice);
 
     }
 

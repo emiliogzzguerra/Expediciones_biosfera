@@ -55,7 +55,7 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
-        android:gravity="right">
+        android:gravity="center">
 
         <Button
             android:id="@+id/btn_change_date"
@@ -74,7 +74,7 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="2"
-        android:textAlignment="textStart"
+        android:gravity="center_vertical"
         android:textColor="@android:color/black"
         android:textSize="18sp" />
 
