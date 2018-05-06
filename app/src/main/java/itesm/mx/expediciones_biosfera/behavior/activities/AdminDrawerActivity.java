@@ -58,7 +58,7 @@ public class AdminDrawerActivity extends AppCompatActivity implements Navigation
     public void configureNavigationView() {
         NavigationView navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
-        navigationView.setCheckedItem(R.id.nav_packages);
+        navigationView.setCheckedItem(R.id.nav_reservations);
 
         Menu menu = navigationView.getMenu();
         for (int i = 0; i < menu.size(); i++) {
@@ -85,11 +85,9 @@ public class AdminDrawerActivity extends AppCompatActivity implements Navigation
         setDrawerLayout();
         configureNavigationView();
         getFirebaseUser();
+        AdminReservationsListFragment adminReservationsListFragment = new AdminReservationsListFragment();
 
-
-        PackagesFragment packagesFragment = new PackagesFragment();
-
-        getSupportFragmentManager().beginTransaction().add(R.id.content_frame, packagesFragment).commit();
+        getSupportFragmentManager().beginTransaction().add(R.id.content_frame, adminReservationsListFragment).commit();
 
     }
 
