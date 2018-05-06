@@ -1,5 +1,6 @@
 <resources>
     <string name="app_name">Expediciones Biósfera</string>
+    <string name="price_text">$%1$s MXN</string>
 
     <!-- SignIn -->
     <string name="sign_in_google">Iniciar Sesión con Google</string>
@@ -16,14 +17,23 @@
     <string name="navigation_drawer_close">Close navigation drawer</string>
     <string name="nav_drawer_packages">Paquetes</string>
     <string name="nav_drawer_profile">Perfil</string>
+    <string name="nav_drawer_reservations">Reservaciones</string>
     <string name="nav_drawer_sign_out">Cerrar Sesión</string>
 
     <!--Destination Acitivity-->
     <string name="map_header">¿A dónde vamos?</string>
-    <string name="description_header">Conocerás esto y mucho más...</string>
+    <string name="description_header">Conocerás esto y mucho más&#8230;</string>
     <string name="duration_header">¿Cuánto tiempo?</string>
     <string name="price_header">Costo por persona</string>
     <string name="duration_text">%1$d días</string>
-    <string name="price_text">$%1$d.00 MXN</string>
     <string name="btn_reserve">Reservar</string>
+
+    <!-- ReservationActivity -->
+    <string name="reservation_action_bar_title">Reserva en %1$s</string>
+    <string name="reservation_date_description">Tu viaje ideal inicia el día&#8230;</string>
+    <string name="reservation_change_name">Cambiar fecha de inicio</string>
+    <string name="reservation_title">Estás a tán sólo unos pasos del viaje de tus sueños.</string>
+    <string name="reservation_select_size">¿Cuántas personas asistirán al viaje? (%1$d)</string>
+    <string name="reservation_summary">Tu viaje a %1$s para %2$d personas, empezando el %3$s tiene un costo de:</string>
+    <string name="btn_pre_reserve">Solicitar disponibilidad</string>
 </resources>
