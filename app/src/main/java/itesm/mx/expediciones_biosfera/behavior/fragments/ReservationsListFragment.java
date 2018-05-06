@@ -29,6 +29,7 @@ import java.util.List;
 import itesm.mx.expediciones_biosfera.R;
 import itesm.mx.expediciones_biosfera.entities.adapters.AdminReservationRecyclerViewAdapter;
 import itesm.mx.expediciones_biosfera.entities.adapters.CustomerReservationRecyclerViewAdapter;
+import itesm.mx.expediciones_biosfera.entities.models.Customer;
 import itesm.mx.expediciones_biosfera.entities.models.Destination;
 import itesm.mx.expediciones_biosfera.entities.models.Reservation;
 
@@ -44,17 +45,44 @@ public class ReservationsListFragment extends Fragment {
     private FirebaseFirestore firestoreDB;
     private ListenerRegistration firestoreListener;
 
-    private boolean isAdmin = true;//TODO: CHECK IF USER IS ADMIN
+    private boolean isAdmin = false;//TODO: CHECK IF USER IS ADMIN
     private FirebaseAuth firebaseAuth;
+    private Customer customer;
+
     FirebaseUser fbuser;
+
+    public void admin(){
+
+        final FirebaseUser currentUser = firebaseAuth.getCurrentUser();
+        if(currentUser != null) {
+            firestoreDB.collection("users").document(currentUser.getUid()).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                @Override
+                public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                    DocumentSnapshot document = task.getResult();
+                    if(document.exists()) {
+                        //Set existing user
+                        customer = document.toObject(Customer.class);
+                    }
+                    updateIsAdmin(customer.getAdmin());
+                }
+            });
+        }
+    }
+
+    public void updateIsAdmin(boolean admin){
+        isAdmin = admin;
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
         View view = inflater.inflate(R.layout.fragment_reservation_list, container, false);
         recyclerView = view.findViewById(R.id.rv_reservation_list);
         firestoreDB = FirebaseFirestore.getInstance();
 
+        firebaseAuth = FirebaseAuth.getInstance();
+        admin();
         loadReservationList();
 
         firestoreListener = firestoreDB.collection("reservations")
