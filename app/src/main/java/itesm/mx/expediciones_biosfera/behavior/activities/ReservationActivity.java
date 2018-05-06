@@ -40,7 +40,6 @@ public class ReservationActivity extends AppCompatActivity implements View.OnCli
     private String destinationTitle;
     private Button btnPreReservation;
     private int progressChangedValue;
-    private FirestoreReservationHelper reservationHelper;
     private Calendar calendarDate;
 
     @Override
@@ -70,23 +69,22 @@ public class ReservationActivity extends AppCompatActivity implements View.OnCli
 
     }
 
+    private void createReservation() {
+        FirebaseAuth firebaseAuth;
+        FirebaseUser fbuser;
+        firebaseAuth = FirebaseAuth.getInstance();
+        fbuser = firebaseAuth.getCurrentUser();
+        String userReference = fbuser.getUid();
+
+        Reservation reservation = new Reservation(progressChangedValue, totalPrice,false,null, userReference, destination.getReference(), calendarDate.getTime());
+        FirestoreReservationHelper.addReservation(reservation);
+    }
+
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.btn_pre_reservation:
-                Date auxDate;
-                Reservation rAux;
-                SimpleDateFormat sdfmt1 = new SimpleDateFormat("dd/MM/yy");
-                try {
-                    System.out.println(tvDate.getText());
-                    auxDate = sdfmt1.parse((String) tvDate.getText());
-                    System.out.println(auxDate);
-                    rAux = new Reservation(progressChangedValue,totalPrice,false,null,"customerReference","tripReference", auxDate);
-                } catch (ParseException e) {
-                    rAux = new Reservation(progressChangedValue,totalPrice,false,null,"customerReference","tripReference", null);
-                    e.printStackTrace();
-                }
-                reservationHelper.addReservation(rAux);
+                createReservation();
                 break;
         }
     }
@@ -109,7 +107,6 @@ public class ReservationActivity extends AppCompatActivity implements View.OnCli
     }
 
     private void setVariables() {
-        reservationHelper = new FirestoreReservationHelper();
         progressChangedValue = 2;
         costPerPerson = destination.getPrice();
         destinationTitle = destination.getCity();
