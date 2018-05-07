@@ -11,6 +11,7 @@
   <color name="colorAccent">#ffffff</color>
   <color name="colorBlack">#000000</color>
   <color name="colorGray">#818181</color>
+  <color name ="colorRed">#a70101</color>
 
   <color name="adminPrimaryColor">#2196f3</color>
   <color name="adminPrimaryLightColor">#6ec6ff</color>

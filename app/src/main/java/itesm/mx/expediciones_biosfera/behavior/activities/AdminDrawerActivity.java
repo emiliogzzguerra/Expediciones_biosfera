@@ -14,6 +14,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
@@ -21,8 +22,6 @@ import com.google.firebase.auth.FirebaseUser;
 
 import itesm.mx.expediciones_biosfera.R;
 import itesm.mx.expediciones_biosfera.behavior.fragments.ReservationsListFragment;
-import itesm.mx.expediciones_biosfera.behavior.fragments.PackagesFragment;
-import itesm.mx.expediciones_biosfera.behavior.fragments.ProfileFragment;
 
 public class AdminDrawerActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener{
     private Toolbar toolbar;
@@ -59,7 +58,11 @@ public class AdminDrawerActivity extends AppCompatActivity implements Navigation
         NavigationView navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
         navigationView.setCheckedItem(R.id.nav_reservations);
-
+        View headerView = navigationView.getHeaderView(0);
+        TextView tvName = headerView.findViewById(R.id.text_user_name);
+        TextView tvMail = headerView.findViewById(R.id.text_email);
+        tvName.setText(currentUser.getDisplayName());
+        tvMail.setText(currentUser.getEmail());
         Menu menu = navigationView.getMenu();
         for (int i = 0; i < menu.size(); i++) {
             MenuItem item = menu.getItem(i);
@@ -80,15 +83,13 @@ public class AdminDrawerActivity extends AppCompatActivity implements Navigation
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_admin_drawer);
+        getFirebaseUser();
 
         setToolbar();
         setDrawerLayout();
         configureNavigationView();
-        getFirebaseUser();
         ReservationsListFragment adminReservationsListFragment = new ReservationsListFragment();
-
         getSupportFragmentManager().beginTransaction().add(R.id.content_frame, adminReservationsListFragment).commit();
-
     }
 
     public void signOut() {

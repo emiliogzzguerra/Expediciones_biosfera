@@ -2,6 +2,7 @@ package itesm.mx.expediciones_biosfera.entities.adapters;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.Resources;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -45,6 +46,23 @@ public class CustomerReservationRecyclerViewAdapter extends RecyclerView.Adapter
         return new CustomerReservationRecyclerViewAdapter.ViewHolder(view);
     }
 
+    public String getStatusMessage(String status) {
+        Resources resources = this.context.getResources();
+        int resourceId;
+        switch (status) {
+            case "approved":
+                resourceId = R.string.approved;
+                break;
+            case "denied":
+                resourceId = R.string.denied;
+                break;
+            default:
+                resourceId = R.string.pending;
+                break;
+        }
+        return resources.getString(resourceId);
+    }
+
     @Override
     public void onBindViewHolder(final CustomerReservationRecyclerViewAdapter.ViewHolder holder, int position){
         final int itemPosition = position;
@@ -56,7 +74,7 @@ public class CustomerReservationRecyclerViewAdapter extends RecyclerView.Adapter
                 DocumentSnapshot snapshot = task.getResult();
                 if(snapshot.exists()) {
                     Destination destination = snapshot.toObject(Destination.class);
-                    holder.tvDestination.setText(destination.getCity());
+                    holder.tvDestination.setText(destination.getName());
                 }
                 else{
                     holder.tvDestination.setText("Destination not found");
@@ -77,11 +95,13 @@ public class CustomerReservationRecyclerViewAdapter extends RecyclerView.Adapter
         holder.tvPrice.setText("$"+String.valueOf(reservation.getPrice()));
         holder.tvDate.setText(reservation.getInitialDate().toString());
         if(reservation.getIsPaid() != null) {
-            if (!reservation.getIsConfirmed().equals("Aprobado")) {
-                holder.tvStatus.setText("Confirmacion: " + reservation.getIsConfirmed());
+            String status = "";
+            if (!reservation.getIsConfirmed().equals("approved")) {
+                status = "Confirmación: " + getStatusMessage(reservation.getIsConfirmed());
             } else if (reservation.getIsPaid() != null) {
-                holder.tvStatus.setText("Pago: " + reservation.getIsPaid());
+                status = "Pago: " + getStatusMessage(reservation.getIsPaid());
             }
+            holder.tvStatus.setText(status);
         }
     }
 
