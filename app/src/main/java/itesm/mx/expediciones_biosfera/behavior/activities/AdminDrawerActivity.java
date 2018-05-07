@@ -89,7 +89,7 @@ public class AdminDrawerActivity extends AppCompatActivity implements Navigation
         setDrawerLayout();
         configureNavigationView();
         ReservationsListFragment adminReservationsListFragment = new ReservationsListFragment();
-        getSupportFragmentManager().beginTransaction().add(R.id.content_frame, reservationsListFragment).commit();
+        getSupportFragmentManager().beginTransaction().add(R.id.content_frame, adminReservationsListFragment).commit();
     }
 
     public void signOut() {
