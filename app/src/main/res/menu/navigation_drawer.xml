@@ -11,11 +11,11 @@
             android:id="@+id/nav_profile"
             android:title="@string/nav_drawer_profile" />
         <item
+            android:id="@+id/nav_reservations"
+            android:title="@string/nav_drawer_reservations" />
+        <item
             android:id="@+id/nav_signout"
             android:title="@string/nav_drawer_sign_out" />
-        <item
-            android:id="@+id/nav_reservations"
-            android:title="Reservaciones" />
     </group>
 
 </menu>
