@@ -28,7 +28,14 @@ public class FirestoreReservationHelper {
     static Destination destination;
     static Reservation reservation;
 
+    public static void setDb() {
+        if(db == null) {
+            db = FirebaseFirestore.getInstance();
+        }
+    }
+
     public static void getAllReservations(){
+        setDb();
         db.collection("reservations")
                 .get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
@@ -53,7 +60,23 @@ public class FirestoreReservationHelper {
     public static void setConfirmedPending(String s) {
         Map<String, Object> data = new HashMap<>();
         data.put("isConfirmed", "pending");
+        setDb();
+        db.collection("reservations").document(s)
+                .set(data, SetOptions.merge());
+    }
 
+    public static void setPaymentApproved(String s) {
+        Map<String, Object> data = new HashMap<>();
+        data.put("isPaid", "approved");
+        setDb();
+        db.collection("reservations").document(s)
+                .set(data, SetOptions.merge());
+    }
+
+    public static void setPaymentDeclined(String s) {
+        Map<String, Object> data = new HashMap<>();
+        data.put("isPaid", "denied");
+        setDb();
         db.collection("reservations").document(s)
                 .set(data, SetOptions.merge());
     }
@@ -61,7 +84,7 @@ public class FirestoreReservationHelper {
     public static void setConfirmedApproved(String s) {
         Map<String, Object> data = new HashMap<>();
         data.put("isConfirmed", "approved");
-
+        setDb();
         db.collection("reservations").document(s)
                 .set(data, SetOptions.merge());
     }
@@ -69,7 +92,7 @@ public class FirestoreReservationHelper {
     public static void setConfirmedDeclined(String s) {
         Map<String, Object> data = new HashMap<>();
         data.put("isConfirmed", "declined");
-
+        setDb();
         db.collection("reservations").document(s)
                 .set(data, SetOptions.merge());
     }
@@ -77,7 +100,7 @@ public class FirestoreReservationHelper {
     public static void setPaidPending(String s) {
         Map<String, Object> data = new HashMap<>();
         data.put("isPaid", "pending");
-
+        setDb();
         db.collection("reservations").document(s)
                 .set(data, SetOptions.merge());
     }
@@ -85,7 +108,7 @@ public class FirestoreReservationHelper {
     public static void setPaidApproved(String s) {
         Map<String, Object> data = new HashMap<>();
         data.put("isPaid", "approved");
-
+        setDb();
         db.collection("reservations").document(s)
                 .set(data, SetOptions.merge());
     }
@@ -93,16 +116,15 @@ public class FirestoreReservationHelper {
     public static void setPaidDeclined(String s) {
         Map<String, Object> data = new HashMap<>();
         data.put("isPaid", "declined");
-
+        setDb();
         db.collection("reservations").document(s)
                 .set(data, SetOptions.merge());
     }
 
     public static void setTicketUrl(String reservationReference, String ticketReference) {
         Map<String, Object> data = new HashMap<>();
-
         data.put("ticketUrl", ticketReference);
-
+        setDb();
         db.collection("reservations").document(reservationReference)
                 .set(data, SetOptions.merge());
     }

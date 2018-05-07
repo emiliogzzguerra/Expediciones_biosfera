@@ -67,7 +67,7 @@ public class ReservationCustomerDetailActivity extends AppCompatActivity impleme
         startActivityForResult(Intent.createChooser(intent, "Select Picture"), PICK_IMAGE);
     }
 
-    private StorageReference getTicketRef(){
+    private StorageReference getTicketRef() {
         FirebaseStorage storage = FirebaseStorage.getInstance();
         StorageReference storageRef = storage.getReferenceFromUrl(getResources()
                 .getString(R.string.ticket_reference));
