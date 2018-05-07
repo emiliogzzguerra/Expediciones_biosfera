@@ -32,6 +32,7 @@ import itesm.mx.expediciones_biosfera.database.operations.UserOperations;
 public class DrawerActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener{
     private Toolbar toolbar;
     private FirebaseAuth firebaseAuth;
+    private FirebaseUser currentUser;
     private DrawerLayout drawer;
     private ActionBarDrawerToggle toggle;
 
@@ -111,6 +112,7 @@ public class DrawerActivity extends AppCompatActivity implements NavigationView.
 
     public void getFirebaseUser() {
         firebaseAuth = FirebaseAuth.getInstance();
+        currentUser = firebaseAuth.getCurrentUser();
     }
 
     protected void onCreate(Bundle savedInstanceState) {

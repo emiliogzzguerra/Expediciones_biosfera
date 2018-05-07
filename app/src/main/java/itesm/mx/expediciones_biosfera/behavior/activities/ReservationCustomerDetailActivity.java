@@ -128,6 +128,7 @@ public class ReservationCustomerDetailActivity extends AppCompatActivity impleme
         if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK  && data != null) {
             Bundle extras = data.getExtras();
             ticket = (Bitmap) extras.get("data");
+            ivPreviewImage.setVisibility(View.VISIBLE);
             ivPreviewImage.setImageBitmap(ticket);
         }
         if (requestCode == PICK_IMAGE && resultCode == RESULT_OK && data != null) {
@@ -139,6 +140,7 @@ public class ReservationCustomerDetailActivity extends AppCompatActivity impleme
                 e.printStackTrace();
             }
             ticket = BitmapFactory.decodeStream(imageStream);
+            ivPreviewImage.setVisibility(View.VISIBLE);
             ivPreviewImage.setImageBitmap(ticket);
         }
         tvPreview.setText(R.string.rescusdetail_preview_text_no_ticket);
