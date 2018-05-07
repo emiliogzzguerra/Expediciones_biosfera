@@ -129,9 +129,11 @@ public class AdminReservationRecyclerViewAdapter extends RecyclerView.Adapter<Ad
                     int position = getAdapterPosition();
                     Intent i	=	new	Intent(context, ReservationAdminDetailActivity.class);
                     Reservation reservation = reservationList.get(position);
-                    i.putExtra("destination", tvDestination.getText().toString());
-                    i.putExtra("customer", tvCustomer.getText().toString());
-                    i.putExtra("reservation", reservation);
+                    i.putExtra(ReservationAdminDetailActivity.DESTINATION, tvDestination.getText().toString());
+                    i.putExtra(ReservationAdminDetailActivity.CUSTOMER, tvCustomer.getText().toString());
+                    i.putExtra(ReservationAdminDetailActivity.RESERVATION, reservation);
+                    i.putExtra(ReservationAdminDetailActivity.RESERVATION_REFERENCE,
+                            reservation.getReference());
                     context.startActivity(i);
                 }
             });

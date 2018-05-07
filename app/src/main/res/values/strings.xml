@@ -20,6 +20,22 @@
     <string name="nav_drawer_reservations">Reservaciones</string>
     <string name="nav_drawer_sign_out">Cerrar Sesión</string>
 
+    <!-- ReservationCustomerDetail Activity -->
+    <string name="rescusdetail_header_text">¡Felicidades!</string>
+    <string name="rescusdetail_description_text">Tu paquete para ir a %1$s el %2$s está disponible.\nLo que sigue es que pagues la cantidad acordada de %3$s a cualquiera de las siguientes cuentas bancarias.</string>
+    <string name="rescusdetail_take_picture_text">Sólo mandanos una foto de tu comprobante y ¡Listo!</string>
+    <string name="rescusdetail_select_picture_button">Seleccionar foto</string>
+    <string name="rescusdetail_take_picture_button">Tomar foto</string>
+    <string name="rescusdetail_upload_picture_button">Enviar comprobante</string>
+    <string name="rescusdetail_replace_picture_button">Remplazar comprobante</string>
+    <string name="rescusdetail_preview_text_no_ticket">Previsualización de tu comprobante:</string>
+    <string name="rescusdetail_preview_text_ticket">Tu comprobante:</string>
+    <string name="ticket_reference">gs://expedicionesbiosfera.appspot.com/tickets</string>
+
+    <!-- ReservationAdminDetail Values -->
+    <string name="resadmdetail_approved_button">Aprobar</string>
+    <string name="resadmdetail_denied_button">Rechazar</string>
+
     <!--Destination Acitivity-->
     <string name="map_header">¿A dónde vamos?</string>
     <string name="description_header">Conocerás esto y mucho más&#8230;</string>
@@ -37,7 +53,7 @@
     <string name="reservation_summary">Tu viaje a %1$s para %2$d personas, empezando el %3$s tiene un costo de:</string>
     <string name="btn_pre_reserve">Solicitar disponibilidad</string>
 
-    <!-- Reservation Confirmation Values -->
+    <!-- isConfirmed isPaid Values -->
     <string name="approved">Aprobado</string>
     <string name="denied">Rechazado</string>
     <string name="pending">Pendiente</string>

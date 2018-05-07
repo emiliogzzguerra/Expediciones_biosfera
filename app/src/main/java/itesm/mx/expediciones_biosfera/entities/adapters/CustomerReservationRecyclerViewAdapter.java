@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -23,6 +24,7 @@ import itesm.mx.expediciones_biosfera.behavior.activities.ReservationCustomerDet
 import itesm.mx.expediciones_biosfera.entities.models.Customer;
 import itesm.mx.expediciones_biosfera.entities.models.Destination;
 import itesm.mx.expediciones_biosfera.entities.models.Reservation;
+import itesm.mx.expediciones_biosfera.utilities.StringFormatHelper;
 
 /**
  * Created by avillarreal on 5/4/18.
@@ -93,7 +95,8 @@ public class CustomerReservationRecyclerViewAdapter extends RecyclerView.Adapter
         });
 
         holder.tvPrice.setText("$"+String.valueOf(reservation.getPrice()));
-        holder.tvDate.setText(reservation.getInitialDate().toString());
+        holder.tvDate.setText(StringFormatHelper
+                .getDateAsString(reservation.getInitialDate(),true));
         if(reservation.getIsPaid() != null) {
             String status = "";
             if (!reservation.getIsConfirmed().equals("approved")) {
@@ -123,12 +126,21 @@ public class CustomerReservationRecyclerViewAdapter extends RecyclerView.Adapter
             view.setOnClickListener(new View.OnClickListener(){
                 @Override
                 public void onClick(View v){
-                    int position = getAdapterPosition();
+                    int selectedReservation = getAdapterPosition();
                     Intent i	=	new	Intent(context, ReservationCustomerDetailActivity.class);
-                    Reservation reservation = reservationList.get(position);
-                    i.putExtra("destination", tvDestination.getText().toString());
-                    i.putExtra("reservation", reservation);
-                    context.startActivity(i);
+                    Reservation reservation = reservationList.get(selectedReservation);
+                    if(!reservation.getIsConfirmed().equals("pending")){
+                        i.putExtra(ReservationCustomerDetailActivity.DESTINATION_TITLE,
+                                tvDestination.getText().toString());
+                        i.putExtra(ReservationCustomerDetailActivity.RESERVATION_OBJECT, reservation);
+                        i.putExtra(ReservationCustomerDetailActivity.RESERVATION_REFERENCE,
+                                reservation.getReference());
+                        context.startActivity(i);
+                    } else {
+                        Toast statusToast = Toast.makeText(v.getContext(),
+                                "Aún no hemos podido evaluar tu solicitud, regresa pronto", Toast.LENGTH_SHORT);
+                        statusToast.show();
+                    }
                 }
             });
 

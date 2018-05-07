@@ -12,9 +12,26 @@ public class Reservation implements Serializable{
     private String customerReference;
     private String tripReference;
     private Date initialDate;
+    private String reference;
 
 
     public Reservation(){}
+    // Constructor with a reference
+    public Reservation(int quantity, double price, String isConfirmed, String isPaid,
+                       String ticketUrl, String customerReference, String tripReference,
+                       Date initialDate, String reference) {
+        this.quantity = quantity;
+        this.price = price;
+        this.isConfirmed = isConfirmed;
+        this.isPaid = isPaid;
+        this.ticketUrl = ticketUrl;
+        this.customerReference = customerReference;
+        this.tripReference = tripReference;
+        this.initialDate = initialDate;
+        this.reference = reference;
+    }
+
+    // Constructor without a reference
     public Reservation(int quantity, double price, String isConfirmed, String isPaid,
                        String ticketUrl, String customerReference, String tripReference,
                        Date initialDate) {
@@ -26,6 +43,7 @@ public class Reservation implements Serializable{
         this.customerReference = customerReference;
         this.tripReference = tripReference;
         this.initialDate = initialDate;
+        this.reference = null;
     }
 
     public int getQuantity() {
@@ -92,4 +110,11 @@ public class Reservation implements Serializable{
         this.initialDate = initialDate;
     }
 
+    public String getReference() {
+        return reference;
+    }
+
+    public void setReference(String reference) {
+        this.reference = reference;
+    }
 }
