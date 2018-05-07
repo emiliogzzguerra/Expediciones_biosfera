@@ -11,30 +11,38 @@ import com.google.android.gms.common.SupportErrorDialogFragment;
 
 import itesm.mx.expediciones_biosfera.R;
 import itesm.mx.expediciones_biosfera.entities.models.Reservation;
+import itesm.mx.expediciones_biosfera.utilities.FirestoreReservationHelper;
 
-public class ReservationAdminDetailActivity extends AppCompatActivity {
+public class ReservationAdminDetailActivity extends AppCompatActivity implements View.OnClickListener{
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_reservation_detail);
+    public static final String RESERVATION_REFERENCE = "RESERVATION_REFERENCE";
+    public static final String RESERVATION = "RESERVATION";
+    public static final String CUSTOMER = "CUSTOMER";
+    public static final String DESTINATION = "DESTINATION";
 
-        configureActionBar();
+    private String destination;
+    private String customer;
+    private String reservationReference;
+    private TextView tvCustomer;
+    private TextView tvDate;
+    private TextView tvDestination;
+    private TextView tvPrice;
+    private TextView tvStatus;
+    private Button btnAccept;
+    private Button btnReject;
+    private Reservation reservation;
 
-        final Reservation reservation = (Reservation) getIntent().getSerializableExtra("reservation");
+    private void findViews(){
+        tvCustomer = this.findViewById(R.id.text_customer);
+        tvDate =  this.findViewById(R.id.text_date);
+        tvDestination = this.findViewById(R.id.text_destination);
+        tvPrice = this.findViewById(R.id.text_price);
+        tvStatus = this.findViewById(R.id.text_status);
+        btnAccept = this.findViewById(R.id.button_accept);
+        btnReject = this.findViewById(R.id.button_reject);
+    }
 
-        String destination = getIntent().getExtras().getString("destination");
-        String customer = getIntent().getExtras().getString("customer");
-
-        TextView tvCustomer = this.findViewById(R.id.text_customer);
-        TextView tvDate =  this.findViewById(R.id.text_date);
-        TextView tvDestination = this.findViewById(R.id.text_destination);
-        TextView tvPrice = this.findViewById(R.id.text_price);
-        TextView tvStatus = this.findViewById(R.id.text_status);
-
-        Button btnAccept = this.findViewById(R.id.button_accept);
-        Button btnReject = this.findViewById(R.id.button_reject);
-
+    private void setViewsAndButtons(Reservation reservation){
         tvCustomer.setText(customer);
         tvDate.setText(reservation.getInitialDate().toString());
         tvDestination.setText(destination);
@@ -47,33 +55,50 @@ public class ReservationAdminDetailActivity extends AppCompatActivity {
                 tvStatus.setText("Pago: " + reservation.getIsPaid());
             }
         }
+        btnAccept.setOnClickListener(this);
+        btnReject.setOnClickListener(this);
+    }
 
-        View.OnClickListener accion = new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
+    private void getDataFromIntent(){
+        reservation = (Reservation) getIntent().getSerializableExtra(RESERVATION);
+        destination = getIntent().getExtras().getString(DESTINATION);
+        customer = getIntent().getExtras().getString(CUSTOMER);
+        reservationReference = getIntent().getExtras().getString(RESERVATION_REFERENCE);
+    }
 
-                switch (view.getId()){
-                    case R.id.button_accept:
-                        if(reservation.getIsConfirmed().equals("pending")){
-                            reservation.setIsConfirmed("denied");
-                        }else if(reservation.getIsConfirmed().equals("approved")){
+    private void sendAdminBackToReservations(){
+        finish();
+    }
 
-                        }
+    private void changeConfirmationStatus(Boolean b){
+        FirestoreReservationHelper reservationHelper = new FirestoreReservationHelper();
+        Toast statusToast;
+        if(b){
+            reservationHelper.setConfirmedApproved(reservationReference);
+            statusToast = Toast.makeText(getApplicationContext(),
+                    "Reservación aprobada", Toast.LENGTH_LONG);
+            statusToast.show();
+        } else {
+            reservationHelper.setConfirmedDeclined(reservationReference);
+            statusToast = Toast.makeText(getApplicationContext(),
+                    "Reservación declinada", Toast.LENGTH_LONG);
+            statusToast.show();
+        }
+        sendAdminBackToReservations();
+    }
 
-                        break;
-                    case R.id.button_reject:
-                       reservation.setIsConfirmed("denied");
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_reservation_detail);
 
-                        break;
-                    default:
-                        break;
-                }
-            }
-        };
+        configureActionBar();
 
-        btnAccept.setOnClickListener(accion);
-        btnReject.setOnClickListener(accion);
+        getDataFromIntent();
 
+        findViews();
+
+        setViewsAndButtons(reservation);
     }
 
     private void configureActionBar() {
@@ -86,5 +111,19 @@ public class ReservationAdminDetailActivity extends AppCompatActivity {
     public boolean onSupportNavigateUp(){
         finish();
         return true;
+    }
+
+    @Override
+    public void onClick(View view) {
+        switch (view.getId()){
+            case R.id.button_accept:
+                changeConfirmationStatus(true);
+                break;
+            case R.id.button_reject:
+                changeConfirmationStatus(false);
+                break;
+            default:
+                break;
+        }
     }
 }

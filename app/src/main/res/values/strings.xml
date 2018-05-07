@@ -31,6 +31,10 @@
     <string name="rescusdetail_preview_text_no_ticket">Previsualización de tu comprobante:</string>
     <string name="rescusdetail_preview_text_ticket">Tu comprobante:</string>
 
+    <!-- ReservationAdminDetail Values -->
+    <string name="resadmdetail_approved_button">Aprobar</string>
+    <string name="resadmdetail_denied_button">Rechazar</string>
+
     <!--Destination Acitivity-->
     <string name="map_header">¿A dónde vamos?</string>
     <string name="description_header">Conocerás esto y mucho más&#8230;</string>
@@ -48,7 +52,7 @@
     <string name="reservation_summary">Tu viaje a %1$s para %2$d personas, empezando el %3$s tiene un costo de:</string>
     <string name="btn_pre_reserve">Solicitar disponibilidad</string>
 
-    <!-- Reservation Confirmation Values -->
+    <!-- isConfirmed isPaid Values -->
     <string name="approved">Aprobado</string>
     <string name="denied">Rechazado</string>
     <string name="pending">Pendiente</string>
