@@ -36,4 +36,10 @@
     <string name="reservation_select_size">¿Cuántas personas asistirán al viaje? (%1$d)</string>
     <string name="reservation_summary">Tu viaje a %1$s para %2$d personas, empezando el %3$s tiene un costo de:</string>
     <string name="btn_pre_reserve">Solicitar disponibilidad</string>
+
+    <!-- Reservation Confirmation Values -->
+    <string name="approved">Aprobado</string>
+    <string name="denied">Rechazado</string>
+    <string name="pending">Pendiente</string>
+
 </resources>
