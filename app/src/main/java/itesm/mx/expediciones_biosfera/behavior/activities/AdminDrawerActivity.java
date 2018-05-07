@@ -21,7 +21,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
 import itesm.mx.expediciones_biosfera.R;
-import itesm.mx.expediciones_biosfera.behavior.fragments.AdminReservationsListFragment;
+import itesm.mx.expediciones_biosfera.behavior.fragments.ReservationsListFragment;
 import itesm.mx.expediciones_biosfera.behavior.fragments.PackagesFragment;
 import itesm.mx.expediciones_biosfera.behavior.fragments.ProfileFragment;
 
@@ -90,7 +90,7 @@ public class AdminDrawerActivity extends AppCompatActivity implements Navigation
         setToolbar();
         setDrawerLayout();
         configureNavigationView();
-        AdminReservationsListFragment adminReservationsListFragment = new AdminReservationsListFragment();
+        ReservationsListFragment adminReservationsListFragment = new ReservationsListFragment();
 
         getSupportFragmentManager().beginTransaction().add(R.id.content_frame, adminReservationsListFragment).commit();
 
@@ -116,7 +116,7 @@ public class AdminDrawerActivity extends AppCompatActivity implements Navigation
         Fragment fragment = null;
 
         if (id == R.id.nav_reservations) {
-            fragment = new AdminReservationsListFragment();
+            fragment = new ReservationsListFragment();
         } else if(id == R.id.nav_signout) {
             signOut();
         }

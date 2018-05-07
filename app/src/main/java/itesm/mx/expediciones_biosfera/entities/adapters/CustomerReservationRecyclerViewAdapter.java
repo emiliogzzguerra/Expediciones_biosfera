@@ -18,6 +18,7 @@ import java.util.List;
 
 import itesm.mx.expediciones_biosfera.R;
 import itesm.mx.expediciones_biosfera.behavior.activities.ReservationAdminDetailActivity;
+import itesm.mx.expediciones_biosfera.behavior.activities.ReservationCustomerDetailActivity;
 import itesm.mx.expediciones_biosfera.entities.models.Customer;
 import itesm.mx.expediciones_biosfera.entities.models.Destination;
 import itesm.mx.expediciones_biosfera.entities.models.Reservation;
@@ -26,26 +27,26 @@ import itesm.mx.expediciones_biosfera.entities.models.Reservation;
  * Created by avillarreal on 5/4/18.
  */
 
-public class AdminReservationRecyclerViewAdapter extends RecyclerView.Adapter<AdminReservationRecyclerViewAdapter.ViewHolder> {
+public class CustomerReservationRecyclerViewAdapter extends RecyclerView.Adapter<CustomerReservationRecyclerViewAdapter.ViewHolder> {
     private List<Reservation> reservationList;
     private Context context;
     private FirebaseFirestore firestoreDB;
 
-    public AdminReservationRecyclerViewAdapter(List<Reservation> reservationList, Context context, FirebaseFirestore firestoreDB){
+    public CustomerReservationRecyclerViewAdapter(List<Reservation> reservationList, Context context, FirebaseFirestore firestoreDB){
         this.reservationList = reservationList;
         this.context = context;
         this.firestoreDB = firestoreDB;
     }
 
     @Override
-    public AdminReservationRecyclerViewAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType){
+    public CustomerReservationRecyclerViewAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType){
         View view;
-        view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_admin_reservation, parent, false);
-        return new AdminReservationRecyclerViewAdapter.ViewHolder(view);
+        view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_user_reservation, parent, false);
+        return new CustomerReservationRecyclerViewAdapter.ViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(final AdminReservationRecyclerViewAdapter.ViewHolder holder, int position){
+    public void onBindViewHolder(final CustomerReservationRecyclerViewAdapter.ViewHolder holder, int position){
         final int itemPosition = position;
         final Reservation reservation = reservationList.get(itemPosition);
         firestoreDB.collection("destinations").document(reservation.getTripReference())
@@ -69,10 +70,6 @@ public class AdminReservationRecyclerViewAdapter extends RecyclerView.Adapter<Ad
                 DocumentSnapshot snapshot = task.getResult();
                 if(snapshot.exists()) {
                     Customer customer = snapshot.toObject(Customer.class);
-                    holder.tvCustomer.setText(customer.getName());
-                }
-                else{
-                    holder.tvCustomer.setText("User not found");
                 }
             }
         });
@@ -94,11 +91,11 @@ public class AdminReservationRecyclerViewAdapter extends RecyclerView.Adapter<Ad
     }
 
     public class ViewHolder extends  RecyclerView.ViewHolder{
-        TextView tvDate, tvPrice, tvCustomer, tvDestination, tvStatus;
+        TextView tvDate, tvPrice, tvDestination, tvStatus;
         ViewHolder(View view){
             super(view);
             tvDate = view.findViewById(R.id.text_date);
-            tvCustomer = view.findViewById(R.id.text_customer);
+
             tvDestination = view.findViewById(R.id.text_destination);
             tvPrice = view.findViewById(R.id.text_price);
             tvStatus = view.findViewById(R.id.text_status);
@@ -107,10 +104,9 @@ public class AdminReservationRecyclerViewAdapter extends RecyclerView.Adapter<Ad
                 @Override
                 public void onClick(View v){
                     int position = getAdapterPosition();
-                    Intent i	=	new	Intent(context, ReservationAdminDetailActivity.class);
+                    Intent i	=	new	Intent(context, ReservationCustomerDetailActivity.class);
                     Reservation reservation = reservationList.get(position);
                     i.putExtra("destination", tvDestination.getText().toString());
-                    i.putExtra("customer", tvCustomer.getText().toString());
                     i.putExtra("reservation", reservation);
                     context.startActivity(i);
                 }

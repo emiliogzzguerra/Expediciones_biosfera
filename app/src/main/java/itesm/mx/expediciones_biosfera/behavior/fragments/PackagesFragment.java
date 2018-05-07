@@ -14,6 +14,7 @@ import android.view.ViewGroup;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -70,6 +71,7 @@ public class PackagesFragment extends Fragment {
 
                         for (DocumentSnapshot doc : documentSnapshots) {
                             Destination destination = doc.toObject(Destination.class);
+                            destination.setReference(doc.getId());
                             destinationList.add(destination);
                         }
 
@@ -96,6 +98,7 @@ public class PackagesFragment extends Fragment {
 
                             for (DocumentSnapshot doc : task.getResult()) {
                                 Destination destination = doc.toObject(Destination.class);
+                                destination.setReference(doc.getId());
                                 destinationList.add(destination);
                             }
 
