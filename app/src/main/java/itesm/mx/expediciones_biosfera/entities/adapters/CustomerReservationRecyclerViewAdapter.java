@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -126,12 +127,18 @@ public class CustomerReservationRecyclerViewAdapter extends RecyclerView.Adapter
                     int selectedReservation = getAdapterPosition();
                     Intent i	=	new	Intent(context, ReservationCustomerDetailActivity.class);
                     Reservation reservation = reservationList.get(selectedReservation);
-                    i.putExtra(ReservationCustomerDetailActivity.DESTINATION_TITLE,
-                            tvDestination.getText().toString());
-                    i.putExtra(ReservationCustomerDetailActivity.RESERVATION_OBJECT, reservation);
-                    i.putExtra(ReservationCustomerDetailActivity.RESERVATION_REFERENCE,
-                            reservation.getReference());
-                    context.startActivity(i);
+                    if(!reservation.getIsConfirmed().equals("pending")){
+                        i.putExtra(ReservationCustomerDetailActivity.DESTINATION_TITLE,
+                                tvDestination.getText().toString());
+                        i.putExtra(ReservationCustomerDetailActivity.RESERVATION_OBJECT, reservation);
+                        i.putExtra(ReservationCustomerDetailActivity.RESERVATION_REFERENCE,
+                                reservation.getReference());
+                        context.startActivity(i);
+                    } else {
+                        Toast statusToast = Toast.makeText(v.getContext(),
+                                "Aún no hemos podido evaluar tu solicitud, regresa pronto", Toast.LENGTH_SHORT);
+                        statusToast.show();
+                    }
                 }
             });
 
