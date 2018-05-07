@@ -77,7 +77,7 @@ public class ReservationAdminDetailActivity extends AppCompatActivity implements
         tvCustomer.setText(customer);
         tvDate.setText(reservation.getInitialDate().toString());
         tvDestination.setText(destination);
-        tvPrice.setText("$"+String.valueOf(reservation.getPrice()));
+        tvPrice.setText("$" + String.valueOf(reservation.getPrice()));
 
         if(reservation.getIsPaid() != null) {
             String status = "";
@@ -180,8 +180,8 @@ public class ReservationAdminDetailActivity extends AppCompatActivity implements
 
     private void configureActionBar() {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        //String actionBarTitle = destination.getName();
-        //getSupportActionBar().setTitle(actionBarTitle);
+        String actionBarTitle = getResources().getString(R.string.reservation_detail_action_bar_title);
+        getSupportActionBar().setTitle(actionBarTitle);
     }
 
     @Override
