@@ -106,8 +106,11 @@ public class CustomerReservationRecyclerViewAdapter extends RecyclerView.Adapter
                     int position = getAdapterPosition();
                     Intent i	=	new	Intent(context, ReservationCustomerDetailActivity.class);
                     Reservation reservation = reservationList.get(position);
-                    i.putExtra("destination", tvDestination.getText().toString());
-                    i.putExtra("reservation", reservation);
+                    i.putExtra(ReservationCustomerDetailActivity.DESTINATION_TITLE,
+                            tvDestination.getText().toString());
+                    i.putExtra(ReservationCustomerDetailActivity.RESERVATION_OBJECT, reservation);
+                    i.putExtra(ReservationCustomerDetailActivity.RESERVATION_REFERENCE,
+                            reservation.getReference());
                     context.startActivity(i);
                 }
             });

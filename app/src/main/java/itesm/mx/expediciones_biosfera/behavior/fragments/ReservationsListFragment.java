@@ -142,6 +142,8 @@ public class ReservationsListFragment extends Fragment {
 
                             for(DocumentSnapshot doc : task.getResult()){
                                 Reservation reservation = doc.toObject(Reservation.class);
+                                reservation.setReference(doc.getId());
+
                                 if(isAdmin){
                                     reservationList.add(reservation);
                                 }else{
