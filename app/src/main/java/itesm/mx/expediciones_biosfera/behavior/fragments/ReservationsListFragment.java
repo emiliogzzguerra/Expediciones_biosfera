@@ -88,7 +88,7 @@ public class ReservationsListFragment extends Fragment {
                         customer = document.toObject(Customer.class);
                     }
                     loadReservationList();
-                    setReserationListListener();
+                    setReservationListListener();
                 }
             });
         }
@@ -141,7 +141,7 @@ public class ReservationsListFragment extends Fragment {
                 });
     }
 
-    private void setReserationListListener() {
+    private void setReservationListListener() {
             firestoreListener = firestoreDB.collection("reservations")
                     .addSnapshotListener(new EventListener<QuerySnapshot>() {
                         @Override
