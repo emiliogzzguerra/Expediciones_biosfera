@@ -35,6 +35,7 @@
     <!-- ReservationAdminDetail Values -->
     <string name="resadmdetail_approved_button">Aprobar</string>
     <string name="resadmdetail_denied_button">Rechazar</string>
+    <string name="reservation_detail_action_bar_title">Detalle de Reservación</string>
 
     <!--Destination Acitivity-->
     <string name="map_header">¿A dónde vamos?</string>
