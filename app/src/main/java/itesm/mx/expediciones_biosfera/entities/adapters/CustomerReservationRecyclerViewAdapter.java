@@ -56,7 +56,7 @@ public class CustomerReservationRecyclerViewAdapter extends RecyclerView.Adapter
                 DocumentSnapshot snapshot = task.getResult();
                 if(snapshot.exists()) {
                     Destination destination = snapshot.toObject(Destination.class);
-                    holder.tvDestination.setText(destination.getCity());
+                    holder.tvDestination.setText(destination.getName());
                 }
                 else{
                     holder.tvDestination.setText("Destination not found");
