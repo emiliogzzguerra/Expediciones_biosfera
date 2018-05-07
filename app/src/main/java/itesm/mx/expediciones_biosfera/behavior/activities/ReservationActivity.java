@@ -67,8 +67,7 @@ public class ReservationActivity extends AppCompatActivity implements View.OnCli
     }
 
     public void redirectToPackages() {
-        Intent intent = new Intent(this, DrawerActivity.class);
-        startActivity(intent);
+        finish();
     }
 
     private void createReservation() {

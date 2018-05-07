@@ -16,6 +16,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.storage.FirebaseStorage;
@@ -41,6 +42,7 @@ public class ReservationCustomerDetailActivity extends AppCompatActivity impleme
     public static final String DESTINATION_TITLE = "DESTINATION_TITLE";
 
     private TextView tvDescription;
+    private TextView tvPreview;
     private ImageView ivExample;
     private Button btnSelectPicture;
     private Button btnTakePicture;
@@ -139,6 +141,8 @@ public class ReservationCustomerDetailActivity extends AppCompatActivity impleme
             ticket = BitmapFactory.decodeStream(imageStream);
             ivPreviewImage.setImageBitmap(ticket);
         }
+        tvPreview.setText(R.string.rescusdetail_preview_text_no_ticket);
+        tvPreview.setVisibility(View.VISIBLE);
     }
 
     @Override
@@ -164,6 +168,7 @@ public class ReservationCustomerDetailActivity extends AppCompatActivity impleme
 
     private void findViews() {
         tvDescription = findViewById(R.id.description_text);
+        tvPreview = findViewById(R.id.preview_text);
         ivExample = findViewById(R.id.example_image);
         ivPreviewImage = findViewById(R.id.preview_image);
         btnSelectPicture = findViewById(R.id.select_picture_button);
@@ -186,7 +191,22 @@ public class ReservationCustomerDetailActivity extends AppCompatActivity impleme
 
         btnSelectPicture.setOnClickListener(this);
 
+        if(reservation.getTicketUrl() == null){
+            tvPreview.setVisibility(View.GONE);
+            ivPreviewImage.setVisibility(View.GONE);
+        } else {
+            Glide.with(ivPreviewImage.getContext())
+                    .load(reservation.getTicketUrl())
+                    .dontAnimate()
+                    .into(ivPreviewImage);
+            ivPreviewImage.setVisibility(View.VISIBLE);
+            tvPreview.setText(R.string.rescusdetail_preview_text_ticket);
+            tvPreview.setVisibility(View.VISIBLE);
+            btnUploadPicture.setText(R.string.rescusdetail_replace_picture_button);
+        }
+
         btnUploadPicture.setOnClickListener(this);
+
     }
 
     @Override

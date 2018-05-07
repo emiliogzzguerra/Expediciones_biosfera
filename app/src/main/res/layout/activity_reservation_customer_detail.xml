@@ -25,8 +25,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/header_text"
-            android:textSize="17sp"
-            android:layout_weight="1"/>
+            android:textSize="17sp"/>
 
     </RelativeLayout>
 
@@ -34,9 +33,7 @@
         android:id="@+id/example_image"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:paddingTop="5dp"
-        android:layout_marginBottom="10dp"
-        android:layout_weight="2"
+        android:layout_weight="1.8"
         app:srcCompat="@drawable/rescusdetail_example"/>
 
     <TextView
@@ -56,25 +53,33 @@
 
         <Button
             android:id="@+id/select_picture_button"
-            android:layout_height="wrap_content"
             android:layout_width="0dp"
-            android:layout_weight=".5"
+            android:layout_height="wrap_content"
             android:layout_marginRight="5dp"
+            android:layout_weight=".5"
             android:background="@color/colorPrimaryDark"
-            android:textColor="@color/colorAccent"
-            android:text="@string/rescusdetail_select_picture_button"/>
+            android:text="@string/rescusdetail_select_picture_button"
+            android:textColor="@color/colorAccent" />
 
         <Button
             android:id="@+id/take_picture_button"
-            android:layout_height="wrap_content"
             android:layout_width="0dp"
-            android:layout_weight=".5"
+            android:layout_height="wrap_content"
             android:layout_marginLeft="5dp"
+            android:layout_weight=".5"
             android:background="@color/colorPrimaryDark"
-            android:textColor="@color/colorAccent"
-            android:text="@string/rescusdetail_take_picture_button"/>
+            android:text="@string/rescusdetail_take_picture_button"
+            android:textColor="@color/colorAccent" />
 
     </LinearLayout>
+
+    <TextView
+        android:id="@+id/preview_text"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:textSize="18sp"
+        android:text=""/>
 
     <ImageView
         android:id="@+id/preview_image"
