@@ -31,5 +31,7 @@
             android:theme="@style/AppTheme.NoActionBar">
         </activity>
         <activity android:name=".behavior.activities.ReservationActivity"/>
+        <activity android:name=".behavior.activities.ReservationAdminDetailActivity" />
+        <activity android:name=".behavior.activities.ReservationCustomerDetailActivity" />
     </application>
 </manifest>
