@@ -99,7 +99,7 @@ public class AdminReservationRecyclerViewAdapter extends RecyclerView.Adapter<Ad
         holder.tvDate.setText(reservation.getInitialDate().toString());
         if(reservation.getIsPaid() != null) {
             String status = "";
-            if (!reservation.getIsConfirmed().equals("Aprobado")) {
+            if (!reservation.getIsConfirmed().equals("approved")) {
                 status = "Confirmación: " + getStatusMessage(reservation.getIsConfirmed());
             } else if (reservation.getIsPaid() != null) {
                 status = "Pago: " + getStatusMessage(reservation.getIsPaid());
