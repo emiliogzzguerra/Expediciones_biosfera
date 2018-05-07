@@ -47,61 +47,24 @@ public class ReservationsListFragment extends Fragment {
     private FirebaseFirestore firestoreDB;
     private ListenerRegistration firestoreListener;
 
-    private boolean isAdmin;
     private FirebaseAuth firebaseAuth;
     private Customer customer;
 
     FirebaseUser fbuser;
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         View view = inflater.inflate(R.layout.fragment_reservation_list, container, false);
+
         recyclerView = view.findViewById(R.id.rv_reservation_list);
+
         firestoreDB = FirebaseFirestore.getInstance();
 
         firebaseAuth = FirebaseAuth.getInstance();
-        admin();
-        loadReservationList();
 
-        firestoreListener = firestoreDB.collection("reservations")
-                .addSnapshotListener(new EventListener<QuerySnapshot>() {
-                    @Override
-                    public void onEvent(@Nullable QuerySnapshot documentSnapshots, @Nullable FirebaseFirestoreException e) {
-                        if (e != null){
-                            Log.e("Reservations", "Failed", e);
-                            return;
-                        }
+        setUserAdmin();
 
-                        List<Reservation> reservationList = new ArrayList<>();
-
-                        firebaseAuth = FirebaseAuth.getInstance();
-                        fbuser = firebaseAuth.getCurrentUser();
-                        String fbid = fbuser.getUid();
-
-                        for(DocumentSnapshot doc : documentSnapshots){
-                            Reservation reservation = doc.toObject(Reservation.class);
-                            if(isAdmin){
-                                reservationList.add(reservation);
-                            }else{
-                                if(reservation.getCustomerReference().equals(fbid)){
-                                    reservationList.add(reservation);
-                                }
-                            }
-
-                        }
-
-                        if(isAdmin){
-                            mAdminAdapter = new AdminReservationRecyclerViewAdapter(reservationList, getActivity().getApplicationContext(), firestoreDB);
-                            recyclerView.setAdapter(mAdminAdapter);
-                        }else{
-                            mCustomerAdapter = new CustomerReservationRecyclerViewAdapter(reservationList, getActivity().getApplicationContext(), firestoreDB);
-                            recyclerView.setAdapter(mCustomerAdapter);
-                        }
-
-                    }
-                });
         return view;
     }
 
@@ -112,7 +75,7 @@ public class ReservationsListFragment extends Fragment {
     }
 
 
-    public void admin(){
+    public void setUserAdmin(){
 
         final FirebaseUser currentUser = firebaseAuth.getCurrentUser();
         if(currentUser != null) {
@@ -124,14 +87,11 @@ public class ReservationsListFragment extends Fragment {
                         //Set existing user
                         customer = document.toObject(Customer.class);
                     }
-                    updateIsAdmin(customer.getAdmin());
+                    loadReservationList();
+                    setReserationListListener();
                 }
             });
         }
-    }
-
-    public void updateIsAdmin(boolean admin){
-        isAdmin = admin;
     }
 
 
@@ -152,7 +112,7 @@ public class ReservationsListFragment extends Fragment {
                                 Reservation reservation = doc.toObject(Reservation.class);
                                 reservation.setReference(doc.getId());
 
-                                if(isAdmin){
+                                if(customer.getAdmin()){
                                     reservationList.add(reservation);
                                 }else{
                                     if(reservation.getCustomerReference().equals(fbid)){
@@ -161,7 +121,7 @@ public class ReservationsListFragment extends Fragment {
                                 }
                             }
 
-                            if(isAdmin){
+                            if(customer.getAdmin()){
                                 mAdminAdapter = new AdminReservationRecyclerViewAdapter(reservationList, getActivity().getApplicationContext(), firestoreDB);
                             }else{
                                 mCustomerAdapter = new CustomerReservationRecyclerViewAdapter(reservationList, getActivity().getApplicationContext(), firestoreDB);
@@ -170,13 +130,53 @@ public class ReservationsListFragment extends Fragment {
                             RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getActivity().getApplicationContext());
                             recyclerView.setLayoutManager(mLayoutManager);
                             recyclerView.setItemAnimator(new DefaultItemAnimator());
-                            if(isAdmin){
+                            if(customer.getAdmin()){
                                 recyclerView.setAdapter(mAdminAdapter);
                             }else{
                                 recyclerView.setAdapter(mCustomerAdapter);
                             }
 
                         }
+                    }
+                });
+    }
+
+    private void setReserationListListener() {
+            firestoreListener = firestoreDB.collection("reservations")
+                    .addSnapshotListener(new EventListener<QuerySnapshot>() {
+                        @Override
+                    public void onEvent(@Nullable QuerySnapshot documentSnapshots, @Nullable FirebaseFirestoreException e) {
+                        if (e != null){
+                            Log.e("Reservations", "Failed", e);
+                            return;
+                        }
+
+                        List<Reservation> reservationList = new ArrayList<>();
+
+                        firebaseAuth = FirebaseAuth.getInstance();
+                        fbuser = firebaseAuth.getCurrentUser();
+                        String fbid = fbuser.getUid();
+
+                        for(DocumentSnapshot doc : documentSnapshots){
+                            Reservation reservation = doc.toObject(Reservation.class);
+                            if(customer.getAdmin()) {
+                                reservationList.add(reservation);
+                            } else {
+                                if(reservation.getCustomerReference().equals(fbid)){
+                                    reservationList.add(reservation);
+                                }
+                            }
+
+                        }
+
+                        if(customer.getAdmin()){
+                            mAdminAdapter = new AdminReservationRecyclerViewAdapter(reservationList, getActivity().getApplicationContext(), firestoreDB);
+                            recyclerView.setAdapter(mAdminAdapter);
+                        } else{
+                            mCustomerAdapter = new CustomerReservationRecyclerViewAdapter(reservationList, getActivity().getApplicationContext(), firestoreDB);
+                            recyclerView.setAdapter(mCustomerAdapter);
+                        }
+
                     }
                 });
     }
