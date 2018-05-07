@@ -103,9 +103,9 @@ public class CustomerReservationRecyclerViewAdapter extends RecyclerView.Adapter
             view.setOnClickListener(new View.OnClickListener(){
                 @Override
                 public void onClick(View v){
-                    int position = getAdapterPosition();
+                    int selectedReservation = getAdapterPosition();
                     Intent i	=	new	Intent(context, ReservationCustomerDetailActivity.class);
-                    Reservation reservation = reservationList.get(position);
+                    Reservation reservation = reservationList.get(selectedReservation);
                     i.putExtra(ReservationCustomerDetailActivity.DESTINATION_TITLE,
                             tvDestination.getText().toString());
                     i.putExtra(ReservationCustomerDetailActivity.RESERVATION_OBJECT, reservation);
