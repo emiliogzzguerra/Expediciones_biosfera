@@ -30,6 +30,7 @@
     <string name="rescusdetail_replace_picture_button">Remplazar comprobante</string>
     <string name="rescusdetail_preview_text_no_ticket">Previsualización de tu comprobante:</string>
     <string name="rescusdetail_preview_text_ticket">Tu comprobante:</string>
+    <string name="ticket_reference">gs://expedicionesbiosfera.appspot.com/tickets</string>
 
     <!-- ReservationAdminDetail Values -->
     <string name="resadmdetail_approved_button">Aprobar</string>

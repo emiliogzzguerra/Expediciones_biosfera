@@ -24,6 +24,7 @@ import itesm.mx.expediciones_biosfera.behavior.activities.ReservationCustomerDet
 import itesm.mx.expediciones_biosfera.entities.models.Customer;
 import itesm.mx.expediciones_biosfera.entities.models.Destination;
 import itesm.mx.expediciones_biosfera.entities.models.Reservation;
+import itesm.mx.expediciones_biosfera.utilities.StringFormatHelper;
 
 /**
  * Created by avillarreal on 5/4/18.
@@ -94,7 +95,8 @@ public class CustomerReservationRecyclerViewAdapter extends RecyclerView.Adapter
         });
 
         holder.tvPrice.setText("$"+String.valueOf(reservation.getPrice()));
-        holder.tvDate.setText(reservation.getInitialDate().toString());
+        holder.tvDate.setText(StringFormatHelper
+                .getDateAsString(reservation.getInitialDate(),true));
         if(reservation.getIsPaid() != null) {
             String status = "";
             if (!reservation.getIsConfirmed().equals("approved")) {

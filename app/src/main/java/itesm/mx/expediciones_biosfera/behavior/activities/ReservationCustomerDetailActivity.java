@@ -69,7 +69,8 @@ public class ReservationCustomerDetailActivity extends AppCompatActivity impleme
 
     private StorageReference getTicketRef(){
         FirebaseStorage storage = FirebaseStorage.getInstance();
-        StorageReference storageRef = storage.getReferenceFromUrl("gs://expedicionesbiosfera.appspot.com/tickets");
+        StorageReference storageRef = storage.getReferenceFromUrl(getResources()
+                .getString(R.string.ticket_reference));
         return storageRef.child(System.currentTimeMillis()+".jpg");
     }
 
