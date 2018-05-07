@@ -26,7 +26,6 @@ import java.io.ByteArrayOutputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.text.SimpleDateFormat;
-import java.util.Date;
 
 import itesm.mx.expediciones_biosfera.R;
 import itesm.mx.expediciones_biosfera.utilities.FirestoreReservationHelper;
@@ -153,7 +152,7 @@ public class ReservationCustomerDetailActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_ticketing);
+        setContentView(R.layout.activity_reservation_customer_detail);
 
         Intent intent = this.getIntent();
         Bundle bundle = intent.getExtras();
@@ -177,12 +176,12 @@ public class ReservationCustomerDetailActivity extends AppCompatActivity {
 
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy");
 
-        tvDescription.setText(res.getString(R.string.ticketing_description_text,
+        tvDescription.setText(res.getString(R.string.rescusdetail_description_text,
                 destinationTitle,simpleDateFormat.format(reservation.getInitialDate())));
 
-        tvNextSteps.setText(res.getString(R.string.ticketing_next_steps_text,
+        tvNextSteps.setText(res.getString(R.string.rescusdetail_next_steps_text,
                 (int) reservation.getPrice()));
-        ivExample.setImageResource(R.drawable.ticketing_example);
+        ivExample.setImageResource(R.drawable.rescusdetail_example);
 
         btnTakePicture.setOnClickListener(new View.OnClickListener() {
             @Override
