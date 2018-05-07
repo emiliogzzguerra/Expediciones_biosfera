@@ -52,9 +52,7 @@ public class ReservationAdminDetailActivity extends AppCompatActivity {
 
                 switch (view.getId()){
                     case R.id.button_accept:
-                        Toast.makeText(getBaseContext(), "Acepta", Toast.LENGTH_SHORT).show();
-
-                        if(reservation.getIsConfirmed().equals("pending")){ //pendiente
+                        if(reservation.getIsConfirmed().equals("pending")){
                             reservation.setIsConfirmed("denied");
                         }else if(reservation.getIsConfirmed().equals("approved")){
 
@@ -62,9 +60,7 @@ public class ReservationAdminDetailActivity extends AppCompatActivity {
 
                         break;
                     case R.id.button_reject:
-                        Toast.makeText(getBaseContext(), "Rechaza", Toast.LENGTH_SHORT).show();
-
-                        reservation.setIsConfirmed("denied");
+                       reservation.setIsConfirmed("denied");
 
                         break;
                     default:
