@@ -1,6 +1,8 @@
 package itesm.mx.expediciones_biosfera.behavior.activities;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -14,6 +16,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 import com.google.firebase.auth.FirebaseAuth;
@@ -33,20 +36,31 @@ public class DrawerActivity extends AppCompatActivity implements NavigationView.
     private DrawerLayout drawer;
     private ActionBarDrawerToggle toggle;
 
+    ImageView ivPicture;
+    TextView tvName;
+    TextView tvMail;
+
     UserOperations dao;
 
-    public boolean userExists(String firebaseId){
+    public void setImage(){
+
         dao = new UserOperations(this);
         dao.open();
         ArrayList<User> users = new ArrayList<>();
         users = dao.getAllUsers();
+        dao.close();
+
+        getFirebaseUser();
+        String firebaseId = currentUser.getUid();
+
         for(int i = 0; i < users.size(); i++){
             if(users.get(i).getFbid().equals(firebaseId)){
-                return true;
+                byte[] bytes = users.get(i).getPicture();
+                Bitmap bmp = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
+                ivPicture.setImageBitmap(bmp);
             }
         }
-        dao.close();
-        return false;
+
     }
 
     public void setToolbar() {
@@ -78,10 +92,12 @@ public class DrawerActivity extends AppCompatActivity implements NavigationView.
         navigationView.setNavigationItemSelectedListener(this);
         navigationView.setCheckedItem(R.id.nav_packages);
         View headerView = navigationView.getHeaderView(0);
-        TextView tvName = headerView.findViewById(R.id.text_user_name);
-        TextView tvMail = headerView.findViewById(R.id.text_email);
+        tvName = headerView.findViewById(R.id.text_user_name);
+        tvMail = headerView.findViewById(R.id.text_email);
+        ivPicture = headerView.findViewById(R.id.image_profile);
         tvName.setText(currentUser.getDisplayName());
         tvMail.setText(currentUser.getEmail());
+        setImage();
         Menu menu = navigationView.getMenu();
         for (int i = 0; i < menu.size(); i++) {
             MenuItem item = menu.getItem(i);
@@ -102,7 +118,6 @@ public class DrawerActivity extends AppCompatActivity implements NavigationView.
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_drawer);
-
         getFirebaseUser();
         setToolbar();
         setDrawerLayout();
