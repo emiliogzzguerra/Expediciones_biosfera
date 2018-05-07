@@ -35,5 +35,7 @@
             android:theme="@style/AppTheme.NoActionBar"
             android:screenOrientation="portrait">
         </activity>
+        <activity android:name=".behavior.activities.ReservationAdminDetailActivity" />
+        <activity android:name=".behavior.activities.ReservationCustomerDetailActivity" />
     </application>
 </manifest>
