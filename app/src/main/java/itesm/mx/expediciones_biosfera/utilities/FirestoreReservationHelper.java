@@ -98,7 +98,7 @@ public class FirestoreReservationHelper {
                 .set(data, SetOptions.merge());
     }
 
-    public void setTicketUrl(String reservationReference, String ticketReference) {
+    public static void setTicketUrl(String reservationReference, String ticketReference) {
         Map<String, Object> data = new HashMap<>();
 
         data.put("ticket", ticketReference);

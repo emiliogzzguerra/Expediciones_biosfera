@@ -21,9 +21,8 @@
     <string name="nav_drawer_sign_out">Cerrar Sesión</string>
 
     <!-- ReservationCustomerDetail Activity -->
-    <string name="rescusdetail_header_text">¡Felicidades!</string>
-    <string name="rescusdetail_description_text">Tu paquete para ir a %1$s el %2$s está disponible.</string>
-    <string name="rescusdetail_next_steps_text">Lo que sigue es que pagues la cantidad acordada de $%1$d a cualquiera de las siguientes cuentas bancarias.</string>
+    <string name="rescusdetail_header_text">Felicidades!</string>
+    <string name="rescusdetail_description_text">Tu paquete para ir a %1$s el %2$s está disponible.\nLo que sigue es que pagues la cantidad acordada de %3$s a cualquiera de las siguientes cuentas bancarias.</string>
     <string name="rescusdetail_take_picture_text">Una vez que hayas realizado el pago, regresa a esta pantalla para mandarnos una foto de tu comprobante y ¡Listo!</string>
     <string name="rescusdetail_select_picture_button">Seleccionar foto</string>
     <string name="rescusdetail_take_picture_button">Tomar foto</string>

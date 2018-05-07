@@ -11,7 +11,7 @@ import itesm.mx.expediciones_biosfera.R;
 
 public class StringFormatHelper {
 
-    public static String getPriceFormat(Integer price, Resources res) {
+    public static String getPriceFormat(double price, Resources res) {
         DecimalFormat formatter = new DecimalFormat("#,###.00");
         String formattedPrice = formatter.format(price);
 

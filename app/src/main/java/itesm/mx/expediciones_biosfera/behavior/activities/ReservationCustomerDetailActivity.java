@@ -30,12 +30,9 @@ import java.text.SimpleDateFormat;
 import itesm.mx.expediciones_biosfera.R;
 import itesm.mx.expediciones_biosfera.utilities.FirestoreReservationHelper;
 import itesm.mx.expediciones_biosfera.entities.models.Reservation;
+import itesm.mx.expediciones_biosfera.utilities.StringFormatHelper;
 
-/**
- * Created by emiliogonzalez on 5/4/18.
- */
-
-public class ReservationCustomerDetailActivity extends AppCompatActivity {
+public class ReservationCustomerDetailActivity extends AppCompatActivity implements View.OnClickListener {
 
     public static final int REQUEST_IMAGE_CAPTURE = 1;
     public static final int PICK_IMAGE = 2;
@@ -44,7 +41,6 @@ public class ReservationCustomerDetailActivity extends AppCompatActivity {
     public static final String DESTINATION_TITLE = "DESTINATION_TITLE";
 
     private TextView tvDescription;
-    private TextView tvNextSteps;
     private ImageView ivExample;
     private Button btnSelectPicture;
     private Button btnTakePicture;
@@ -89,7 +85,6 @@ public class ReservationCustomerDetailActivity extends AppCompatActivity {
         final StorageReference ticketRef = getTicketRef();
 
         byte[] data = getDataFromImage();
-        Toast newToast;
 
         UploadTask uploadTask = ticketRef.putBytes(data);
         uploadTask.addOnFailureListener(new OnFailureListener() {
@@ -110,20 +105,19 @@ public class ReservationCustomerDetailActivity extends AppCompatActivity {
                 Toast successToast = Toast.makeText(getApplicationContext(),
                         "Enviado con éxito", Toast.LENGTH_LONG);
                 successToast.show();
-                sendUserToResevationList();
+                sendUserToReservationList();
             }
         });
     }
 
     private void updateReservationObject(String ticketReference) {
-        FirestoreReservationHelper reservationHelper = new FirestoreReservationHelper();
         if(reservationReference != null){
-            reservationHelper.setTicketUrl(reservationReference,ticketReference);
-            reservationHelper.setPaidPending(reservationReference);
+            FirestoreReservationHelper.setTicketUrl(reservationReference,ticketReference);
+            FirestoreReservationHelper.setPaidPending(reservationReference);
         }
     }
 
-    private void sendUserToResevationList() {
+    private void sendUserToReservationList() {
         finish();
     }
 
@@ -132,7 +126,6 @@ public class ReservationCustomerDetailActivity extends AppCompatActivity {
         if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK  && data != null) {
             Bundle extras = data.getExtras();
             ticket = (Bitmap) extras.get("data");
-            ivPreviewImage.setVisibility(View.VISIBLE);
             ivPreviewImage.setImageBitmap(ticket);
         }
         if (requestCode == PICK_IMAGE && resultCode == RESULT_OK && data != null) {
@@ -144,7 +137,6 @@ public class ReservationCustomerDetailActivity extends AppCompatActivity {
                 e.printStackTrace();
             }
             ticket = BitmapFactory.decodeStream(imageStream);
-            ivPreviewImage.setVisibility(View.VISIBLE);
             ivPreviewImage.setImageBitmap(ticket);
         }
     }
@@ -162,46 +154,67 @@ public class ReservationCustomerDetailActivity extends AppCompatActivity {
             destinationTitle = (String) bundle.getSerializable(DESTINATION_TITLE);
         }
 
-        tvDescription = (TextView) findViewById(R.id.description_text);
-        tvNextSteps = (TextView) findViewById(R.id.next_steps_text);
-        ivExample = (ImageView) findViewById(R.id.example_image);
-        ivPreviewImage = (ImageView) findViewById(R.id.preview_image);
-        btnSelectPicture = (Button) findViewById(R.id.select_picture_button);
-        btnTakePicture = (Button) findViewById(R.id.take_picture_button);
-        btnUploadPicture = (TextView) findViewById(R.id.upload_picture_button);
+        configureActionBar();
 
-        ivPreviewImage.setVisibility(View.GONE);
+        findViews();
 
-        Resources res = getResources();
+        setViews();
 
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy");
+    }
 
-        tvDescription.setText(res.getString(R.string.rescusdetail_description_text,
-                destinationTitle,simpleDateFormat.format(reservation.getInitialDate())));
+    private void findViews() {
+        tvDescription = findViewById(R.id.description_text);
+        ivExample = findViewById(R.id.example_image);
+        ivPreviewImage = findViewById(R.id.preview_image);
+        btnSelectPicture = findViewById(R.id.select_picture_button);
+        btnTakePicture = findViewById(R.id.take_picture_button);
+        btnUploadPicture = findViewById(R.id.upload_picture_button);
+    }
 
-        tvNextSteps.setText(res.getString(R.string.rescusdetail_next_steps_text,
-                (int) reservation.getPrice()));
+    private void setViews() {
+        String formattedPrice = StringFormatHelper.getPriceFormat(reservation.getPrice(), getResources());
+
+        String formattedDate = StringFormatHelper.getDateAsString(reservation.getInitialDate(), false);
+
+        tvDescription.setText(String.format(getResources().getString(R.string.rescusdetail_description_text),
+                destinationTitle, formattedDate, formattedPrice
+        ));
+
         ivExample.setImageResource(R.drawable.rescusdetail_example);
 
-        btnTakePicture.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                takePicture();
-            }
-        });
+        btnTakePicture.setOnClickListener(this);
 
-        btnSelectPicture.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                selectFromCarousel();
-            }
-        });
+        btnSelectPicture.setOnClickListener(this);
 
-        btnUploadPicture.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                uploadTicketToFirebase();
-            }
-        });
+        btnUploadPicture.setOnClickListener(this);
     }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.take_picture_button:
+                takePicture();
+                break;
+            case R.id.select_picture_button:
+                selectFromCarousel();
+                break;
+            case R.id.upload_picture_button:
+                uploadTicketToFirebase();
+                break;
+            default:
+        }
+    }
+
+    private void configureActionBar() {
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        String actionBarTitle = "Estado de solicitud";
+        getSupportActionBar().setTitle(actionBarTitle);
+    }
+
+    @Override
+    public boolean onSupportNavigateUp(){
+        finish();
+        return true;
+    }
+
 }
