@@ -19,6 +19,8 @@ public class ReservationAdminDetailActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_reservation_detail);
 
+        configureActionBar();
+
         final Reservation reservation = (Reservation) getIntent().getSerializableExtra("reservation");
 
         String destination = getIntent().getExtras().getString("destination");
@@ -72,5 +74,17 @@ public class ReservationAdminDetailActivity extends AppCompatActivity {
         btnAccept.setOnClickListener(accion);
         btnReject.setOnClickListener(accion);
 
+    }
+
+    private void configureActionBar() {
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        //String actionBarTitle = destination.getName();
+        //getSupportActionBar().setTitle(actionBarTitle);
+    }
+
+    @Override
+    public boolean onSupportNavigateUp(){
+        finish();
+        return true;
     }
 }

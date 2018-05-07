@@ -54,6 +54,8 @@
             android:id="@+id/button_reject"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:background="@color/colorRed"
+            android:textColor="@color/colorAccent"
             android:text="Rechazar"
             />
 
@@ -61,6 +63,8 @@
             android:id="@+id/button_accept"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:background="@color/colorPrimaryDark"
+            android:textColor="@color/colorAccent"
             android:text="Aceptar"
             />
 
