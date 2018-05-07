@@ -45,6 +45,13 @@ android:padding="@dimen/default_margin">
         android:padding="5dp"
         android:gravity="right"
         android:text="Status..." />
+    
+    <ImageView
+        android:id="@+id/image_ticket"
+        android:layout_width="200dp"
+        android:layout_height="200dp"
+        android:visibility="gone"
+        android:layout_gravity="center" />
 
     <LinearLayout
         android:id="@+id/buttons_layout"
