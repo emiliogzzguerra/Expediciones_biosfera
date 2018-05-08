@@ -45,19 +45,21 @@ public class AdminReservationRecyclerViewAdapter extends RecyclerView.Adapter<Ad
         return new AdminReservationRecyclerViewAdapter.ViewHolder(view);
     }
 
-    public String getStatusMessage(String status) {
+    private String getStatusMessage(String status) {
         Resources resources = this.context.getResources();
         int resourceId;
         switch (status) {
             case "approved":
                 resourceId = R.string.approved;
                 break;
-            case "denied":
+            case "declined":
                 resourceId = R.string.denied;
+                break;
+            case "pending":
+                resourceId = R.string.pending;
                 break;
             default:
                 resourceId = R.string.pending;
-                break;
         }
         return resources.getString(resourceId);
     }
