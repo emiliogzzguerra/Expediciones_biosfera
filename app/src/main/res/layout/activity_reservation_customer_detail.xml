@@ -10,13 +10,13 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="2"
-        android:gravity="center_vertical">
+        android:layout_weight="2.5">
 
         <TextView
             android:id="@+id/header_text"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
             android:text="@string/rescusdetail_header_text"
             style="@style/section_header"/>
 
@@ -40,7 +40,8 @@
         android:id="@+id/take_picture_text"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1.25"
+        android:layout_weight=".75"
+        android:gravity="center_vertical"
         android:textSize="18sp"
         android:text="@string/rescusdetail_take_picture_text"/>
 
@@ -73,20 +74,11 @@
 
     </LinearLayout>
 
-    <TextView
-        android:id="@+id/preview_text"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:textSize="18sp"
-        android:text=""/>
-
     <ImageView
         android:id="@+id/preview_image"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="3"
-        android:src="@mipmap/ic_launcher"/>
+        android:layout_weight="3" />
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -98,9 +90,10 @@
             android:id="@+id/upload_picture_button"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/colorPrimaryDark"
             android:textColor="@color/colorAccent"
-            android:text="@string/rescusdetail_upload_picture_button" />
+            android:text="@string/rescusdetail_upload_picture_button"
+            android:theme="@style/ButtonStyleForDisable"
+            style="@style/Widget.AppCompat.Button.Colored"/>
 
     </RelativeLayout>
 
