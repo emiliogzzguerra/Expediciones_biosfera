@@ -30,7 +30,9 @@
             android:theme="@style/AdminNavDrawerTheme">
         </activity>
         <activity android:name=".behavior.activities.ReservationActivity"/>
-        <activity android:name=".behavior.activities.ReservationAdminDetailActivity" />
+        <activity android:name=".behavior.activities.ReservationAdminDetailActivity"
+            android:theme="@style/AppTheme.NoActionBar">
+        </activity>
         <activity android:name=".behavior.activities.ReservationCustomerDetailActivity"
             android:screenOrientation="portrait"/>
     </application>
