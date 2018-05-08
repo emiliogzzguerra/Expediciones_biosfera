@@ -48,19 +48,21 @@ public class CustomerReservationRecyclerViewAdapter extends RecyclerView.Adapter
         return new CustomerReservationRecyclerViewAdapter.ViewHolder(view);
     }
 
-    public String getStatusMessage(String status) {
+    private String getStatusMessage(String status) {
         Resources resources = this.context.getResources();
         int resourceId;
         switch (status) {
             case "approved":
                 resourceId = R.string.approved;
                 break;
-            case "denied":
+            case "declined":
                 resourceId = R.string.denied;
+                break;
+            case "pending":
+                resourceId = R.string.pending;
                 break;
             default:
                 resourceId = R.string.pending;
-                break;
         }
         return resources.getString(resourceId);
     }
@@ -127,19 +129,22 @@ public class CustomerReservationRecyclerViewAdapter extends RecyclerView.Adapter
                 @Override
                 public void onClick(View v){
                     int selectedReservation = getAdapterPosition();
-                    Intent i	=	new	Intent(context, ReservationCustomerDetailActivity.class);
                     Reservation reservation = reservationList.get(selectedReservation);
-                    if(!reservation.getIsConfirmed().equals("pending")){
-                        i.putExtra(ReservationCustomerDetailActivity.DESTINATION_TITLE,
+                    String confirmationStatus = reservation.getIsConfirmed();
+                    if(confirmationStatus.equals("declined")) {
+                       Toast.makeText(v.getContext(),
+                                "Tu solcitud no ha sido aprobada, probablemente ya no haya disponibilidad en esta fecha", Toast.LENGTH_SHORT).show();
+                    } else if(confirmationStatus.equals("pending")) {
+                        Toast.makeText(v.getContext(),
+                                "Aún no hemos podido evaluar tu solicitud, regresa pronto", Toast.LENGTH_SHORT).show();
+                    } else if(confirmationStatus.equals("approved")) {
+                        Intent intent = new	Intent(context, ReservationCustomerDetailActivity.class);
+                        intent.putExtra(ReservationCustomerDetailActivity.DESTINATION_TITLE,
                                 tvDestination.getText().toString());
-                        i.putExtra(ReservationCustomerDetailActivity.RESERVATION_OBJECT, reservation);
-                        i.putExtra(ReservationCustomerDetailActivity.RESERVATION_REFERENCE,
+                        intent.putExtra(ReservationCustomerDetailActivity.RESERVATION_OBJECT, reservation);
+                        intent.putExtra(ReservationCustomerDetailActivity.RESERVATION_REFERENCE,
                                 reservation.getReference());
-                        context.startActivity(i);
-                    } else {
-                        Toast statusToast = Toast.makeText(v.getContext(),
-                                "Aún no hemos podido evaluar tu solicitud, regresa pronto", Toast.LENGTH_SHORT);
-                        statusToast.show();
+                        context.startActivity(intent);
                     }
                 }
             });
