@@ -1,12 +1,16 @@
 package itesm.mx.expediciones_biosfera.behavior.activities;
 
+import android.content.res.Resources;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.google.android.gms.common.SupportErrorDialogFragment;
 
 import itesm.mx.expediciones_biosfera.R;
@@ -31,6 +35,7 @@ public class ReservationAdminDetailActivity extends AppCompatActivity implements
     private Button btnAccept;
     private Button btnReject;
     private Reservation reservation;
+    private ImageView ivTicket;
 
     private void findViews(){
         tvCustomer = this.findViewById(R.id.text_customer);
@@ -40,23 +45,69 @@ public class ReservationAdminDetailActivity extends AppCompatActivity implements
         tvStatus = this.findViewById(R.id.text_status);
         btnAccept = this.findViewById(R.id.button_accept);
         btnReject = this.findViewById(R.id.button_reject);
+        ivTicket = this.findViewById(R.id.image_ticket);
     }
 
-    private void setViewsAndButtons(Reservation reservation){
+    public String getStatusMessage(String status) {
+        Resources resources = getResources();
+        int resourceId;
+        switch (status) {
+            case "approved":
+                resourceId = R.string.approved;
+                break;
+            case "denied":
+                resourceId = R.string.denied;
+                break;
+            default:
+                resourceId = R.string.pending;
+                break;
+        }
+        return resources.getString(resourceId);
+    }
+
+    private void setTicketImage() {
+        Glide.with(ivTicket.getContext())
+                .load(reservation.getTicketUrl())
+                .dontAnimate()
+                .into(ivTicket);
+        ivTicket.setVisibility(View.VISIBLE);
+    }
+
+    private void setViewsAndButtons(){
         tvCustomer.setText(customer);
         tvDate.setText(reservation.getInitialDate().toString());
         tvDestination.setText(destination);
-        tvPrice.setText("$"+String.valueOf(reservation.getPrice()));
+        tvPrice.setText("$" + String.valueOf(reservation.getPrice()));
 
         if(reservation.getIsPaid() != null) {
-            if (!reservation.getIsConfirmed().equals("Aprobado")) {
-                tvStatus.setText("Confirmacion: " + reservation.getIsConfirmed());
+            String status = "";
+            if (!reservation.getIsConfirmed().equals("approved")) {
+                status = "Confirmación: " + getStatusMessage(reservation.getIsConfirmed());
+                 btnAccept.setOnClickListener(this);
+                 btnReject.setOnClickListener(this);
             } else if (reservation.getIsPaid() != null) {
-                tvStatus.setText("Pago: " + reservation.getIsPaid());
+                String statusMessage = getStatusMessage(reservation.getIsPaid());
+                if(reservation.getIsPaid().equals("pending")) {
+                    if(reservation.getTicketUrl() == null) {
+                        btnAccept.setEnabled(false);
+                        btnReject.setEnabled(false);
+                    } else {
+                        //Ticket is available
+                        setTicketImage();
+                        btnAccept.setEnabled(true);
+                        btnReject.setEnabled(true);
+                        btnAccept.setOnClickListener(this);
+                        btnReject.setOnClickListener(this);
+                    }
+                } else if(reservation.getIsPaid().equals("approved")) {
+                    setTicketImage();
+                    btnAccept.setVisibility(View.GONE);
+                    btnReject.setVisibility(View.GONE);
+                }
+                status = "Pago: " + statusMessage;
             }
+            tvStatus.setText(status);
         }
-        btnAccept.setOnClickListener(this);
-        btnReject.setOnClickListener(this);
     }
 
     private void getDataFromIntent(){
@@ -70,10 +121,26 @@ public class ReservationAdminDetailActivity extends AppCompatActivity implements
         finish();
     }
 
-    private void changeConfirmationStatus(Boolean b){
+    public void updatePaymentStatus(boolean isAccepted) {
         FirestoreReservationHelper reservationHelper = new FirestoreReservationHelper();
         Toast statusToast;
-        if(b){
+
+        if(isAccepted) {
+            reservationHelper.setPaymentApproved(reservationReference);
+            statusToast = Toast.makeText(getApplicationContext(), "Pago aprobado", Toast.LENGTH_LONG);
+            statusToast.show();
+        } else {
+            reservationHelper.setPaymentDeclined(reservationReference);
+            statusToast = Toast.makeText(getApplicationContext(), "Pago rechazado", Toast.LENGTH_LONG);
+            statusToast.show();
+        }
+    }
+
+    public void updateReservationConfirmation(boolean isAccepted) {
+        FirestoreReservationHelper reservationHelper = new FirestoreReservationHelper();
+        Toast statusToast;
+
+        if(isAccepted){
             reservationHelper.setConfirmedApproved(reservationReference);
             statusToast = Toast.makeText(getApplicationContext(),
                     "Reservación aprobada", Toast.LENGTH_LONG);
@@ -83,6 +150,16 @@ public class ReservationAdminDetailActivity extends AppCompatActivity implements
             statusToast = Toast.makeText(getApplicationContext(),
                     "Reservación declinada", Toast.LENGTH_LONG);
             statusToast.show();
+        }
+    }
+
+    private void updateStatus(Boolean isAccepted){
+        if(reservation.getIsConfirmed().equals("approved")) {
+            //The approval happens in payment
+            updatePaymentStatus(isAccepted);
+        } else {
+            //The approval is for reservation confirmation
+            updateReservationConfirmation(isAccepted);
         }
         sendAdminBackToReservations();
     }
@@ -98,13 +175,13 @@ public class ReservationAdminDetailActivity extends AppCompatActivity implements
 
         findViews();
 
-        setViewsAndButtons(reservation);
+        setViewsAndButtons();
     }
 
     private void configureActionBar() {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        //String actionBarTitle = destination.getName();
-        //getSupportActionBar().setTitle(actionBarTitle);
+        String actionBarTitle = getResources().getString(R.string.reservation_detail_action_bar_title);
+        getSupportActionBar().setTitle(actionBarTitle);
     }
 
     @Override
@@ -117,10 +194,10 @@ public class ReservationAdminDetailActivity extends AppCompatActivity implements
     public void onClick(View view) {
         switch (view.getId()){
             case R.id.button_accept:
-                changeConfirmationStatus(true);
+                updateStatus(true);
                 break;
             case R.id.button_reject:
-                changeConfirmationStatus(false);
+                updateStatus(false);
                 break;
             default:
                 break;
