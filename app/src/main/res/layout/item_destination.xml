@@ -10,17 +10,39 @@
         android:adjustViewBounds="true"
         android:scaleType="fitCenter"/>
 
-    <TextView
-        android:id="@+id/text_destination_name"
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:id="@+id/image_text_overlay"
+        android:layout_width="350dp"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/image_destination_main"
-        android:layout_marginBottom="10dp"
-        android:layout_marginTop="10dp"
-        android:fontFamily="@font/alegreya_sc"
-        android:textSize="20sp"
-        android:textStyle="bold"
-        android:paddingStart="10dp"
-        android:text="Parra de Saltillo" />
+        android:layout_alignBottom="@+id/image_destination_main"
+        android:layout_alignParentStart="true"
+        android:background="#CCba833b"
+        android:orientation="vertical"
+        android:padding="5dp">
+
+        <TextView
+            android:id="@+id/text_destination_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:paddingStart="10dp"
+            android:paddingEnd="10dp"
+            android:textColor="@color/primaryTextColor"
+            android:text="Parra de Saltillo" />
+
+        <TextView
+            android:id="@+id/text_destination_location"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:textSize="18sp"
+            android:paddingStart="10dp"
+            android:paddingEnd="10dp"
+            android:textColor="@color/primaryTextColor"
+            android:text="Parra de Saltillo" />
+
+    </LinearLayout>
 
 </RelativeLayout>

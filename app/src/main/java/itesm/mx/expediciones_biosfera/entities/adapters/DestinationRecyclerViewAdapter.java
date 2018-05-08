@@ -42,17 +42,27 @@ public class DestinationRecyclerViewAdapter extends RecyclerView.Adapter<Destina
     public void onBindViewHolder(DestinationRecyclerViewAdapter.ViewHolder holder, int position){
         final int itemPosition = position;
         final Destination destination = destinationList.get(itemPosition);
-
         String destinationName = destination.getName();
+        String destinationCity = destination.getCity();
+        String destinationState = destination.getState();
+
         holder.tvDestinationName.setText(destinationName);
+
+        if(destinationName.equals(destinationCity)) {
+            //Only show name and state
+            holder.tvDestinationLocation.setText(destinationState);
+        } else {
+            String location = destinationCity + ", " + destinationState;
+            holder.tvDestinationLocation.setText(location);
+        }
+
+
         String imageUrl;
         if (destination.getImageUrls().size() > 0) {
             imageUrl = destination.getImageUrls().get(0);
         } else {
             imageUrl = "https://firebasestorage.googleapis.com/v0/b/expedicionesbiosfera.appspot.com/o/Cuatro%20cienegas%2Fcuatro-cienegas-coahuila-pueblo-magico.1600.jpg?alt=media&token=59c33c6d-ccbc-46a4-b6d1-16a0ea4c08ad";
         }
-
-
 
         Glide.with(holder.ivDestinationMain.getContext())
                 .load(imageUrl)
@@ -80,11 +90,13 @@ public class DestinationRecyclerViewAdapter extends RecyclerView.Adapter<Destina
 
     public class ViewHolder extends RecyclerView.ViewHolder {
         TextView tvDestinationName;
+        TextView tvDestinationLocation;
         ImageView ivDestinationMain;
 
         ViewHolder(View view){
             super(view);
             tvDestinationName = view.findViewById(R.id.text_destination_name);
+            tvDestinationLocation = view.findViewById(R.id.text_destination_location);
             ivDestinationMain = view.findViewById(R.id.image_destination_main);
         }
     }
