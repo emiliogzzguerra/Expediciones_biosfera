@@ -15,7 +15,6 @@ import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
@@ -211,12 +210,31 @@ public class ReservationActivity extends AppCompatActivity implements View.OnCli
         btnDatePicker.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                new DatePickerDialog(ReservationActivity.this,
+                DatePickerDialog dialog = new DatePickerDialog(ReservationActivity.this,
                         R.style.MyDatePickerDialogTheme, date,
-                        calendarDate.get(Calendar.YEAR), calendarDate.get(Calendar.MONTH), calendarDate.get(Calendar.DAY_OF_MONTH)).show();
+                        calendarDate.get(Calendar.YEAR), calendarDate.get(Calendar.MONTH), calendarDate.get(Calendar.DAY_OF_MONTH));
+
+                Date minDate = getFutureDate(10);
+                Date maxDate = getFutureDate(200);
+
+                dialog.getDatePicker().setMinDate(minDate.getTime());
+                dialog.getDatePicker().setMaxDate(maxDate.getTime());
+
+                dialog.show();
+
             }
         });
     }
+
+    private Date getFutureDate(int days) {
+        Date date = new Date();
+        Calendar c = Calendar.getInstance();
+        c.setTime(date);
+        c.add(Calendar.DATE, days);
+        return c.getTime();
+    }
+
+
 
     private void updateDateView() {
         tvDate.setText(StringFormatHelper.getDateAsString(calendarDate.getTime(), true));
