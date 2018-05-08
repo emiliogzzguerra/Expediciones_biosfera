@@ -127,14 +127,16 @@ public class AdminReservationRecyclerViewAdapter extends RecyclerView.Adapter<Ad
                 @Override
                 public void onClick(View v){
                     int position = getAdapterPosition();
-                    Intent i	=	new	Intent(context, ReservationAdminDetailActivity.class);
+                    Intent intent = new	Intent(context, ReservationAdminDetailActivity.class);
                     Reservation reservation = reservationList.get(position);
-                    i.putExtra(ReservationAdminDetailActivity.DESTINATION, tvDestination.getText().toString());
-                    i.putExtra(ReservationAdminDetailActivity.CUSTOMER, tvCustomer.getText().toString());
-                    i.putExtra(ReservationAdminDetailActivity.RESERVATION, reservation);
-                    i.putExtra(ReservationAdminDetailActivity.RESERVATION_REFERENCE,
+                    intent.putExtra(ReservationAdminDetailActivity.DESTINATION, tvDestination.getText().toString());
+                    intent.putExtra(ReservationAdminDetailActivity.CUSTOMER, tvCustomer.getText().toString());
+                    intent.putExtra(ReservationAdminDetailActivity.RESERVATION, reservation);
+                    intent.putExtra(ReservationAdminDetailActivity.RESERVATION_REFERENCE,
                             reservation.getReference());
-                    context.startActivity(i);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+
+                    context.startActivity(intent);
                 }
             });
 
