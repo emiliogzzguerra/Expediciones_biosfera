@@ -1,93 +1,118 @@
-<?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-xmlns:app="http://schemas.android.com/apk/res-auto"
-xmlns:android="http://schemas.android.com/apk/res/android"
-android:layout_height="match_parent"
-android:layout_width="match_parent"
-android:orientation="vertical"
-android:padding="@dimen/default_margin">
+<android.support.design.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:theme="@style/AdminNavDrawerHeader"
+    tools:context="itesm.mx.expediciones_biosfera.behavior.activities.DrawerActivity">
 
-    <TextView
-        android:id="@+id/text_customer"
+    <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="5dp"
-        android:text="Customer"
-        android:textColor="@color/colorPrimary"
-        android:textSize="18sp" />
+        android:theme="@style/AdminNavDrawerTheme">
 
-    <TextView
-        android:id="@+id/text_customer_email"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:padding="5dp"
-        android:text="E-mail"
-        android:textColor="@color/colorPrimary"
-        android:textSize="15sp" />
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="@color/adminPrimaryColor"
+            app:popupTheme="@style/AdminNavDrawerTheme" />
 
-    <TextView
-        android:id="@+id/text_destination"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:padding="5dp"
-        android:text="Text for Destination" />
-
-    <TextView
-        android:id="@+id/text_price"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:padding="5dp"
-        android:text="Text for the price" />
-
-
-    <TextView
-        android:id="@+id/text_date"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:padding="5dp"
-        android:text="Text for the date" />
-
-    <TextView
-        android:id="@+id/text_status"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:padding="5dp"
-        android:gravity="right"
-        android:text="Status..." />
-    
-    <ImageView
-        android:id="@+id/image_ticket"
-        android:layout_width="200dp"
-        android:layout_height="200dp"
-        android:visibility="gone"
-        android:layout_gravity="center" />
+    </android.support.design.widget.AppBarLayout>
 
     <LinearLayout
-        android:id="@+id/buttons_layout"
+        android:layout_height="match_parent"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:orientation="horizontal">
+        android:orientation="vertical"
+        android:padding="@dimen/default_margin"
+        xmlns:android="http://schemas.android.com/apk/res/android">
 
-        <Button
-            android:id="@+id/button_reject"
-            android:layout_width="0dp"
+        <TextView
+            android:id="@+id/text_customer"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginRight="5dp"
-            android:layout_weight=".5"
-            android:background="@color/colorRed"
-            android:text="@string/resadmdetail_denied_button"
-            android:textColor="@color/colorAccent" />
+            android:padding="5dp"
+            android:text="Customer"
+            android:textColor="@color/colorPrimary"
+            android:textSize="18sp" />
 
-        <Button
-            android:id="@+id/button_accept"
-            android:layout_width="0dp"
+        <TextView
+            android:id="@+id/text_customer_email"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="5dp"
-            android:layout_weight=".5"
-            android:background="@color/colorPrimaryDark"
-            android:text="@string/resadmdetail_approved_button"
-            android:textColor="@color/colorAccent" />
+            android:padding="5dp"
+            android:text="E-mail"
+            android:textColor="@color/colorPrimary"
+            android:textSize="15sp" />
 
+        <TextView
+            android:id="@+id/text_destination"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="5dp"
+            android:text="Text for Destination" />
+
+        <TextView
+            android:id="@+id/text_price"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="5dp"
+            android:text="Text for the price" />
+
+
+        <TextView
+            android:id="@+id/text_date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="5dp"
+            android:text="Text for the date" />
+
+        <TextView
+            android:id="@+id/text_status"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="5dp"
+            android:gravity="right"
+            android:text="Status..." />
+
+        <ImageView
+            android:id="@+id/image_ticket"
+            android:layout_width="200dp"
+            android:layout_height="200dp"
+            android:visibility="gone"
+            android:layout_gravity="center" />
+
+        <LinearLayout
+            android:id="@+id/buttons_layout"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/button_reject"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="5dp"
+                android:layout_weight=".5"
+                android:text="@string/resadmdetail_denied_button"
+                android:theme="@style/RejectButtonForDisable"
+                style="@style/Widget.AppCompat.Button.Colored"/>
+
+            <Button
+                android:id="@+id/button_accept"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="5dp"
+                android:layout_weight=".5"
+                android:text="@string/resadmdetail_approved_button"
+                android:theme="@style/AcceptButtonForDisable"
+                style="@style/Widget.AppCompat.Button.Colored"/>
+
+        </LinearLayout>
     </LinearLayout>
-</LinearLayout>
+
+</android.support.design.widget.CoordinatorLayout>
+
+
