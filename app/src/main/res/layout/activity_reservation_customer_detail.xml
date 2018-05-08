@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_height="match_parent"
+    android:layout_width="match_parent"
+    android:orientation="vertical"
+    android:padding="@dimen/default_margin">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="2.5">
+
+        <TextView
+            android:id="@+id/header_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:text="@string/rescusdetail_header_text"
+            style="@style/section_header"/>
+
+        <TextView
+            android:id="@+id/description_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/header_text"
+            android:textSize="17sp"/>
+
+    </RelativeLayout>
+
+    <ImageView
+        android:id="@+id/example_image"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1.8"
+        app:srcCompat="@drawable/rescusdetail_example"/>
+
+    <TextView
+        android:id="@+id/take_picture_text"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight=".75"
+        android:gravity="center_vertical"
+        android:textSize="18sp"
+        android:text="@string/rescusdetail_take_picture_text"/>
+
+    <LinearLayout
+        android:id="@+id/buttons_layout"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/select_picture_button"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="5dp"
+            android:layout_weight=".5"
+            android:background="@color/colorPrimaryDark"
+            android:text="@string/rescusdetail_select_picture_button"
+            android:textColor="@color/colorAccent" />
+
+        <Button
+            android:id="@+id/take_picture_button"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:layout_weight=".5"
+            android:background="@color/colorPrimaryDark"
+            android:text="@string/rescusdetail_take_picture_button"
+            android:textColor="@color/colorAccent" />
+
+    </LinearLayout>
+
+    <ImageView
+        android:id="@+id/preview_image"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="3" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:gravity="center_vertical">
+
+        <Button
+            android:id="@+id/upload_picture_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@color/colorAccent"
+            android:text="@string/rescusdetail_upload_picture_button"
+            android:theme="@style/AcceptButtonForDisable"
+            style="@style/Widget.AppCompat.Button.Colored"/>
+
+    </RelativeLayout>
+
+</LinearLayout>

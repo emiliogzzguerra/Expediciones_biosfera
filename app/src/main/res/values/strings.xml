@@ -1,20 +1,62 @@
 <resources>
     <string name="app_name">Expediciones Biósfera</string>
+    <string name="price_text">$%1$s MXN</string>
 
     <!-- SignIn -->
     <string name="sign_in_google">Iniciar Sesión con Google</string>
 
     <!-- ProfileFragment -->
-    <string name="change">Cambiar</string>
+    <string name="take">Tomar foto</string>
+    <string name="save">Guardar</string>
     <string name="occupation">Ocupación: %1$s</string>
     <string name="interests">Intereses: %1$s</string>
     <string name="phone">Telefono: %1$s</string>
-    <string name="hello_blank_fragment">PLACEHOLDER</string>
 
     <!-- NavigationDrawer -->
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
     <string name="nav_drawer_packages">Paquetes</string>
     <string name="nav_drawer_profile">Perfil</string>
+    <string name="nav_drawer_reservations">Reservaciones</string>
     <string name="nav_drawer_sign_out">Cerrar Sesión</string>
+
+    <!-- ReservationCustomerDetail Activity -->
+    <string name="rescusdetail_header_text">¡Felicidades!</string>
+    <string name="rescusdetail_description_text">Tu paquete para ir a %1$s el %2$s está disponible.\n\nLo que sigue es que pagues la cantidad acordada de %3$s a cualquiera de las siguientes cuentas bancarias.</string>
+    <string name="rescusdetail_take_picture_text">Sólo mandanos una foto de tu comprobante y ¡Listo!</string>
+    <string name="rescusdetail_select_picture_button">Seleccionar foto</string>
+    <string name="rescusdetail_take_picture_button">Tomar foto</string>
+    <string name="rescusdetail_upload_picture_button">Enviar comprobante</string>
+    <string name="rescusdetail_replace_picture_button">Remplazar comprobante</string>
+    <string name="rescusdetail_preview_text_no_ticket">Previsualización de tu comprobante:</string>
+    <string name="rescusdetail_preview_text_ticket">Tu comprobante:</string>
+    <string name="ticket_reference">gs://expedicionesbiosfera.appspot.com/tickets</string>
+
+    <!-- ReservationAdminDetail Values -->
+    <string name="resadmdetail_approved_button">Aprobar</string>
+    <string name="resadmdetail_denied_button">Rechazar</string>
+    <string name="reservation_detail_action_bar_title">Detalle de Reservación</string>
+
+    <!--Destination Acitivity-->
+    <string name="map_header">¿A dónde vamos?</string>
+    <string name="description_header">Conocerás esto y mucho más&#8230;</string>
+    <string name="duration_header">¿Cuánto tiempo?</string>
+    <string name="price_header">Costo por persona</string>
+    <string name="duration_text">%1$d días</string>
+    <string name="btn_reserve">Reservar</string>
+
+    <!-- ReservationActivity -->
+    <string name="reservation_action_bar_title">Reserva en %1$s</string>
+    <string name="reservation_date_description">Tu viaje ideal inicia el día&#8230;</string>
+    <string name="reservation_change_name">Cambiar fecha de inicio</string>
+    <string name="reservation_title">Estás a tán sólo unos pasos del viaje de tus sueños.</string>
+    <string name="reservation_select_size">¿Cuántas personas asistirán al viaje? (%1$d)</string>
+    <string name="reservation_summary">Tu viaje a %1$s para %2$d personas, empezando el %3$s tiene un costo de:</string>
+    <string name="btn_pre_reserve">Solicitar disponibilidad</string>
+
+    <!-- isConfirmed isPaid Values -->
+    <string name="approved">Aprobado</string>
+    <string name="denied">Rechazado</string>
+    <string name="pending">Pendiente</string>
+
 </resources>

@@ -2,50 +2,152 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:padding="@dimen/view_padding"
     android:orientation="vertical"
     tools:context="itesm.mx.expediciones_biosfera.behavior.fragments.ProfileFragment">
 
     <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:textSize="30sp"
-        />
+        android:id="@+id/text_profile_name"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1.5"
+        android:gravity="center"
+        android:textSize="30sp" />
 
     <ImageView
-        android:layout_width="150dp"
-        android:layout_height="150dp"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="3"
+        android:paddingTop="10dp"
+        android:paddingBottom="10dp"
         android:layout_gravity="center_horizontal"
-        android:id="@+id/iv_profile_image"
-        />
+        android:id="@+id/iv_profile_image" />
 
-    <Button
-        android:layout_width="150sp"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:text="@string/change"
-        android:id="@+id/btn_change"
-        />
-
-    <TextView
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textSize="25sp"
-        android:id= "@+id/tv_occupation"
-        />
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:gravity="center">
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textSize="25sp"
-        android:id= "@+id/tv_interests"
-        />
+        <Button
+            android:id="@+id/button_profile_take"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingStart="10dp"
+            android:paddingEnd="10dp"
+            android:background="@color/colorPrimaryDark"
+            android:textColor="@color/colorAccent"
+            android:text="@string/take" />
 
-    <TextView
+    </RelativeLayout>
+
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textSize="25sp"
-        android:id= "@+id/tv_phone"
-        />
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="3"
+            android:text="Ocupación"
+            android:textColor="@color/common_google_signin_btn_text_dark_focused"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+
+        <EditText
+            android:id="@+id/edit_profile_occupation"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="7"
+            android:inputType="text"
+            android:backgroundTint="@color/colorGray"
+            android:textCursorDrawable="@null"
+            android:textSelectHandle="@color/colorBlack"
+            android:maxLines="1"
+            android:hint="Estudiante, profesionista" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="3"
+            android:text="Intereses"
+            android:textColor="@color/common_google_signin_btn_text_dark_focused"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+
+        <EditText
+            android:id="@+id/edit_profile_interests"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="7"
+            android:inputType="text"
+            android:backgroundTint="@color/colorGray"
+            android:textCursorDrawable="@null"
+            android:textSelectHandle="@color/colorBlack"
+            android:maxLines="1"
+            android:hint="Buceo, bicicleta de montaña, escalada" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="3"
+            android:text="Teléfono"
+            android:textColor="@color/common_google_signin_btn_text_dark_focused"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+
+        <EditText
+            android:id="@+id/edit_profile_phone"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="7"
+            android:inputType="phone"
+            android:backgroundTint="@color/colorGray"
+            android:textCursorDrawable="@null"
+            android:textSelectHandle="@color/colorBlack"
+            android:maxLines="1"
+            android:hint="+52 (81) 1569 2096"/>
+
+    </LinearLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:gravity="center_vertical">
+
+           <Button
+               android:id="@+id/button_profile_save"
+               android:layout_width="match_parent"
+               android:layout_height="wrap_content"
+               android:layout_marginStart="50dp"
+               android:layout_marginEnd="50dp"
+               android:background="@color/colorPrimaryDark"
+               android:textColor="@color/colorAccent"
+               android:textSize="16sp"
+               android:text="@string/save" />
+
+    </RelativeLayout>
 
 </LinearLayout>

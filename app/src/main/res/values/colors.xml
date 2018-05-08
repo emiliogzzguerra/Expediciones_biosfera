@@ -9,4 +9,16 @@
   <color name="primaryTextColor">#fafafa</color>
   <color name="secondaryTextColor">#fafafa</color>
   <color name="colorAccent">#ffffff</color>
+  <color name="colorBlack">#000000</color>
+  <color name="colorGray">#818181</color>
+  <color name ="colorRed">#a70101</color>
+
+  <color name="adminPrimaryColor">#2196f3</color>
+  <color name="adminPrimaryLightColor">#6ec6ff</color>
+  <color name="adminPrimaryDarkColor">#0069c0</color>
+  <color name="adminSecondaryColor">#64b5f6</color>
+  <color name="adminSecondaryLightColor">#9be7ff</color>
+  <color name="adminSecondaryDarkColor">#2286c3</color>
+  <color name="adminPrimaryTextColor">#fafafa</color>
+  <color name="adminSecondaryTextColor">#000000</color>
 </resources>
