@@ -194,11 +194,7 @@ public class ReservationCustomerDetailActivity extends AppCompatActivity impleme
         btnSelectPicture.setOnClickListener(this);
 
         if(reservation.getTicketUrl() == null){
-            String placeholderUrl = "https://firebasestorage.googleapis.com/v0/b/expedicionesbiosfera.appspot.com/o/Placeholders%2Frecibo_de_pago.jpg?alt=media&token=1398e0e3-8d63-46c6-a250-377724e3ff9f";
-            Glide.with(ivPreviewImage.getContext())
-                    .load(placeholderUrl)
-                    .dontAnimate()
-                    .into(ivPreviewImage);
+            ivPreviewImage.setImageDrawable(getDrawable(R.drawable.ticket_placeholder));
         } else {
             Glide.with(ivPreviewImage.getContext())
                     .load(reservation.getTicketUrl())

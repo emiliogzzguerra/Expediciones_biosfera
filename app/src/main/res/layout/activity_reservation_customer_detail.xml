@@ -92,7 +92,7 @@
             android:layout_height="wrap_content"
             android:textColor="@color/colorAccent"
             android:text="@string/rescusdetail_upload_picture_button"
-            android:theme="@style/ButtonStyleForDisable"
+            android:theme="@style/AcceptButtonForDisable"
             style="@style/Widget.AppCompat.Button.Colored"/>
 
     </RelativeLayout>
