@@ -115,21 +115,21 @@ public class ReservationsListFragment extends Fragment {
 
                                 if(customer.getAdmin()){
                                     reservationList.add(reservation);
-                                }else{
+                                } else{
                                     if(reservation.getCustomerReference().equals(fbid)){
                                         reservationList.add(reservation);
                                     }
                                 }
 
-                                if(reservationList.size() <= 0) {
-                                    Toast.makeText(getContext(), "No hay reservaciones existentes", Toast.LENGTH_SHORT).show();
-                                }
+                            }
 
+                            if(reservationList.size() <= 0) {
+                                Toast.makeText(getContext(), "No hay reservaciones existentes", Toast.LENGTH_SHORT).show();
                             }
 
                             if(customer.getAdmin()){
                                 mAdminAdapter = new AdminReservationRecyclerViewAdapter(reservationList, getActivity().getApplicationContext(), firestoreDB);
-                            }else{
+                            } else{
                                 mCustomerAdapter = new CustomerReservationRecyclerViewAdapter(reservationList, getActivity().getApplicationContext(), firestoreDB);
                             }
 
@@ -138,7 +138,7 @@ public class ReservationsListFragment extends Fragment {
                             recyclerView.setItemAnimator(new DefaultItemAnimator());
                             if(customer.getAdmin()){
                                 recyclerView.setAdapter(mAdminAdapter);
-                            }else{
+                            } else{
                                 recyclerView.setAdapter(mCustomerAdapter);
                             }
 
