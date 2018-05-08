@@ -22,7 +22,7 @@
 
     <!-- ReservationCustomerDetail Activity -->
     <string name="rescusdetail_header_text">¡Felicidades!</string>
-    <string name="rescusdetail_description_text">Tu paquete para ir a %1$s el %2$s está disponible.\nLo que sigue es que pagues la cantidad acordada de %3$s a cualquiera de las siguientes cuentas bancarias.</string>
+    <string name="rescusdetail_description_text">Tu paquete para ir a %1$s el %2$s está disponible.\n\nLo que sigue es que pagues la cantidad acordada de %3$s a cualquiera de las siguientes cuentas bancarias.</string>
     <string name="rescusdetail_take_picture_text">Sólo mandanos una foto de tu comprobante y ¡Listo!</string>
     <string name="rescusdetail_select_picture_button">Seleccionar foto</string>
     <string name="rescusdetail_take_picture_button">Tomar foto</string>

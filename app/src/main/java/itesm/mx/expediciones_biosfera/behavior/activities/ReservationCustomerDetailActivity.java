@@ -42,7 +42,6 @@ public class ReservationCustomerDetailActivity extends AppCompatActivity impleme
     public static final String DESTINATION_TITLE = "DESTINATION_TITLE";
 
     private TextView tvDescription;
-    private TextView tvPreview;
     private ImageView ivExample;
     private Button btnSelectPicture;
     private Button btnTakePicture;
@@ -118,7 +117,7 @@ public class ReservationCustomerDetailActivity extends AppCompatActivity impleme
 
     private void updateReservationObject(String ticketReference) {
         if(reservationReference != null){
-            FirestoreReservationHelper.setTicketUrl(reservationReference,ticketReference);
+            FirestoreReservationHelper.setTicketUrl(reservationReference, ticketReference);
             FirestoreReservationHelper.setPaidPending(reservationReference);
         }
     }
@@ -132,8 +131,8 @@ public class ReservationCustomerDetailActivity extends AppCompatActivity impleme
         if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK  && data != null) {
             Bundle extras = data.getExtras();
             ticket = (Bitmap) extras.get("data");
-            ivPreviewImage.setVisibility(View.VISIBLE);
             ivPreviewImage.setImageBitmap(ticket);
+            btnUploadPicture.setEnabled(true);
         }
         if (requestCode == PICK_IMAGE && resultCode == RESULT_OK && data != null) {
             Uri selectedImage = data.getData();
@@ -144,11 +143,9 @@ public class ReservationCustomerDetailActivity extends AppCompatActivity impleme
                 e.printStackTrace();
             }
             ticket = BitmapFactory.decodeStream(imageStream);
-            ivPreviewImage.setVisibility(View.VISIBLE);
             ivPreviewImage.setImageBitmap(ticket);
+            btnUploadPicture.setEnabled(true);
         }
-        tvPreview.setText(R.string.rescusdetail_preview_text_no_ticket);
-        tvPreview.setVisibility(View.VISIBLE);
     }
 
     @Override
@@ -174,7 +171,6 @@ public class ReservationCustomerDetailActivity extends AppCompatActivity impleme
 
     private void findViews() {
         tvDescription = findViewById(R.id.description_text);
-        tvPreview = findViewById(R.id.preview_text);
         ivExample = findViewById(R.id.example_image);
         ivPreviewImage = findViewById(R.id.preview_image);
         btnSelectPicture = findViewById(R.id.select_picture_button);
@@ -198,20 +194,18 @@ public class ReservationCustomerDetailActivity extends AppCompatActivity impleme
         btnSelectPicture.setOnClickListener(this);
 
         if(reservation.getTicketUrl() == null){
-            tvPreview.setVisibility(View.GONE);
-            ivPreviewImage.setVisibility(View.GONE);
+            ivPreviewImage.setImageDrawable(getDrawable(R.drawable.ticket_placeholder));
         } else {
             Glide.with(ivPreviewImage.getContext())
                     .load(reservation.getTicketUrl())
                     .dontAnimate()
                     .into(ivPreviewImage);
-            ivPreviewImage.setVisibility(View.VISIBLE);
-            tvPreview.setText(R.string.rescusdetail_preview_text_ticket);
-            tvPreview.setVisibility(View.VISIBLE);
             btnUploadPicture.setText(R.string.rescusdetail_replace_picture_button);
         }
 
         btnUploadPicture.setOnClickListener(this);
+
+        btnUploadPicture.setEnabled(false);
 
     }
 
