@@ -1,8 +1,12 @@
 package itesm.mx.expediciones_biosfera.behavior.activities;
 
 import android.app.DatePickerDialog;
+import android.content.Context;
 import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
@@ -11,8 +15,14 @@ import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.DocumentReference;
+
 import java.util.Calendar;
 import java.util.Date;
 import itesm.mx.expediciones_biosfera.R;
@@ -70,6 +80,17 @@ public class ReservationActivity extends AppCompatActivity implements View.OnCli
         finish();
     }
 
+    public void conditionalToast(boolean b) {
+
+        if(b) {
+            Toast.makeText(this
+                    , "Se ha creado una nueva solicitud", Toast.LENGTH_SHORT).show();
+        } else {
+            Toast.makeText(this
+                    , "No se ha podido crear una nueva solicitud", Toast.LENGTH_SHORT).show();
+        }
+    }
+
     private void createReservation() {
         FirebaseAuth firebaseAuth;
         FirebaseUser fbuser;
@@ -78,11 +99,29 @@ public class ReservationActivity extends AppCompatActivity implements View.OnCli
         String userReference = fbuser.getUid();
 
         Reservation reservation = new Reservation(progressChangedValue,
-                            totalPrice, "pending", "pending",
-                    null, userReference, destination.getReference(),
-                            calendarDate.getTime());
-        FirestoreReservationHelper.addReservation(reservation);
-        Toast.makeText(this, "Se ha creado una nueva solicitud", Toast.LENGTH_SHORT).show();
+                totalPrice, "pending", "pending",
+                null, userReference, destination.getReference(),
+                calendarDate.getTime());
+        Task t = FirestoreReservationHelper.addReservation(reservation);
+        t.addOnCompleteListener(new OnCompleteListener() {
+            @Override
+            public void onComplete(@NonNull Task task) {
+                System.out.println("Ya acabeee");
+            }
+        });
+        t.addOnSuccessListener(new OnSuccessListener() {
+            @Override
+            public void onSuccess(Object o) {
+                conditionalToast(true);
+            }
+        });
+        t.addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                conditionalToast(false);
+            }
+        });
+
         redirectToPackages();
     }
 
@@ -90,7 +129,17 @@ public class ReservationActivity extends AppCompatActivity implements View.OnCli
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.btn_pre_reservation:
-                createReservation();
+                ConnectivityManager cm =
+                        (ConnectivityManager)getApplicationContext().getSystemService(Context.CONNECTIVITY_SERVICE);
+
+                NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
+                if(activeNetwork != null){
+                    createReservation();
+                } else {
+                    Toast.makeText(this
+                            , "Se necesita conectividad para solicitar esta reservación", Toast.LENGTH_SHORT).show();
+                }
+
                 break;
         }
     }
@@ -169,28 +218,11 @@ public class ReservationActivity extends AppCompatActivity implements View.OnCli
         btnDatePicker.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                DatePickerDialog dialog = new DatePickerDialog(ReservationActivity.this,
+                new DatePickerDialog(ReservationActivity.this,
                         R.style.MyDatePickerDialogTheme, date,
-                        calendarDate.get(Calendar.YEAR), calendarDate.get(Calendar.MONTH), calendarDate.get(Calendar.DAY_OF_MONTH));
-
-                Date minDate = getFutureDate(10);
-                Date maxDate = getFutureDate(200);
-
-                dialog.getDatePicker().setMinDate(minDate.getTime());
-                dialog.getDatePicker().setMaxDate(maxDate.getTime());
-
-                dialog.show();
-
+                        calendarDate.get(Calendar.YEAR), calendarDate.get(Calendar.MONTH), calendarDate.get(Calendar.DAY_OF_MONTH)).show();
             }
         });
-    }
-
-    private Date getFutureDate(int days) {
-        Date date = new Date();
-        Calendar c = Calendar.getInstance();
-        c.setTime(date);
-        c.add(Calendar.DATE, days);
-        return c.getTime();
     }
 
     private void updateDateView() {
