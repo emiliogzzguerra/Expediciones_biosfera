@@ -103,12 +103,6 @@ public class ReservationActivity extends AppCompatActivity implements View.OnCli
                 null, userReference, destination.getReference(),
                 calendarDate.getTime());
         Task t = FirestoreReservationHelper.addReservation(reservation);
-        t.addOnCompleteListener(new OnCompleteListener() {
-            @Override
-            public void onComplete(@NonNull Task task) {
-                System.out.println("Ya acabeee");
-            }
-        });
         t.addOnSuccessListener(new OnSuccessListener() {
             @Override
             public void onSuccess(Object o) {
@@ -121,7 +115,6 @@ public class ReservationActivity extends AppCompatActivity implements View.OnCli
                 conditionalToast(false);
             }
         });
-
         redirectToPackages();
     }
 
