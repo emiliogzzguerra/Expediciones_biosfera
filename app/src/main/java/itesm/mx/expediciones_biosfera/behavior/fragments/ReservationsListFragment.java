@@ -24,6 +24,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -119,6 +120,11 @@ public class ReservationsListFragment extends Fragment {
                                         reservationList.add(reservation);
                                     }
                                 }
+
+                                if(reservationList.size() <= 0) {
+                                    Toast.makeText(getContext(), "No hay reservaciones existentes", Toast.LENGTH_SHORT).show();
+                                }
+
                             }
 
                             if(customer.getAdmin()){
