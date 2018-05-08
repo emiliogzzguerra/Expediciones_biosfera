@@ -19,6 +19,7 @@ import com.google.android.gms.common.SupportErrorDialogFragment;
 import itesm.mx.expediciones_biosfera.R;
 import itesm.mx.expediciones_biosfera.entities.models.Reservation;
 import itesm.mx.expediciones_biosfera.utilities.FirestoreReservationHelper;
+import itesm.mx.expediciones_biosfera.utilities.StringFormatHelper;
 
 public class ReservationAdminDetailActivity extends AppCompatActivity implements View.OnClickListener{
 
@@ -110,9 +111,9 @@ public class ReservationAdminDetailActivity extends AppCompatActivity implements
         tvCustomerEmail.setText(email);
         tvCustomerEmail.setPaintFlags(tvCustomerEmail.getPaintFlags() |   Paint.UNDERLINE_TEXT_FLAG);
         setOnClickEmail();
-        tvDate.setText(reservation.getInitialDate().toString());
+        tvDate.setText(StringFormatHelper.getDateAsString(reservation.getInitialDate(), true));
         tvDestination.setText(destination);
-        tvPrice.setText("$" + String.valueOf(reservation.getPrice()));
+        tvPrice.setText(StringFormatHelper.getPriceFormat(reservation.getPrice(), getResources()));
 
         if(reservation.getIsPaid() != null) {
             String status = "";
@@ -162,32 +163,37 @@ public class ReservationAdminDetailActivity extends AppCompatActivity implements
     public void updatePaymentStatus(boolean isAccepted) {
         FirestoreReservationHelper reservationHelper = new FirestoreReservationHelper();
         Toast statusToast;
-
-        if(isAccepted) {
-            reservationHelper.setPaymentApproved(reservationReference);
-            statusToast = Toast.makeText(getApplicationContext(), "Pago aprobado", Toast.LENGTH_LONG);
-            statusToast.show();
+        if(reservationReference != null) {
+            if (isAccepted) {
+                reservationHelper.setPaymentApproved(reservationReference);
+                statusToast = Toast.makeText(getApplicationContext(), "Pago aprobado", Toast.LENGTH_LONG);
+                statusToast.show();
+            } else {
+                reservationHelper.setPaymentDeclined(reservationReference);
+                statusToast = Toast.makeText(getApplicationContext(), "Pago rechazado", Toast.LENGTH_LONG);
+                statusToast.show();
+            }
         } else {
-            reservationHelper.setPaymentDeclined(reservationReference);
-            statusToast = Toast.makeText(getApplicationContext(), "Pago rechazado", Toast.LENGTH_LONG);
-            statusToast.show();
+            Toast.makeText(this, "Parece que hubo un error, por favor vuelve a intentar", Toast.LENGTH_SHORT).show();
         }
     }
 
     public void updateReservationConfirmation(boolean isAccepted) {
-        FirestoreReservationHelper reservationHelper = new FirestoreReservationHelper();
         Toast statusToast;
-
-        if(isAccepted){
-            reservationHelper.setConfirmedApproved(reservationReference);
-            statusToast = Toast.makeText(getApplicationContext(),
-                    "Reservación aprobada", Toast.LENGTH_LONG);
-            statusToast.show();
+        if(reservationReference != null) {
+            if(isAccepted){
+                FirestoreReservationHelper.setConfirmedApproved(reservationReference);
+                statusToast = Toast.makeText(getApplicationContext(),
+                        "Reservación aprobada", Toast.LENGTH_LONG);
+                statusToast.show();
+            } else {
+                FirestoreReservationHelper.setConfirmedDeclined(reservationReference);
+                statusToast = Toast.makeText(getApplicationContext(),
+                        "Reservación declinada", Toast.LENGTH_LONG);
+                statusToast.show();
+            }
         } else {
-            reservationHelper.setConfirmedDeclined(reservationReference);
-            statusToast = Toast.makeText(getApplicationContext(),
-                    "Reservación declinada", Toast.LENGTH_LONG);
-            statusToast.show();
+            Toast.makeText(this, "Parece que hubo un error, por favor vuelve a intentar", Toast.LENGTH_SHORT).show();
         }
     }
 
