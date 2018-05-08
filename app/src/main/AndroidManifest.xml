@@ -8,32 +8,38 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="AIzaSyDARQrWR6PN26rtmEL-OX5ZIH6RZlUPCPc" />
-        <activity android:name=".behavior.activities.MainActivity"/>
-        <activity android:name=".behavior.activities.DestinationActivity"/>
-        <activity android:name=".behavior.activities.DestinationListActivity">
-        </activity>
-        <activity android:name=".behavior.activities.AuthenticationActivity">
+
+        <activity android:name=".behavior.activities.AuthenticationActivity"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
         <activity android:name=".behavior.activities.DrawerActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar"/>
+        <activity android:name=".behavior.activities.DestinationListActivity"
+            android:screenOrientation="portrait" />
+        <activity android:name=".behavior.activities.DestinationActivity"
+            android:screenOrientation="portrait" />
+        <activity android:name=".behavior.activities.ReservationActivity"
+            android:screenOrientation="portrait" />
+        <activity android:name=".behavior.activities.ReservationCustomerDetailActivity"
+            android:screenOrientation="portrait"/>
+
+        <activity android:name=".behavior.activities.AdminDrawerActivity"
+            android:theme="@style/AdminNavDrawerTheme" />
+        <activity android:name=".behavior.activities.ReservationAdminDetailActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar">
         </activity>
-        <activity android:name=".behavior.activities.AdminDrawerActivity"
-            android:theme="@style/AdminNavDrawerTheme">
-        </activity>
-        <activity android:name=".behavior.activities.ReservationActivity"/>
-        <activity android:name=".behavior.activities.ReservationAdminDetailActivity"
-            android:theme="@style/AppTheme.NoActionBar">
-        </activity>
-        <activity android:name=".behavior.activities.ReservationCustomerDetailActivity"
-            android:screenOrientation="portrait"/>
+
     </application>
 </manifest>
