@@ -66,6 +66,7 @@
             android:backgroundTint="@color/colorGray"
             android:textCursorDrawable="@null"
             android:textSelectHandle="@color/colorBlack"
+            android:maxLength="20"
             android:maxLines="1"
             android:hint="Estudiante, profesionista" />
 
@@ -96,6 +97,7 @@
             android:backgroundTint="@color/colorGray"
             android:textCursorDrawable="@null"
             android:textSelectHandle="@color/colorBlack"
+            android:maxLength="20"
             android:maxLines="1"
             android:hint="Buceo, bicicleta de montaña, escalada" />
 
@@ -126,6 +128,7 @@
             android:backgroundTint="@color/colorGray"
             android:textCursorDrawable="@null"
             android:textSelectHandle="@color/colorBlack"
+            android:maxLength="20"
             android:maxLines="1"
             android:hint="+52 (81) 1569 2096"/>
 

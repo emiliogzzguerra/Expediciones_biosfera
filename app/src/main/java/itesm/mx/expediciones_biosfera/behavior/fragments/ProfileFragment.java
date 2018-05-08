@@ -94,12 +94,11 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
 
     public boolean validateInput() {
 
-        if(TextUtils.isEmpty(edit_occupation.getText().toString()) ||
-            TextUtils.isEmpty(edit_interests.getText().toString()) ||
-            TextUtils.isEmpty(edit_phone.getText().toString()) || iv_picture.getDrawable() == null ){
-                return false;
-        }
-        return true;
+        String occupation = edit_occupation.getText().toString();
+        String interests = edit_interests.getText().toString();
+        String phone = edit_phone.getText().toString();
+
+        return !(occupation.trim().isEmpty() || interests.trim().isEmpty() || phone.trim().isEmpty() || iv_picture.getDrawable() == null);
     }
 
     public void getFirebaseUser() {

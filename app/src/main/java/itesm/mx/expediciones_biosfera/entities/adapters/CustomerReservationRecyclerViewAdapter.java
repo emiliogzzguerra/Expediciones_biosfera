@@ -96,7 +96,7 @@ public class CustomerReservationRecyclerViewAdapter extends RecyclerView.Adapter
             }
         });
 
-        holder.tvPrice.setText("$"+String.valueOf(reservation.getPrice()));
+        holder.tvPrice.setText(StringFormatHelper.getPriceFormat(reservation.getPrice(), context.getResources()));
         holder.tvDate.setText(StringFormatHelper
                 .getDateAsString(reservation.getInitialDate(),true));
         if(reservation.getIsPaid() != null) {
