@@ -80,9 +80,9 @@ public class ReservationActivity extends AppCompatActivity implements View.OnCli
         finish();
     }
 
-    public void conditionalToast(boolean b) {
+    public void conditionalToast(boolean successfulTask) {
 
-        if(b) {
+        if(successfulTask) {
             Toast.makeText(this
                     , "Se ha creado una nueva solicitud", Toast.LENGTH_SHORT).show();
         } else {
