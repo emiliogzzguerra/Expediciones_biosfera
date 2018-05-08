@@ -88,6 +88,8 @@ public class AdminReservationRecyclerViewAdapter extends RecyclerView.Adapter<Ad
                 if(snapshot.exists()) {
                     Customer customer = snapshot.toObject(Customer.class);
                     holder.tvCustomer.setText(customer.getName());
+                    holder.tvEmail.setText(customer.getEmail());
+                    holder.tvEmail.setVisibility(View.GONE);
                 }
                 else{
                     holder.tvCustomer.setText("User not found");
@@ -114,11 +116,12 @@ public class AdminReservationRecyclerViewAdapter extends RecyclerView.Adapter<Ad
     }
 
     public class ViewHolder extends  RecyclerView.ViewHolder{
-        TextView tvDate, tvPrice, tvCustomer, tvDestination, tvStatus;
+        TextView tvDate, tvPrice, tvCustomer, tvEmail, tvDestination, tvStatus;
         ViewHolder(View view){
             super(view);
             tvDate = view.findViewById(R.id.text_date);
             tvCustomer = view.findViewById(R.id.text_customer);
+            tvEmail = view.findViewById(R.id.text_customer_email);
             tvDestination = view.findViewById(R.id.text_destination);
             tvPrice = view.findViewById(R.id.text_price);
             tvStatus = view.findViewById(R.id.text_status);
@@ -131,6 +134,7 @@ public class AdminReservationRecyclerViewAdapter extends RecyclerView.Adapter<Ad
                     Reservation reservation = reservationList.get(position);
                     intent.putExtra(ReservationAdminDetailActivity.DESTINATION, tvDestination.getText().toString());
                     intent.putExtra(ReservationAdminDetailActivity.CUSTOMER, tvCustomer.getText().toString());
+                    intent.putExtra(ReservationAdminDetailActivity.EMAIL, tvEmail.getText().toString());
                     intent.putExtra(ReservationAdminDetailActivity.RESERVATION, reservation);
                     intent.putExtra(ReservationAdminDetailActivity.RESERVATION_REFERENCE,
                             reservation.getReference());

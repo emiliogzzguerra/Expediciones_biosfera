@@ -1,6 +1,9 @@
 package itesm.mx.expediciones_biosfera.behavior.activities;
 
+import android.content.Intent;
 import android.content.res.Resources;
+import android.graphics.Paint;
+import android.net.Uri;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -22,12 +25,15 @@ public class ReservationAdminDetailActivity extends AppCompatActivity implements
     public static final String RESERVATION_REFERENCE = "RESERVATION_REFERENCE";
     public static final String RESERVATION = "RESERVATION";
     public static final String CUSTOMER = "CUSTOMER";
+    public static final String EMAIL = "EMAIL";
     public static final String DESTINATION = "DESTINATION";
 
     private String destination;
     private String customer;
+    private String email;
     private String reservationReference;
     private TextView tvCustomer;
+    private TextView tvCustomerEmail;
     private TextView tvDate;
     private TextView tvDestination;
     private TextView tvPrice;
@@ -39,6 +45,7 @@ public class ReservationAdminDetailActivity extends AppCompatActivity implements
 
     private void findViews(){
         tvCustomer = this.findViewById(R.id.text_customer);
+        tvCustomerEmail = this.findViewById(R.id.text_customer_email);
         tvDate =  this.findViewById(R.id.text_date);
         tvDestination = this.findViewById(R.id.text_destination);
         tvPrice = this.findViewById(R.id.text_price);
@@ -73,8 +80,36 @@ public class ReservationAdminDetailActivity extends AppCompatActivity implements
         ivTicket.setVisibility(View.VISIBLE);
     }
 
+    public void sendEmail() {
+        String email = tvCustomerEmail.getText().toString();
+        String[] TO = {email};
+        Intent emailIntent = new Intent(Intent.ACTION_SEND);
+        emailIntent.setData(Uri.parse("mailto:"));
+        emailIntent.setType("text/plain");
+
+        emailIntent.putExtra(Intent.EXTRA_EMAIL, TO);
+
+        try {
+            startActivity(Intent.createChooser(emailIntent, "Send mail..."));
+        } catch (android.content.ActivityNotFoundException e) {
+            Toast.makeText(this, "There is no email client installed.", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    public void setOnClickEmail() {
+        tvCustomerEmail.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                sendEmail();
+            }
+        });
+    }
+
     private void setViewsAndButtons(){
         tvCustomer.setText(customer);
+        tvCustomerEmail.setText(email);
+        tvCustomerEmail.setPaintFlags(tvCustomerEmail.getPaintFlags() |   Paint.UNDERLINE_TEXT_FLAG);
+        setOnClickEmail();
         tvDate.setText(reservation.getInitialDate().toString());
         tvDestination.setText(destination);
         tvPrice.setText("$" + String.valueOf(reservation.getPrice()));
@@ -111,10 +146,13 @@ public class ReservationAdminDetailActivity extends AppCompatActivity implements
     }
 
     private void getDataFromIntent(){
-        reservation = (Reservation) getIntent().getSerializableExtra(RESERVATION);
-        destination = getIntent().getExtras().getString(DESTINATION);
-        customer = getIntent().getExtras().getString(CUSTOMER);
-        reservationReference = getIntent().getExtras().getString(RESERVATION_REFERENCE);
+        Intent intent = getIntent();
+        Bundle extras = intent.getExtras();
+        reservation = (Reservation) intent.getSerializableExtra(RESERVATION);
+        destination = extras.getString(DESTINATION);
+        customer = extras.getString(CUSTOMER);
+        email = extras.getString(EMAIL);
+        reservationReference = extras.getString(RESERVATION_REFERENCE);
     }
 
     private void sendAdminBackToReservations(){
