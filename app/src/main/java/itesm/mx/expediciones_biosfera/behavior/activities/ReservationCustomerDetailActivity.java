@@ -1,9 +1,12 @@
 package itesm.mx.expediciones_biosfera.behavior.activities;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -83,35 +86,46 @@ public class ReservationCustomerDetailActivity extends AppCompatActivity impleme
         }
     }
 
-    private void uploadTicketToFirebase() {
-        if(reservation.getIsPaid().equals("approved")) {
-            Toast.makeText(this, "Tu pago ya fué aprobado, no es necesario que subas otra foto", Toast.LENGTH_LONG).show();
-        } else {
-            final StorageReference ticketRef = getTicketRef();
-            byte[] data = getDataFromImage();
+    private NetworkInfo getNetworkStatus(){
+        ConnectivityManager cm =
+                (ConnectivityManager)getApplicationContext().getSystemService(Context.CONNECTIVITY_SERVICE);
+        return cm.getActiveNetworkInfo();
+    }
 
-            UploadTask uploadTask = ticketRef.putBytes(data);
-            uploadTask.addOnFailureListener(new OnFailureListener() {
-                @Override
-                public void onFailure(@NonNull Exception exception) {
-                    // Handle unsuccessful uploads
-                    Log.d("UPLOAD","Failure, unsuccesful upload");
-                    Toast failureToast = Toast.makeText(getApplicationContext(),
-                            "No se pudo mandar con éxito", Toast.LENGTH_LONG);
-                    failureToast.show();
-                }
-            }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-                @Override
-                public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                    Log.d("UPLOAD","Succesful upload");
-                    Uri ticketReference = taskSnapshot.getDownloadUrl();
-                    updateReservationObject(ticketReference.toString());
-                    Toast successToast = Toast.makeText(getApplicationContext(),
-                            "Enviado con éxito", Toast.LENGTH_LONG);
-                    successToast.show();
-                    sendUserToReservationList();
-                }
-            });
+    private void uploadTicketToFirebase() {
+        if(getNetworkStatus() != null){
+            if(reservation.getIsPaid().equals("approved")) {
+                Toast.makeText(this, "Tu pago ya fué aprobado, no es necesario que subas otra foto", Toast.LENGTH_LONG).show();
+            } else {
+                final StorageReference ticketRef = getTicketRef();
+                byte[] data = getDataFromImage();
+
+                UploadTask uploadTask = ticketRef.putBytes(data);
+                uploadTask.addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception exception) {
+                        // Handle unsuccessful uploads
+                        Log.d("UPLOAD","Failure, unsuccesful upload");
+                        Toast failureToast = Toast.makeText(getApplicationContext(),
+                                "No se pudo mandar con éxito", Toast.LENGTH_LONG);
+                        failureToast.show();
+                    }
+                }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                    @Override
+                    public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                        Log.d("UPLOAD","Succesful upload");
+                        Uri ticketReference = taskSnapshot.getDownloadUrl();
+                        updateReservationObject(ticketReference.toString());
+                        Toast successToast = Toast.makeText(getApplicationContext(),
+                                "Enviado con éxito", Toast.LENGTH_LONG);
+                        successToast.show();
+                        sendUserToReservationList();
+                    }
+                });
+            }
+        } else {
+            Toast.makeText(this
+                    , "Se necesita conectividad para subir tu comprobante", Toast.LENGTH_SHORT).show();
         }
     }
 
