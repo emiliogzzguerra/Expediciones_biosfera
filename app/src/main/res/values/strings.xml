@@ -19,6 +19,8 @@
     <string name="nav_drawer_profile">Perfil</string>
     <string name="nav_drawer_reservations">Reservaciones</string>
     <string name="nav_drawer_sign_out">Cerrar Sesión</string>
+    <string name="double_click_back">Please click back again to sign out</string>
+
 
     <!-- ReservationCustomerDetail Activity -->
     <string name="rescusdetail_header_text">¡Felicidades!</string>

@@ -138,8 +138,7 @@ public class ReservationActivity extends AppCompatActivity implements View.OnCli
 
     private void configureActionBar() {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        String destinationName = destination.getState() + ", " + destination.getCity();
-        String actionBarTitle = String.format(getResources().getString(R.string.reservation_action_bar_title), destinationName);
+        String actionBarTitle = String.format(getResources().getString(R.string.reservation_action_bar_title), destination.getName());
         getSupportActionBar().setTitle(actionBarTitle);
     }
 
