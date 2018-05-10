@@ -112,7 +112,7 @@ public class ReservationCustomerDetailActivity extends AppCompatActivity impleme
                         // Handle unsuccessful uploads
                         Log.d("UPLOAD","Failure, unsuccesful upload");
                         Toast failureToast = Toast.makeText(getApplicationContext(),
-                                "No se pudo mandar con éxito", Toast.LENGTH_LONG);
+                                "No se pudo enviar con éxito", Toast.LENGTH_LONG);
                         failureToast.show();
                     }
                 }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
