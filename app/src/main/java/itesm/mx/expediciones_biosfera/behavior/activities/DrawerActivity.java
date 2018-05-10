@@ -3,6 +3,7 @@ package itesm.mx.expediciones_biosfera.behavior.activities;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.os.Handler;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -30,11 +31,13 @@ import itesm.mx.expediciones_biosfera.database.operations.User;
 import itesm.mx.expediciones_biosfera.database.operations.UserOperations;
 
 public class DrawerActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener{
+
     private Toolbar toolbar;
     private FirebaseAuth firebaseAuth;
     private FirebaseUser currentUser;
     private DrawerLayout drawer;
     private ActionBarDrawerToggle toggle;
+    private boolean doubleBackToExitPressedOnce = false;
 
     ImageView ivPicture;
     TextView tvName;
@@ -179,7 +182,26 @@ public class DrawerActivity extends AppCompatActivity implements NavigationView.
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else {
-            super.onBackPressed();
+            if (doubleBackToExitPressedOnce) {
+                NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+                MenuItem item = navigationView.getMenu().getItem(3);
+                onNavigationItemSelected(item);
+                return;
+            }
+
+            doubleBackToExitPressedOnce = true;
+
+            Toast.makeText(this, R.string.double_click_back, Toast.LENGTH_SHORT).show();
+
+            new Handler().postDelayed(new Runnable() {
+
+                @Override
+                public void run() {
+                    doubleBackToExitPressedOnce = false;
+                }
+            }, 2000);
+
         }
     }
+
 }
