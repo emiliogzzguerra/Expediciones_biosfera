@@ -144,6 +144,8 @@ public class CustomerReservationRecyclerViewAdapter extends RecyclerView.Adapter
                         intent.putExtra(ReservationCustomerDetailActivity.RESERVATION_OBJECT, reservation);
                         intent.putExtra(ReservationCustomerDetailActivity.RESERVATION_REFERENCE,
                                 reservation.getReference());
+                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+
                         context.startActivity(intent);
                     }
                 }
