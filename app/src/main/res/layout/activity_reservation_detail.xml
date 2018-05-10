@@ -1,4 +1,4 @@
-<android.support.design.widget.CoordinatorLayout
+<RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -8,6 +8,7 @@
     tools:context="itesm.mx.expediciones_biosfera.behavior.activities.DrawerActivity">
 
     <android.support.design.widget.AppBarLayout
+        android:id="@+id/app_bar_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:theme="@style/AdminNavDrawerTheme">
@@ -21,82 +22,94 @@
 
     </android.support.design.widget.AppBarLayout>
 
-    <LinearLayout
+    <RelativeLayout
         android:layout_height="match_parent"
         android:layout_width="match_parent"
-        android:orientation="vertical"
-        android:padding="@dimen/default_margin"
-        xmlns:android="http://schemas.android.com/apk/res/android">
+        android:layout_below="@+id/app_bar_layout"
+        android:padding="@dimen/default_margin">
 
         <TextView
             android:id="@+id/text_customer"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="5dp"
             android:text="Customer"
             android:textColor="@color/colorPrimary"
-            android:textSize="18sp" />
+            android:textSize="20sp" />
 
         <TextView
             android:id="@+id/text_customer_email"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:padding="5dp"
+            android:layout_below="@id/text_customer"
+            android:layout_marginTop="10dp"
             android:text="E-mail"
             android:textColor="@color/colorPrimary"
-            android:textSize="15sp" />
+            android:textSize="18sp" />
 
         <TextView
             android:id="@+id/text_destination"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="5dp"
-            android:text="Text for Destination" />
+            android:layout_below="@id/text_customer_email"
+            android:layout_marginTop="10dp"
+            android:text="Text for Destination"
+            android:textSize="17sp" />
 
         <TextView
             android:id="@+id/text_price"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="5dp"
-            android:text="Text for the price" />
+            android:layout_below="@id/text_destination"
+            android:layout_marginTop="10dp"
+            android:text="Text for the price"
+            android:textSize="17sp" />
+
 
 
         <TextView
             android:id="@+id/text_date"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:padding="5dp"
-            android:text="Text for the date" />
+            android:layout_below="@id/text_price"
+            android:layout_marginTop="10dp"
+            android:text="Text for the date"
+            android:textSize="17sp" />
+
 
         <TextView
             android:id="@+id/text_status"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="5dp"
-            android:gravity="right"
-            android:text="Status..." />
+            android:layout_below="@id/text_date"
+            android:layout_marginTop="10dp"
+            android:text="Status..."
+            android:textSize="17sp" />
+
 
         <ImageView
             android:id="@+id/image_ticket"
             android:layout_width="200dp"
             android:layout_height="200dp"
+            android:layout_below="@id/text_status"
+            android:layout_marginTop="10dp"
             android:visibility="gone"
             android:layout_gravity="center" />
 
         <LinearLayout
             android:id="@+id/buttons_layout"
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/image_ticket"
+            android:layout_marginTop="10dp"
             android:orientation="horizontal">
 
             <Button
                 android:id="@+id/button_reject"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginRight="5dp"
                 android:layout_weight=".5"
                 android:text="@string/resadmdetail_denied_button"
+                android:textSize="15sp"
                 android:theme="@style/RejectButtonForDisable"
                 style="@style/Widget.AppCompat.Button.Colored"/>
 
@@ -104,15 +117,15 @@
                 android:id="@+id/button_accept"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="5dp"
                 android:layout_weight=".5"
+                android:textSize="15sp"
                 android:text="@string/resadmdetail_approved_button"
                 android:theme="@style/AcceptButtonForDisable"
                 style="@style/Widget.AppCompat.Button.Colored"/>
 
         </LinearLayout>
-    </LinearLayout>
+    </RelativeLayout>
 
-</android.support.design.widget.CoordinatorLayout>
+</RelativeLayout>
 
 

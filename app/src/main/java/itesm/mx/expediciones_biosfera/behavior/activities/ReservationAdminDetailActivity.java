@@ -217,9 +217,6 @@ public class ReservationAdminDetailActivity extends AppCompatActivity implements
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_reservation_detail);
 
-        Toolbar toolbar = findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-
         configureActionBar();
 
         getDataFromIntent();
@@ -230,6 +227,9 @@ public class ReservationAdminDetailActivity extends AppCompatActivity implements
     }
 
     private void configureActionBar() {
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         String actionBarTitle = getResources().getString(R.string.reservation_detail_action_bar_title);
         getSupportActionBar().setTitle(actionBarTitle);
