@@ -1,10 +1,10 @@
 package itesm.mx.expediciones_biosfera.behavior.activities;
 
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.Drawable;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -17,7 +17,6 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.drawable.GlideDrawable;
 import com.bumptech.glide.request.RequestListener;
@@ -29,11 +28,7 @@ import com.google.firebase.storage.OnPausedListener;
 import com.google.firebase.storage.OnProgressListener;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
-
 import java.io.ByteArrayOutputStream;
-import java.io.FileNotFoundException;
-import java.io.InputStream;
-
 import itesm.mx.expediciones_biosfera.R;
 import itesm.mx.expediciones_biosfera.utilities.FirestoreReservationHelper;
 import itesm.mx.expediciones_biosfera.entities.models.Reservation;
@@ -95,50 +90,62 @@ public class ReservationCustomerDetailActivity extends AppCompatActivity impleme
         }
     }
 
+    private NetworkInfo getNetworkStatus(){
+        ConnectivityManager connectivityManager =
+                (ConnectivityManager)getApplicationContext().getSystemService(Context.CONNECTIVITY_SERVICE);
+        return connectivityManager.getActiveNetworkInfo();
+    }
+
     private void uploadTicketToFirebase() {
-        if(reservation.getIsPaid().equals("approved")) {
-            Toast.makeText(this, "Tu pago ya fué aprobado, no es necesario que subas otra foto", Toast.LENGTH_LONG).show();
+        if(getNetworkStatus() != null){
+            if(reservation.getIsPaid().equals("approved")) {
+                Toast.makeText(this, "Tu pago ya fue aprobado, no es necesario que subas otra foto", Toast.LENGTH_LONG).show();
+            } else {
+                final StorageReference ticketRef = getTicketRef();
+                byte[] data = getDataFromImage();
+
+                UploadTask uploadTask = ticketRef.putBytes(data);
+
+                uploadTask.addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception exception) {
+                        // Handle unsuccessful uploads
+                        Log.d("UPLOAD","Failure, unsuccesful upload");
+                        Toast failureToast = Toast.makeText(getApplicationContext(),
+                                "No se pudo enviar con éxito", Toast.LENGTH_LONG);
+                        failureToast.show();
+                    }
+                }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                    @Override
+                    public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                        Log.d("UPLOAD","Succesful upload");
+                        Uri ticketReference = taskSnapshot.getDownloadUrl();
+                        updateReservationObject(ticketReference.toString());
+                        Toast successToast = Toast.makeText(getApplicationContext(),
+                                "Enviado con éxito", Toast.LENGTH_LONG);
+                        successToast.show();
+                        sendUserToReservationList();
+                    }
+                });
+
+                uploadTask.addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
+                    @Override
+                    public void onProgress(UploadTask.TaskSnapshot taskSnapshot) {
+                        double progress = (100.0 * taskSnapshot.getBytesTransferred()) / taskSnapshot.getTotalByteCount();
+                        int currentProgress = (int) progress;
+                        progressBarTicketSubmission.setProgress(currentProgress);
+                    }
+                }).addOnPausedListener(new OnPausedListener<UploadTask.TaskSnapshot>() {
+                    @Override
+                    public void onPaused(UploadTask.TaskSnapshot taskSnapshot) {
+
+                    }
+                });
+
+            }
         } else {
-            final StorageReference ticketRef = getTicketRef();
-            byte[] data = getDataFromImage();
-
-            UploadTask uploadTask = ticketRef.putBytes(data);
-
-            uploadTask.addOnFailureListener(new OnFailureListener() {
-                @Override
-                public void onFailure(@NonNull Exception exception) {
-                    // Handle unsuccessful uploads
-                    Log.d("UPLOAD","Failure, unsuccesful upload");
-                    Toast failureToast = Toast.makeText(getApplicationContext(),
-                            "No se pudo mandar con éxito", Toast.LENGTH_LONG);
-                    failureToast.show();
-                }
-            }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-                @Override
-                public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                    Log.d("UPLOAD","Succesful upload");
-                    Uri ticketReference = taskSnapshot.getDownloadUrl();
-                    updateReservationObject(ticketReference.toString());
-                    Toast successToast = Toast.makeText(getApplicationContext(),
-                            "Enviado con éxito", Toast.LENGTH_LONG);
-                    successToast.show();
-                    sendUserToReservationList();
-                }
-            });
-
-            uploadTask.addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
-                @Override
-                public void onProgress(UploadTask.TaskSnapshot taskSnapshot) {
-                    double progress = (100.0 * taskSnapshot.getBytesTransferred()) / taskSnapshot.getTotalByteCount();
-                    int currentProgress = (int) progress;
-                    progressBarTicketSubmission.setProgress(currentProgress);
-                }
-            }).addOnPausedListener(new OnPausedListener<UploadTask.TaskSnapshot>() {
-                @Override
-                public void onPaused(UploadTask.TaskSnapshot taskSnapshot) {
-
-                }
-            });
+            Toast.makeText(this
+                    , "Se necesita conectividad para subir tu comprobante", Toast.LENGTH_SHORT).show();
         }
     }
 
