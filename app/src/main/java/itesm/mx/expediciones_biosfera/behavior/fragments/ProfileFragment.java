@@ -1,6 +1,7 @@
 package itesm.mx.expediciones_biosfera.behavior.fragments;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -43,6 +44,8 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
     ImageView iv_picture;
 
     ArrayList<User> users = new ArrayList<>();
+
+    OnSaveProfileListener mCallBack;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -145,7 +148,9 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
                     }
 
                     users = dao.getAllUsers();
-                }else{
+
+                    mCallBack.closeProfile();
+                } else{
                     Toast.makeText(getActivity(), "Faltan datos por llenar" ,
                             Toast.LENGTH_LONG).show();
                 }
@@ -183,5 +188,28 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
         btn_take.setOnClickListener(this);
         btn_save.setOnClickListener(this);
     }
+
+    public interface OnSaveProfileListener {
+        void closeProfile();
+    }
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+
+        Activity activity;
+
+        if (context instanceof Activity) {
+            activity = (Activity) context;
+            try {
+                mCallBack = (OnSaveProfileListener) activity;
+            } catch (ClassCastException e) {
+                throw new ClassCastException(activity.toString()
+                        + " must implement OnSaveProfileListener");
+            }
+        }
+    }
+
+
 
 }
