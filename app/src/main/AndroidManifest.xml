@@ -37,8 +37,8 @@
         <activity android:name=".behavior.activities.AdminDrawerActivity"
             android:theme="@style/AdminNavDrawerTheme" />
         <activity android:name=".behavior.activities.ReservationAdminDetailActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar">
+            android:theme="@style/AdminNavDrawerTheme"
+            android:screenOrientation="portrait">
         </activity>
 
     </application>
