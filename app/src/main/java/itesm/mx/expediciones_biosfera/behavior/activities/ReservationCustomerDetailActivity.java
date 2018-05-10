@@ -87,15 +87,15 @@ public class ReservationCustomerDetailActivity extends AppCompatActivity impleme
     }
 
     private NetworkInfo getNetworkStatus(){
-        ConnectivityManager cm =
+        ConnectivityManager connectivityManager =
                 (ConnectivityManager)getApplicationContext().getSystemService(Context.CONNECTIVITY_SERVICE);
-        return cm.getActiveNetworkInfo();
+        return connectivityManager.getActiveNetworkInfo();
     }
 
     private void uploadTicketToFirebase() {
         if(getNetworkStatus() != null){
             if(reservation.getIsPaid().equals("approved")) {
-                Toast.makeText(this, "Tu pago ya fué aprobado, no es necesario que subas otra foto", Toast.LENGTH_LONG).show();
+                Toast.makeText(this, "Tu pago ya fue aprobado, no es necesario que subas otra foto", Toast.LENGTH_LONG).show();
             } else {
                 final StorageReference ticketRef = getTicketRef();
                 byte[] data = getDataFromImage();
@@ -107,7 +107,7 @@ public class ReservationCustomerDetailActivity extends AppCompatActivity impleme
                         // Handle unsuccessful uploads
                         Log.d("UPLOAD","Failure, unsuccesful upload");
                         Toast failureToast = Toast.makeText(getApplicationContext(),
-                                "No se pudo mandar con éxito", Toast.LENGTH_LONG);
+                                "No se pudo enviar con éxito", Toast.LENGTH_LONG);
                         failureToast.show();
                     }
                 }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
