@@ -17,7 +17,7 @@ public class Destination implements Serializable{
 
     public Destination(){ }
 
-    public Destination(String reference, String state, String city, int duration, int price, double lat, double lon, String description, List<String> imageUrls) {
+    public Destination(String reference, String state, String city, int duration, int price, double lat, double lon, String description, List<String> imageUrls, String name) {
         this.reference = reference;
         this.state = state;
         this.city = city;

@@ -8,9 +8,6 @@
     <!-- ProfileFragment -->
     <string name="take">Tomar foto</string>
     <string name="save">Guardar</string>
-    <string name="occupation">Ocupación: %1$s</string>
-    <string name="interests">Intereses: %1$s</string>
-    <string name="phone">Telefono: %1$s</string>
 
     <!-- NavigationDrawer -->
     <string name="navigation_drawer_open">Open navigation drawer</string>
@@ -30,8 +27,6 @@
     <string name="rescusdetail_take_picture_button">Tomar foto</string>
     <string name="rescusdetail_upload_picture_button">Enviar comprobante</string>
     <string name="rescusdetail_replace_picture_button">Remplazar comprobante</string>
-    <string name="rescusdetail_preview_text_no_ticket">Previsualización de tu comprobante:</string>
-    <string name="rescusdetail_preview_text_ticket">Tu comprobante:</string>
     <string name="ticket_reference">gs://expedicionesbiosfera.appspot.com/tickets</string>
 
     <!-- ReservationAdminDetail Values -->
@@ -46,6 +41,7 @@
     <string name="price_header">Costo por persona</string>
     <string name="duration_text">%1$d días</string>
     <string name="btn_reserve">Reservar</string>
+    <string name="learn_more">Conoce más de este lugar</string>
 
     <!-- ReservationActivity -->
     <string name="reservation_action_bar_title">Reserva en %1$s</string>
@@ -60,5 +56,15 @@
     <string name="approved">Aprobado</string>
     <string name="denied">Rechazado</string>
     <string name="pending">Pendiente</string>
+
+    <!-- Profile -->
+    <string name="occupation_text">Ocupación</string>
+    <string name="occupation_placeholder">Estudiante, profesionista</string>
+    <string name="interests_text">Intereses</string>
+    <string name="interests_placeholder">Buceo, bicicleta de montaña, escalada</string>
+    <string name="telephone_text">Teléfono</string>
+    <string name="telephone_placeholder">+52 (81) 1569 2096</string>
+
+
 
 </resources>
