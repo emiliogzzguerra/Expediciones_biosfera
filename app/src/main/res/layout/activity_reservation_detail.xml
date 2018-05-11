@@ -64,8 +64,6 @@
             android:text="Text for the price"
             android:textSize="17sp" />
 
-
-
         <TextView
             android:id="@+id/text_date"
             android:layout_width="wrap_content"
@@ -113,6 +111,7 @@
                 android:id="@+id/button_reject"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_marginRight="5dp"
                 android:layout_weight=".5"
                 android:text="@string/resadmdetail_denied_button"
                 android:textSize="15sp"
@@ -123,6 +122,7 @@
                 android:id="@+id/button_accept"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_marginLeft="5dp"
                 android:layout_weight=".5"
                 android:textSize="15sp"
                 android:text="@string/resadmdetail_approved_button"
