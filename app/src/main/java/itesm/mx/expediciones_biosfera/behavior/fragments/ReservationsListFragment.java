@@ -11,12 +11,10 @@ import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.ListenerRegistration;
 import com.google.firebase.firestore.QuerySnapshot;
 
-import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -33,12 +31,7 @@ import itesm.mx.expediciones_biosfera.R;
 import itesm.mx.expediciones_biosfera.entities.adapters.AdminReservationRecyclerViewAdapter;
 import itesm.mx.expediciones_biosfera.entities.adapters.CustomerReservationRecyclerViewAdapter;
 import itesm.mx.expediciones_biosfera.entities.models.Customer;
-import itesm.mx.expediciones_biosfera.entities.models.Destination;
 import itesm.mx.expediciones_biosfera.entities.models.Reservation;
-
-/**
- * Created by avillarreal on 5/4/18.
- */
 
 public class ReservationsListFragment extends Fragment {
     private RecyclerView recyclerView;

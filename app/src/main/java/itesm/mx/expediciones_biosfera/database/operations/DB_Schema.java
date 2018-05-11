@@ -2,10 +2,6 @@ package itesm.mx.expediciones_biosfera.database.operations;
 
 import android.provider.BaseColumns;
 
-/**
- * Created by javier on 29/04/18.
- */
-
 public final class DB_Schema {
 
     private DB_Schema(){}
