@@ -20,10 +20,10 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.firestore.DocumentReference;
 
 import java.util.Calendar;
 import java.util.Date;
+
 import itesm.mx.expediciones_biosfera.R;
 import itesm.mx.expediciones_biosfera.utilities.FirestoreReservationHelper;
 import itesm.mx.expediciones_biosfera.entities.models.Destination;
