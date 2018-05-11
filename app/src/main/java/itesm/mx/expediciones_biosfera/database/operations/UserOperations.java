@@ -9,10 +9,6 @@ import android.util.Log;
 
 import java.util.ArrayList;
 
-/**
- * Created by javier on 30/04/18.
- */
-
 public class UserOperations {
 
     private SQLiteDatabase db;

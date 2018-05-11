@@ -3,10 +3,6 @@ package itesm.mx.expediciones_biosfera.entities.models;
 import java.util.Date;
 import java.util.List;
 
-/**
- * Created by avillarreal on 4/12/18.
- */
-
 public class Trip {
     private String title;
     private Date date;

@@ -9,17 +9,16 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+
 import com.bumptech.glide.Glide;
+
 import com.google.firebase.firestore.FirebaseFirestore;
+
 import java.util.List;
+
 import itesm.mx.expediciones_biosfera.R;
 import itesm.mx.expediciones_biosfera.behavior.activities.DestinationActivity;
 import itesm.mx.expediciones_biosfera.entities.models.Destination;
-
-/**
- * Created by avillarreal on 4/26/18.
- */
-
 
 public class DestinationRecyclerViewAdapter extends RecyclerView.Adapter<DestinationRecyclerViewAdapter.ViewHolder> {
     private List<Destination> destinationList;

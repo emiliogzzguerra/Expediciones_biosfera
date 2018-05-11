@@ -18,10 +18,6 @@ import java.util.Map;
 import itesm.mx.expediciones_biosfera.entities.models.Destination;
 import itesm.mx.expediciones_biosfera.entities.models.Reservation;
 
-/**
- * Created by emiliogonzalez on 5/4/18.
- */
-
 public class FirestoreReservationHelper {
     final static ArrayList<Reservation> list = new ArrayList<>();
     static FirebaseFirestore db = FirebaseFirestore.getInstance();

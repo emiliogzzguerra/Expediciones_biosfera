@@ -25,10 +25,6 @@ import itesm.mx.expediciones_biosfera.entities.models.Destination;
 import itesm.mx.expediciones_biosfera.entities.models.Reservation;
 import itesm.mx.expediciones_biosfera.utilities.StringFormatHelper;
 
-/**
- * Created by avillarreal on 5/4/18.
- */
-
 public class CustomerReservationRecyclerViewAdapter extends RecyclerView.Adapter<CustomerReservationRecyclerViewAdapter.ViewHolder> {
     private List<Reservation> reservationList;
     private Context context;

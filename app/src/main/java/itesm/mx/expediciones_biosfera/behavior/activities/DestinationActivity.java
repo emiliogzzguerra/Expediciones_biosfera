@@ -2,7 +2,6 @@ package itesm.mx.expediciones_biosfera.behavior.activities;
 
 import android.app.SearchManager;
 import android.content.Intent;
-import android.content.res.Resources;
 import android.os.Build;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -15,19 +14,22 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ScrollView;
 import android.widget.TextView;
+
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
+
 import java.util.ArrayList;
 import java.util.List;
+
 import ir.apend.slider.model.Slide;
 import ir.apend.slider.ui.Slider;
+
 import itesm.mx.expediciones_biosfera.R;
 import itesm.mx.expediciones_biosfera.entities.models.Destination;
-import itesm.mx.expediciones_biosfera.entities.models.Reservation;
 import itesm.mx.expediciones_biosfera.utilities.StringFormatHelper;
 
 import static android.text.Layout.JUSTIFICATION_MODE_INTER_WORD;
