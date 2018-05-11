@@ -126,9 +126,9 @@ public class ReservationAdminDetailActivity extends AppCompatActivity implements
         if(reservation.getIsPaid() != null) {
             String status = "";
             if (!reservation.getIsConfirmed().equals("approved")) {
-                status = "Confirmación: " + getStatusMessage(reservation.getIsConfirmed());
-                 btnAccept.setOnClickListener(this);
-                 btnReject.setOnClickListener(this);
+                status = String.format(getResources().getString(R.string.confirmation_text), getStatusMessage(reservation.getIsConfirmed()));
+                btnAccept.setOnClickListener(this);
+                btnReject.setOnClickListener(this);
             } else if (reservation.getIsPaid() != null) {
                 String statusMessage = getStatusMessage(reservation.getIsPaid());
                 if(reservation.getIsPaid().equals("pending")) {
@@ -148,7 +148,7 @@ public class ReservationAdminDetailActivity extends AppCompatActivity implements
                     btnAccept.setVisibility(View.GONE);
                     btnReject.setVisibility(View.GONE);
                 }
-                status = "Pago: " + statusMessage;
+                status = String.format(getResources().getString(R.string.payment_text), getStatusMessage(reservation.getIsPaid()));
             }
             tvStatus.setText(status);
         }
@@ -174,15 +174,15 @@ public class ReservationAdminDetailActivity extends AppCompatActivity implements
         if(reservationReference != null) {
             if (isAccepted) {
                 reservationHelper.setPaymentApproved(reservationReference);
-                statusToast = Toast.makeText(getApplicationContext(), "Pago aprobado", Toast.LENGTH_LONG);
+                statusToast = Toast.makeText(getApplicationContext(), getResources().getString(R.string.payment_approved_simple), Toast.LENGTH_LONG);
                 statusToast.show();
             } else {
                 reservationHelper.setPaymentDeclined(reservationReference);
-                statusToast = Toast.makeText(getApplicationContext(), "Pago rechazado", Toast.LENGTH_LONG);
+                statusToast = Toast.makeText(getApplicationContext(), getResources().getString(R.string.payment_rejected_simple), Toast.LENGTH_LONG);
                 statusToast.show();
             }
         } else {
-            Toast.makeText(this, "Parece que hubo un error, por favor vuelve a intentar", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, getResources().getString(R.string.error_try_again_message), Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -192,16 +192,16 @@ public class ReservationAdminDetailActivity extends AppCompatActivity implements
             if(isAccepted){
                 FirestoreReservationHelper.setConfirmedApproved(reservationReference);
                 statusToast = Toast.makeText(getApplicationContext(),
-                        "Reservación aprobada", Toast.LENGTH_LONG);
+                        getResources().getString(R.string.reservation_approved_simple), Toast.LENGTH_SHORT);
                 statusToast.show();
             } else {
                 FirestoreReservationHelper.setConfirmedDeclined(reservationReference);
                 statusToast = Toast.makeText(getApplicationContext(),
-                        "Reservación declinada", Toast.LENGTH_LONG);
+                        getResources().getString(R.string.payment_rejected_simple), Toast.LENGTH_SHORT);
                 statusToast.show();
             }
         } else {
-            Toast.makeText(this, "Parece que hubo un error, por favor vuelve a intentar", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, getResources().getString(R.string.error_try_again_message), Toast.LENGTH_SHORT).show();
         }
     }
 

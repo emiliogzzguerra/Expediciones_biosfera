@@ -19,7 +19,6 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import java.util.List;
 
 import itesm.mx.expediciones_biosfera.R;
-import itesm.mx.expediciones_biosfera.behavior.activities.ReservationAdminDetailActivity;
 import itesm.mx.expediciones_biosfera.behavior.activities.ReservationCustomerDetailActivity;
 import itesm.mx.expediciones_biosfera.entities.models.Customer;
 import itesm.mx.expediciones_biosfera.entities.models.Destination;
@@ -102,9 +101,9 @@ public class CustomerReservationRecyclerViewAdapter extends RecyclerView.Adapter
         if(reservation.getIsPaid() != null) {
             String status = "";
             if (!reservation.getIsConfirmed().equals("approved")) {
-                status = "Confirmación: " + getStatusMessage(reservation.getIsConfirmed());
+                status = String.format(context.getString(R.string.confirmation_text), getStatusMessage(reservation.getIsConfirmed()));
             } else if (reservation.getIsPaid() != null) {
-                status = "Pago: " + getStatusMessage(reservation.getIsPaid());
+                status = String.format(context.getString(R.string.payment_text), getStatusMessage(reservation.getIsPaid()));
             }
             holder.tvStatus.setText(status);
         }
@@ -132,11 +131,9 @@ public class CustomerReservationRecyclerViewAdapter extends RecyclerView.Adapter
                     Reservation reservation = reservationList.get(selectedReservation);
                     String confirmationStatus = reservation.getIsConfirmed();
                     if(confirmationStatus.equals("declined")) {
-                       Toast.makeText(v.getContext(),
-                                "Tu solcitud no ha sido aprobada, probablemente ya no haya disponibilidad en esta fecha", Toast.LENGTH_SHORT).show();
+                       Toast.makeText(v.getContext(), context.getResources().getString(R.string.request_rejected), Toast.LENGTH_SHORT).show();
                     } else if(confirmationStatus.equals("pending")) {
-                        Toast.makeText(v.getContext(),
-                                "Aún no hemos podido evaluar tu solicitud, regresa pronto", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(v.getContext(), context.getResources().getString(R.string.request_pending), Toast.LENGTH_SHORT).show();
                     } else if(confirmationStatus.equals("approved")) {
                         Intent intent = new	Intent(context, ReservationCustomerDetailActivity.class);
                         intent.putExtra(ReservationCustomerDetailActivity.DESTINATION_TITLE,

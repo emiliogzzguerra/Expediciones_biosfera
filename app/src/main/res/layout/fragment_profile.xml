@@ -83,7 +83,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="3"
-            android:text="@string/interests"
+            android:text="@string/interests_text"
             android:textColor="@color/common_google_signin_btn_text_dark_focused"
             android:textSize="18sp"
             android:textStyle="bold" />
@@ -99,7 +99,7 @@
             android:textSelectHandle="@color/colorBlack"
             android:maxLength="20"
             android:maxLines="1"
-            android:hint="@string/interests_placeholer" />
+            android:hint="@string/interests_placeholder" />
 
     </LinearLayout>
 

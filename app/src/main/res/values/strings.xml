@@ -3,7 +3,7 @@
     <string name="price_text">$%1$s MXN</string>
 
     <!-- SignIn -->
-    <string name="sign_in_google">Iniciar Sesión con Google</string>
+    <string name="sign_in_google">Iniciar sesión con Google</string>
 
     <!-- ProfileFragment -->
     <string name="take">Tomar foto</string>
@@ -15,9 +15,8 @@
     <string name="nav_drawer_packages">Paquetes</string>
     <string name="nav_drawer_profile">Perfil</string>
     <string name="nav_drawer_reservations">Reservaciones</string>
-    <string name="nav_drawer_sign_out">Cerrar Sesión</string>
-    <string name="double_click_back">Please click back again to sign out</string>
-
+    <string name="nav_drawer_sign_out">Cerrar sesión</string>
+    <string name="double_click_back">Haz click de nuevo para cerrar sesión</string>
 
     <!-- ReservationCustomerDetail Activity -->
     <string name="rescusdetail_header_text">¡Felicidades!</string>
@@ -32,7 +31,7 @@
     <!-- ReservationAdminDetail Values -->
     <string name="resadmdetail_approved_button">Aprobar</string>
     <string name="resadmdetail_denied_button">Rechazar</string>
-    <string name="reservation_detail_action_bar_title">Detalle de Reservación</string>
+    <string name="reservation_detail_action_bar_title">Detalle de reservación</string>
 
     <!--Destination Acitivity-->
     <string name="map_header">¿A dónde vamos?</string>
@@ -47,7 +46,7 @@
     <string name="reservation_action_bar_title">Reserva en %1$s</string>
     <string name="reservation_date_description">Tu viaje ideal inicia el día&#8230;</string>
     <string name="reservation_change_name">Cambiar fecha de inicio</string>
-    <string name="reservation_title">Estás a tán sólo unos pasos del viaje de tus sueños.</string>
+    <string name="reservation_title">Estás a tan sólo unos pasos del viaje de tus sueños.</string>
     <string name="reservation_select_size">¿Cuántas personas asistirán al viaje? (%1$d)</string>
     <string name="reservation_summary">Tu viaje a %1$s para %2$d personas, empezando el %3$s tiene un costo de:</string>
     <string name="btn_pre_reserve">Solicitar disponibilidad</string>
@@ -65,6 +64,32 @@
     <string name="telephone_text">Teléfono</string>
     <string name="telephone_placeholder">+52 (81) 1569 2096</string>
 
-
+    <!-- Toast -->
+    <string name="information_updated">Tu información se ha actualizado</string>
+    <string name="information_saved">Tu información se ha guardado</string>
+    <string name="missing_information">Faltan datos por llenar</string>
+    <string name="welcome_message">Bienvenido, %1$s</string>
+    <string name="authentication_failure">La autenticación no fue exitosa</string>
+    <string name="confirmation_text">Confirmación: %1$s</string>
+    <string name="payment_text">Pago: %1$s</string>
+    <string name="request_rejected">Tu solicitud no ha sido aprobada, probablemente ya no haya disponibilidad en esta fecha</string>
+    <string name="request_pending">Aún no hemos podido evaluar tu solicitud, regresa pronto</string>
+    <string name="payment_approved">Tu pago ya fue aprobado, no es necesario que subas otra foto</string>
+    <string name="payment_approved_second">Tu pago a sido aprobado, nos vemos pronto</string>
+    <string name="payment_approved_simple">Pago aprobado</string>
+    <string name="payment_rejected_simple">Pago rechazado</string>
+    <string name="task_failure">No se pudo enviar con éxito</string>
+    <string name="task_success">Enviado con éxito</string>
+    <string name="image_selection_failure">No se pudo cargar la imagen que seleccionaste</string>
+    <string name="request_status">Estado de solicitud</string>
+    <string name="error_try_again_message">Parece que hubo un error, por favor vuelve a intentar</string>
+    <string name="reservation_approved_simple">Reservación aprobada</string>
+    <string name="reservation_rejected_simple">Reservación declinada</string>
+    <string name="no_reservations_message">No hay reservaciones existentes</string>
+    <string name="request_success">Se ha creado una nueva solicitud</string>
+    <string name="request_failure">No se ha podido crear una nueva solicitud</string>
+    <string name="connection_failure_ticket">Se necesita conectividad para subir tu comprobante</string>
+    <string name="connection_failure_reservation">Se necesita conectividad para solicitar esta reservación</string>
+    <string name="sign_out_success">Has cerrado tu sesión exitosamente</string>
 
 </resources>

@@ -98,7 +98,7 @@ public class AuthenticationActivity extends AppCompatActivity implements View.On
                            currentUser = firebaseAuth.getCurrentUser();
                            if(currentUser != null) {
                                insertUserToFirestore();
-                               String toastMessage = "Bienvenido, " + currentUser.getDisplayName();
+                               String toastMessage = String.format(getResources().getString(R.string.welcome_message), currentUser.getDisplayName());
                                Toast.makeText(getApplicationContext(), toastMessage , Toast.LENGTH_LONG).show();
                                redirectToDrawer(customer);
                            } else {
@@ -106,7 +106,7 @@ public class AuthenticationActivity extends AppCompatActivity implements View.On
                            }
                        } else {
                            Log.d("Firebase Auth", "signInWithCredential:failure");
-                           Toast.makeText(getApplicationContext(), "La autenticación no fue exitosa", Toast.LENGTH_LONG).show();
+                           Toast.makeText(getApplicationContext(), getResources().getString(R.string.authentication_failure), Toast.LENGTH_LONG).show();
                        }
                     }
                 });

@@ -99,7 +99,7 @@ public class ReservationCustomerDetailActivity extends AppCompatActivity impleme
     private void uploadTicketToFirebase() {
         if(getNetworkStatus() != null){
             if(reservation.getIsPaid().equals("approved")) {
-                Toast.makeText(this, "Tu pago ya fue aprobado, no es necesario que subas otra foto", Toast.LENGTH_LONG).show();
+                Toast.makeText(this, getResources().getString(R.string.payment_approved), Toast.LENGTH_LONG).show();
             } else {
                 final StorageReference ticketRef = getTicketRef();
                 byte[] data = getDataFromImage();
@@ -112,7 +112,7 @@ public class ReservationCustomerDetailActivity extends AppCompatActivity impleme
                         // Handle unsuccessful uploads
                         Log.d("UPLOAD","Failure, unsuccesful upload");
                         Toast failureToast = Toast.makeText(getApplicationContext(),
-                                "No se pudo enviar con éxito", Toast.LENGTH_LONG);
+                                getResources().getString(R.string.task_failure), Toast.LENGTH_SHORT);
                         failureToast.show();
                     }
                 }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
@@ -122,7 +122,7 @@ public class ReservationCustomerDetailActivity extends AppCompatActivity impleme
                         Uri ticketReference = taskSnapshot.getDownloadUrl();
                         updateReservationObject(ticketReference.toString());
                         Toast successToast = Toast.makeText(getApplicationContext(),
-                                "Enviado con éxito", Toast.LENGTH_LONG);
+                                getResources().getString(R.string.task_success), Toast.LENGTH_SHORT);
                         successToast.show();
                         sendUserToReservationList();
                     }
@@ -145,7 +145,7 @@ public class ReservationCustomerDetailActivity extends AppCompatActivity impleme
             }
         } else {
             Toast.makeText(this
-                    , "Se necesita conectividad para subir tu comprobante", Toast.LENGTH_SHORT).show();
+                    , getResources().getString(R.string.connection_failure_ticket), Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -184,7 +184,7 @@ public class ReservationCustomerDetailActivity extends AppCompatActivity impleme
                             // log exception
                             Log.e("TAG", "Error loading image", e);
                             selectFromCarousel();
-                            Toast.makeText(ReservationCustomerDetailActivity.this, "No se pudo cargar la imagen que seleccionaste", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(ReservationCustomerDetailActivity.this, getResources().getString(R.string.image_selection_failure), Toast.LENGTH_SHORT).show();
                             return false; // important to return false so the error placeholder can be placed
                         }
 
@@ -280,7 +280,7 @@ public class ReservationCustomerDetailActivity extends AppCompatActivity impleme
         if(reservation.getIsPaid().equals("approved")) {
             btnSelectPicture.setEnabled(false);
             btnTakePicture.setEnabled(false);
-            Toast.makeText(this, "Tu pago a sido aceptado, nos vemos pronto.", Toast.LENGTH_LONG).show();
+            Toast.makeText(this, getResources().getString(R.string.payment_approved_second), Toast.LENGTH_LONG).show();
         }
 
     }
@@ -303,7 +303,7 @@ public class ReservationCustomerDetailActivity extends AppCompatActivity impleme
 
     private void configureActionBar() {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        String actionBarTitle = "Estado de solicitud";
+        String actionBarTitle = getResources().getString(R.string.request_status);
         getSupportActionBar().setTitle(actionBarTitle);
     }
 

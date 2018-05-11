@@ -105,9 +105,9 @@ public class AdminReservationRecyclerViewAdapter extends RecyclerView.Adapter<Ad
         if(reservation.getIsPaid() != null) {
             String status = "";
             if (!reservation.getIsConfirmed().equals("approved")) {
-                status = "Confirmación: " + getStatusMessage(reservation.getIsConfirmed());
+                status = String.format(context.getString(R.string.confirmation_text), getStatusMessage(reservation.getIsConfirmed()));
             } else if (reservation.getIsPaid() != null) {
-                status = "Pago: " + getStatusMessage(reservation.getIsPaid());
+                status = String.format(context.getString(R.string.payment_text), getStatusMessage(reservation.getIsPaid()));
             }
             holder.tvStatus.setText(status);
         }
