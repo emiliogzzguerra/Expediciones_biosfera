@@ -124,7 +124,7 @@ public class ReservationsListFragment extends Fragment {
                             }
 
                             if(reservationList.size() <= 0) {
-                                Toast.makeText(getContext(), "No hay reservaciones existentes", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(getContext(), getResources().getString(R.string.no_reservations_message), Toast.LENGTH_SHORT).show();
                             }
 
                             if(customer.getAdmin()){

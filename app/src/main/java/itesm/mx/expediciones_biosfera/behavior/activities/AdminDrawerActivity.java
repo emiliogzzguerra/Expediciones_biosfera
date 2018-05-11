@@ -98,7 +98,7 @@ public class AdminDrawerActivity extends AppCompatActivity implements Navigation
 
     public void signOut() {
         firebaseAuth.signOut();
-        Toast.makeText(this, "Successfully Signed Out", Toast.LENGTH_LONG).show();
+        Toast.makeText(this, getResources().getString(R.string.sign_out_success), Toast.LENGTH_LONG).show();
         Intent intent = new Intent(this, AuthenticationActivity.class);
         startActivity(intent);
     }

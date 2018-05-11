@@ -139,20 +139,17 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
                     if(userExists()){ //se updatea
                         dao.deleteUser(user.getFbid());
                         dao.addUser(user);
-                        Toast.makeText(getActivity(), "Tu información se ha actualizado" ,
-                                Toast.LENGTH_LONG).show();
+                        Toast.makeText(getActivity(), getResources().getString(R.string.information_updated), Toast.LENGTH_LONG).show();
                     }else{ //se agrega
                         dao.addUser(user);
-                        Toast.makeText(getActivity(), "Tu información se ha guardado" ,
-                                Toast.LENGTH_LONG).show();
+                        Toast.makeText(getActivity(), getResources().getString(R.string.information_saved), Toast.LENGTH_LONG).show();
                     }
 
                     users = dao.getAllUsers();
 
                     mCallBack.closeProfile();
                 } else{
-                    Toast.makeText(getActivity(), "Faltan datos por llenar" ,
-                            Toast.LENGTH_LONG).show();
+                    Toast.makeText(getActivity(), getResources().getString(R.string.missing_information), Toast.LENGTH_LONG).show();
                 }
 
                 break;

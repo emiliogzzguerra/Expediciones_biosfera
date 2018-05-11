@@ -82,11 +82,9 @@ public class ReservationActivity extends AppCompatActivity implements View.OnCli
     public void conditionalToast(boolean successfulTask) {
 
         if(successfulTask) {
-            Toast.makeText(this
-                    , "Se ha creado una nueva solicitud", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, getResources().getString(R.string.request_success), Toast.LENGTH_SHORT).show();
         } else {
-            Toast.makeText(this
-                    , "No se ha podido crear una nueva solicitud", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, getResources().getString(R.string.request_failure), Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -128,8 +126,7 @@ public class ReservationActivity extends AppCompatActivity implements View.OnCli
                 if(activeNetwork != null){
                     createReservation();
                 } else {
-                    Toast.makeText(this
-                            , "Se necesita conectividad para solicitar esta reservación", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(this, getResources().getString(R.string.connection_failure_reservation), Toast.LENGTH_SHORT).show();
                 }
 
                 break;
