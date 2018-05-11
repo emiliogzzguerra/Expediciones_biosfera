@@ -12,11 +12,13 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.text.Layout;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 import com.bumptech.glide.Glide;
@@ -47,6 +49,7 @@ public class ReservationAdminDetailActivity extends AppCompatActivity implements
     private Button btnReject;
     private Reservation reservation;
     private ImageView ivTicket;
+    private RelativeLayout layoutTicketImage;
 
     private void findViews(){
         tvCustomer = this.findViewById(R.id.text_customer);
@@ -58,6 +61,7 @@ public class ReservationAdminDetailActivity extends AppCompatActivity implements
         btnAccept = this.findViewById(R.id.button_accept);
         btnReject = this.findViewById(R.id.button_reject);
         ivTicket = this.findViewById(R.id.image_ticket);
+        layoutTicketImage = this.findViewById(R.id.layout_image);
     }
 
     public String getStatusMessage(String status) {
@@ -82,7 +86,7 @@ public class ReservationAdminDetailActivity extends AppCompatActivity implements
                 .load(reservation.getTicketUrl())
                 .dontAnimate()
                 .into(ivTicket);
-        ivTicket.setVisibility(View.VISIBLE);
+        layoutTicketImage.setVisibility(View.VISIBLE);
     }
 
     public void sendEmail() {

@@ -85,21 +85,27 @@
             android:text="Status..."
             android:textSize="17sp" />
 
-
-        <ImageView
-            android:id="@+id/image_ticket"
-            android:layout_width="200dp"
+        <RelativeLayout
+            android:id="@+id/layout_image"
+            android:layout_width="match_parent"
             android:layout_height="200dp"
             android:layout_below="@id/text_status"
             android:layout_marginTop="10dp"
             android:visibility="gone"
-            android:layout_gravity="center" />
+            android:gravity="center">
+
+            <ImageView
+                android:id="@+id/image_ticket"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+
+        </RelativeLayout>
 
         <LinearLayout
             android:id="@+id/buttons_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/image_ticket"
+            android:layout_below="@id/layout_image"
             android:layout_marginTop="10dp"
             android:orientation="horizontal">
 
