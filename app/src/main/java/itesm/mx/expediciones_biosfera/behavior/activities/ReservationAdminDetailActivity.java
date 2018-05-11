@@ -197,7 +197,7 @@ public class ReservationAdminDetailActivity extends AppCompatActivity implements
             } else {
                 FirestoreReservationHelper.setConfirmedDeclined(reservationReference);
                 statusToast = Toast.makeText(getApplicationContext(),
-                        getResources().getString(R.string.payment_rejected_simple), Toast.LENGTH_SHORT);
+                        getResources().getString(R.string.reservation_rejected_simple), Toast.LENGTH_SHORT);
                 statusToast.show();
             }
         } else {
