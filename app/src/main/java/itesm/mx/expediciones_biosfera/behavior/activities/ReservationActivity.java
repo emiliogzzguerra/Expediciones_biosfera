@@ -174,12 +174,10 @@ public class ReservationActivity extends AppCompatActivity implements View.OnCli
                     sbSize.setProgress(1);
                 }
 
-                tvSummary.setText(String.format(getResources().getString(R.string.reservation_summary),
-                        destinationTitle, progressChangedValue, StringFormatHelper.getDateAsString(calendarDate.getTime(), false)
-                ));
-
                 totalPrice = costPerPerson * sbSize.getProgress();
                 updatePriceView();
+                updateSummary();
+
             }
         });
 
@@ -202,6 +200,7 @@ public class ReservationActivity extends AppCompatActivity implements View.OnCli
                 calendarDate.set(Calendar.DAY_OF_MONTH, dayOfMonth);
 
                 updateDateView();
+                updateSummary();
             }
 
         };
@@ -241,6 +240,12 @@ public class ReservationActivity extends AppCompatActivity implements View.OnCli
 
     private void updatePriceView() {
         tvEstimate.setText(StringFormatHelper.getPriceFormat(totalPrice, getResources()));
+    }
+
+    private void updateSummary() {
+        tvSummary.setText(String.format(getResources().getString(R.string.reservation_summary),
+                destinationTitle, progressChangedValue, StringFormatHelper.getDateAsString(calendarDate.getTime(), false)
+        ));
     }
 
     private void setView() {
