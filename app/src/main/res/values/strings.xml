@@ -75,7 +75,7 @@
     <string name="request_rejected">Tu solicitud no ha sido aprobada, probablemente ya no haya disponibilidad en esta fecha</string>
     <string name="request_pending">Aún no hemos podido evaluar tu solicitud, regresa pronto</string>
     <string name="payment_approved">Tu pago ya fue aprobado, no es necesario que subas otra foto</string>
-    <string name="payment_approved_second">Tu pago a sido aprobado, nos vemos pronto</string>
+    <string name="payment_approved_second">Tu pago ha sido aprobado, nos vemos pronto</string>
     <string name="payment_approved_simple">Pago aprobado</string>
     <string name="payment_rejected_simple">Pago rechazado</string>
     <string name="task_failure">No se pudo enviar con éxito</string>
