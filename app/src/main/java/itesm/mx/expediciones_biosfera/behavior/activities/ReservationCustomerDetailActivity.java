@@ -277,6 +277,12 @@ public class ReservationCustomerDetailActivity extends AppCompatActivity impleme
 
         btnUploadPicture.setEnabled(false);
 
+        if(reservation.getIsPaid().equals("approved")) {
+            btnSelectPicture.setEnabled(false);
+            btnTakePicture.setEnabled(false);
+            Toast.makeText(this, "Tu pago a sido aceptado, nos vemos pronto.", Toast.LENGTH_LONG).show();
+        }
+
     }
 
     @Override

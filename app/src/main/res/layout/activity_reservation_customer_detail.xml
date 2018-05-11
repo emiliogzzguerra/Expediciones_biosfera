@@ -50,6 +50,7 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
+        android:gravity="center_vertical"
         android:orientation="horizontal">
 
         <Button
@@ -58,9 +59,10 @@
             android:layout_height="wrap_content"
             android:layout_marginRight="5dp"
             android:layout_weight=".5"
-            android:background="@color/colorPrimaryDark"
             android:text="@string/rescusdetail_select_picture_button"
-            android:textColor="@color/colorAccent" />
+            android:textColor="@color/colorAccent"
+            android:theme="@style/AcceptButtonForDisable"
+            style="@style/Widget.AppCompat.Button.Colored"/>
 
         <Button
             android:id="@+id/take_picture_button"
@@ -68,9 +70,10 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="5dp"
             android:layout_weight=".5"
-            android:background="@color/colorPrimaryDark"
             android:text="@string/rescusdetail_take_picture_button"
-            android:textColor="@color/colorAccent" />
+            android:textColor="@color/colorAccent"
+            android:theme="@style/AcceptButtonForDisable"
+            style="@style/Widget.AppCompat.Button.Colored"/>
 
     </LinearLayout>
 
