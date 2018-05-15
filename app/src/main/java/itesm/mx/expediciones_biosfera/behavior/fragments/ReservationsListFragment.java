@@ -11,12 +11,10 @@ import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.ListenerRegistration;
 import com.google.firebase.firestore.QuerySnapshot;
 
-import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -24,6 +22,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -32,12 +31,7 @@ import itesm.mx.expediciones_biosfera.R;
 import itesm.mx.expediciones_biosfera.entities.adapters.AdminReservationRecyclerViewAdapter;
 import itesm.mx.expediciones_biosfera.entities.adapters.CustomerReservationRecyclerViewAdapter;
 import itesm.mx.expediciones_biosfera.entities.models.Customer;
-import itesm.mx.expediciones_biosfera.entities.models.Destination;
 import itesm.mx.expediciones_biosfera.entities.models.Reservation;
-
-/**
- * Created by avillarreal on 5/4/18.
- */
 
 public class ReservationsListFragment extends Fragment {
     private RecyclerView recyclerView;
@@ -114,16 +108,21 @@ public class ReservationsListFragment extends Fragment {
 
                                 if(customer.getAdmin()){
                                     reservationList.add(reservation);
-                                }else{
+                                } else{
                                     if(reservation.getCustomerReference().equals(fbid)){
                                         reservationList.add(reservation);
                                     }
                                 }
+
+                            }
+
+                            if(reservationList.size() <= 0) {
+                                Toast.makeText(getContext(), getResources().getString(R.string.no_reservations_message), Toast.LENGTH_SHORT).show();
                             }
 
                             if(customer.getAdmin()){
                                 mAdminAdapter = new AdminReservationRecyclerViewAdapter(reservationList, getActivity().getApplicationContext(), firestoreDB);
-                            }else{
+                            } else{
                                 mCustomerAdapter = new CustomerReservationRecyclerViewAdapter(reservationList, getActivity().getApplicationContext(), firestoreDB);
                             }
 
@@ -132,7 +131,7 @@ public class ReservationsListFragment extends Fragment {
                             recyclerView.setItemAnimator(new DefaultItemAnimator());
                             if(customer.getAdmin()){
                                 recyclerView.setAdapter(mAdminAdapter);
-                            }else{
+                            } else{
                                 recyclerView.setAdapter(mCustomerAdapter);
                             }
 
@@ -159,6 +158,8 @@ public class ReservationsListFragment extends Fragment {
 
                         for(DocumentSnapshot doc : documentSnapshots){
                             Reservation reservation = doc.toObject(Reservation.class);
+                            String reference = doc.getReference().getId();
+                            reservation.setReference(reference);
                             if(customer.getAdmin()) {
                                 reservationList.add(reservation);
                             } else {

@@ -14,11 +14,14 @@
     </style>
 
     <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+
     <style name="AdminNavDrawerTheme" parent="AppTheme.NoActionBar">
         <item name="android:colorPrimary">@color/adminPrimaryColor</item>
         <item name="android:colorPrimaryDark">@color/adminPrimaryDarkColor</item>
         <item name="android:textColorPrimary">@color/adminPrimaryTextColor</item>
+        <item name="android:textColorSecondary">@color/adminPrimaryTextColor</item>
     </style>
+
     <style name="AdminNavDrawerHeader">
         <item name="android:colorPrimary">@color/adminPrimaryColor</item>
         <item name="android:colorPrimaryDark">@color/adminPrimaryDarkColor</item>
@@ -50,6 +53,10 @@
     <style name="RejectButtonForDisable" parent="Widget.AppCompat.Button.Colored">
         <item name="colorButtonNormal">@color/colorSecondary</item>
         <item name="colorAccent">@color/colorRed</item>
+    </style>
+
+    <style name="AppTheme.GreenAccent">
+        <item name="colorAccent">@color/colorPrimary</item> <!-- Whatever color you want-->
     </style>
 
 </resources>

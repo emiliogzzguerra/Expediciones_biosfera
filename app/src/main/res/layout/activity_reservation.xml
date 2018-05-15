@@ -63,7 +63,7 @@
             android:layout_height="wrap_content"
             android:paddingStart="10dp"
             android:paddingEnd="10dp"
-            android:background="@color/colorSecondary"
+            android:background="@color/colorPrimaryDark"
             android:textColor="@color/colorAccent"
             android:text="@string/reservation_change_name" />
 

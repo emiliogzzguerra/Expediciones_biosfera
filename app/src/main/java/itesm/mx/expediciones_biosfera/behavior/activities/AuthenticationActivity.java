@@ -33,6 +33,7 @@ public class AuthenticationActivity extends AppCompatActivity implements View.On
     private GoogleSignInOptions gso;
     private GoogleSignInClient googleSignInClient;
     private FirebaseAuth firebaseAuth;
+    private FirebaseUser currentUser;
     private SignInButton signInButton;
     private ImageView ivLogo;
     private FirebaseFirestore firestoreDB;
@@ -68,7 +69,7 @@ public class AuthenticationActivity extends AppCompatActivity implements View.On
         startActivityForResult(signInIntent, RC_SIGN_IN);
     }
 
-    public void redirectToDrawer(FirebaseUser user, Customer customer) {
+    public void redirectToDrawer(Customer customer) {
         if(customer != null) {
             if(customer.getAdmin()) {
                 //Redirect to Admin Drawer
@@ -94,36 +95,38 @@ public class AuthenticationActivity extends AppCompatActivity implements View.On
                        if(task.isSuccessful()) {
                            // Sign in success
                            Log.d("Firebase Auth", "signInWithCredential:success");
-                           FirebaseUser user = firebaseAuth.getCurrentUser();
-                           if(user != null) {
-                               insertUserToFirestore(user);
-                               String toastMessage = "Bienvenido, " + user.getDisplayName();
+                           currentUser = firebaseAuth.getCurrentUser();
+                           if(currentUser != null) {
+                               insertUserToFirestore();
+                               String toastMessage = String.format(getResources().getString(R.string.welcome_message), currentUser.getDisplayName());
                                Toast.makeText(getApplicationContext(), toastMessage , Toast.LENGTH_LONG).show();
-                               redirectToDrawer(user, customer);
+                               redirectToDrawer(customer);
                            } else {
                                Log.d("Firebase User", "No current user");
                            }
                        } else {
                            Log.d("Firebase Auth", "signInWithCredential:failure");
-                           Toast.makeText(getApplicationContext(), "La autenticación no fue exitosa", Toast.LENGTH_LONG).show();
+                           Toast.makeText(getApplicationContext(), getResources().getString(R.string.authentication_failure), Toast.LENGTH_LONG).show();
                        }
                     }
                 });
     }
 
-    private void insertUserToFirestore(final FirebaseUser firebaseUser){
-        firestoreDB.collection("users").document(firebaseUser.getUid()).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+    private void insertUserToFirestore(){
+        firestoreDB.collection("users").document(currentUser.getUid()).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                 if(task.isSuccessful()) {
                     DocumentSnapshot document = task.getResult();
                     if(!document.exists()) {
-                        customer = new Customer(firebaseUser.getDisplayName(), firebaseUser.getEmail());
-                        firestoreDB.collection("users").document(firebaseUser.getUid()).set(customer);
+                        customer = new Customer(currentUser.getDisplayName(), currentUser.getEmail());
+                        firestoreDB.collection("users").document(currentUser.getUid()).set(customer);
+                        redirectToDrawer(customer);
                         Log.i("Insert user:", "User inserted");
                     } else {
                         customer = document.toObject(Customer.class);
                         Log.i("Insert user:", "User already exists");
+                        redirectToDrawer(customer);
                     }
                 } else {
                     Log.d("Get User:", "Task unsuccessful");
@@ -160,7 +163,7 @@ public class AuthenticationActivity extends AppCompatActivity implements View.On
     @Override
     public void onStart() {
         super.onStart();
-        final FirebaseUser currentUser = firebaseAuth.getCurrentUser();
+        currentUser = firebaseAuth.getCurrentUser();
         if(currentUser != null) {
             firestoreDB.collection("users").document(currentUser.getUid()).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
                 @Override
@@ -169,11 +172,11 @@ public class AuthenticationActivity extends AppCompatActivity implements View.On
                     if(document.exists()) {
                         //Set existing user
                         customer = document.toObject(Customer.class);
+                        redirectToDrawer(customer);
                     } else {
                         //Create user in Firestore
-                        insertUserToFirestore(currentUser);
+                        insertUserToFirestore();
                     }
-                    redirectToDrawer(currentUser, customer);
                 }
             });
         }

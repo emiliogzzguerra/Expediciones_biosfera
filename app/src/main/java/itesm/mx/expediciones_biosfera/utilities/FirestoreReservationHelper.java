@@ -1,11 +1,11 @@
 package itesm.mx.expediciones_biosfera.utilities;
 
-import android.net.Uri;
 import android.support.annotation.NonNull;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
@@ -17,10 +17,6 @@ import java.util.Map;
 
 import itesm.mx.expediciones_biosfera.entities.models.Destination;
 import itesm.mx.expediciones_biosfera.entities.models.Reservation;
-
-/**
- * Created by emiliogonzalez on 5/4/18.
- */
 
 public class FirestoreReservationHelper {
     final static ArrayList<Reservation> list = new ArrayList<>();
@@ -45,9 +41,9 @@ public class FirestoreReservationHelper {
                 });
     }
 
-    public static void addReservation(Reservation reservation){
+    public static Task<DocumentReference> addReservation(Reservation reservation){
         CollectionReference reservations = db.collection("reservations");
-        reservations.add(reservation);
+        return reservations.add(reservation);
     }
 
     public static void setConfirmedPending(String s) {

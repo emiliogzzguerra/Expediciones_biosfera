@@ -3,6 +3,7 @@ package itesm.mx.expediciones_biosfera.behavior.activities;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.os.Handler;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -19,8 +20,12 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.bumptech.glide.Glide;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+
+import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
 import itesm.mx.expediciones_biosfera.R;
 import itesm.mx.expediciones_biosfera.behavior.fragments.ReservationsListFragment;
@@ -28,13 +33,16 @@ import itesm.mx.expediciones_biosfera.behavior.fragments.PackagesFragment;
 import itesm.mx.expediciones_biosfera.behavior.fragments.ProfileFragment;
 import itesm.mx.expediciones_biosfera.database.operations.User;
 import itesm.mx.expediciones_biosfera.database.operations.UserOperations;
+import itesm.mx.expediciones_biosfera.utilities.CircleTransform;
 
-public class DrawerActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener{
+
+public class DrawerActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, ProfileFragment.OnSaveProfileListener {
     private Toolbar toolbar;
     private FirebaseAuth firebaseAuth;
     private FirebaseUser currentUser;
     private DrawerLayout drawer;
     private ActionBarDrawerToggle toggle;
+    private boolean doubleBackToExitPressedOnce = false;
 
     ImageView ivPicture;
     TextView tvName;
@@ -46,8 +54,7 @@ public class DrawerActivity extends AppCompatActivity implements NavigationView.
 
         dao = new UserOperations(this);
         dao.open();
-        ArrayList<User> users = new ArrayList<>();
-        users = dao.getAllUsers();
+        ArrayList<User> users = dao.getAllUsers();
         dao.close();
 
         getFirebaseUser();
@@ -56,8 +63,17 @@ public class DrawerActivity extends AppCompatActivity implements NavigationView.
         for(int i = 0; i < users.size(); i++){
             if(users.get(i).getFbid().equals(firebaseId)){
                 byte[] bytes = users.get(i).getPicture();
-                Bitmap bmp = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
-                ivPicture.setImageBitmap(bmp);
+                Bitmap bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
+
+                ByteArrayOutputStream stream = new ByteArrayOutputStream();
+                bitmap.compress(Bitmap.CompressFormat.PNG, 100, stream);
+
+                Glide.with(this)
+                        .load(stream.toByteArray())
+                        .asBitmap()
+                        .transform(new CircleTransform(this))
+                        .into(ivPicture);
+
             }
         }
 
@@ -131,7 +147,7 @@ public class DrawerActivity extends AppCompatActivity implements NavigationView.
 
     public void signOut() {
         firebaseAuth.signOut();
-        Toast.makeText(this, "Successfully Signed Out", Toast.LENGTH_LONG).show();
+        Toast.makeText(this, getResources().getString(R.string.sign_out_success), Toast.LENGTH_LONG).show();
         Intent intent = new Intent(this, AuthenticationActivity.class);
         startActivity(intent);
     }
@@ -179,7 +195,32 @@ public class DrawerActivity extends AppCompatActivity implements NavigationView.
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else {
-            super.onBackPressed();
+            if (doubleBackToExitPressedOnce) {
+                NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+                MenuItem item = navigationView.getMenu().getItem(3);
+                onNavigationItemSelected(item);
+                return;
+            }
+
+            doubleBackToExitPressedOnce = true;
+
+            Toast.makeText(this, R.string.double_click_back, Toast.LENGTH_SHORT).show();
+
+            new Handler().postDelayed(new Runnable() {
+
+                @Override
+                public void run() {
+                    doubleBackToExitPressedOnce = false;
+                }
+            }, 2000);
+
         }
+    }
+
+    public void closeProfile() {
+        setImage();
+        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        MenuItem item = navigationView.getMenu().getItem(0);
+        onNavigationItemSelected(item);
     }
 }

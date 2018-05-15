@@ -22,10 +22,7 @@ import itesm.mx.expediciones_biosfera.behavior.activities.ReservationAdminDetail
 import itesm.mx.expediciones_biosfera.entities.models.Customer;
 import itesm.mx.expediciones_biosfera.entities.models.Destination;
 import itesm.mx.expediciones_biosfera.entities.models.Reservation;
-
-/**
- * Created by avillarreal on 5/4/18.
- */
+import itesm.mx.expediciones_biosfera.utilities.StringFormatHelper;
 
 public class AdminReservationRecyclerViewAdapter extends RecyclerView.Adapter<AdminReservationRecyclerViewAdapter.ViewHolder> {
     private List<Reservation> reservationList;
@@ -99,14 +96,14 @@ public class AdminReservationRecyclerViewAdapter extends RecyclerView.Adapter<Ad
             }
         });
 
-        holder.tvPrice.setText("$"+String.valueOf(reservation.getPrice()));
-        holder.tvDate.setText(reservation.getInitialDate().toString());
+        holder.tvPrice.setText(StringFormatHelper.getPriceFormat(reservation.getPrice(), context.getResources()));
+        holder.tvDate.setText(StringFormatHelper.getDateAsString(reservation.getInitialDate(), true));
         if(reservation.getIsPaid() != null) {
             String status = "";
             if (!reservation.getIsConfirmed().equals("approved")) {
-                status = "Confirmación: " + getStatusMessage(reservation.getIsConfirmed());
+                status = String.format(context.getString(R.string.confirmation_text), getStatusMessage(reservation.getIsConfirmed()));
             } else if (reservation.getIsPaid() != null) {
-                status = "Pago: " + getStatusMessage(reservation.getIsPaid());
+                status = String.format(context.getString(R.string.payment_text), getStatusMessage(reservation.getIsPaid()));
             }
             holder.tvStatus.setText(status);
         }

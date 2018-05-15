@@ -3,10 +3,6 @@ package itesm.mx.expediciones_biosfera.entities.models;
 
 import java.util.List;
 
-/**
- * Created by avillarreal on 4/12/18.
- */
-
 public class Customer {
     private String uID;
     private String name;

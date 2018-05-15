@@ -4,17 +4,20 @@ import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.Paint;
 import android.net.Uri;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
+import android.support.v4.content.ContextCompat;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
-import com.google.android.gms.common.SupportErrorDialogFragment;
 
 import itesm.mx.expediciones_biosfera.R;
 import itesm.mx.expediciones_biosfera.entities.models.Reservation;
@@ -43,6 +46,7 @@ public class ReservationAdminDetailActivity extends AppCompatActivity implements
     private Button btnReject;
     private Reservation reservation;
     private ImageView ivTicket;
+    private RelativeLayout layoutTicketImage;
 
     private void findViews(){
         tvCustomer = this.findViewById(R.id.text_customer);
@@ -54,6 +58,7 @@ public class ReservationAdminDetailActivity extends AppCompatActivity implements
         btnAccept = this.findViewById(R.id.button_accept);
         btnReject = this.findViewById(R.id.button_reject);
         ivTicket = this.findViewById(R.id.image_ticket);
+        layoutTicketImage = this.findViewById(R.id.layout_image);
     }
 
     public String getStatusMessage(String status) {
@@ -78,7 +83,7 @@ public class ReservationAdminDetailActivity extends AppCompatActivity implements
                 .load(reservation.getTicketUrl())
                 .dontAnimate()
                 .into(ivTicket);
-        ivTicket.setVisibility(View.VISIBLE);
+        layoutTicketImage.setVisibility(View.VISIBLE);
     }
 
     public void sendEmail() {
@@ -118,9 +123,9 @@ public class ReservationAdminDetailActivity extends AppCompatActivity implements
         if(reservation.getIsPaid() != null) {
             String status = "";
             if (!reservation.getIsConfirmed().equals("approved")) {
-                status = "Confirmación: " + getStatusMessage(reservation.getIsConfirmed());
-                 btnAccept.setOnClickListener(this);
-                 btnReject.setOnClickListener(this);
+                status = String.format(getResources().getString(R.string.confirmation_text), getStatusMessage(reservation.getIsConfirmed()));
+                btnAccept.setOnClickListener(this);
+                btnReject.setOnClickListener(this);
             } else if (reservation.getIsPaid() != null) {
                 String statusMessage = getStatusMessage(reservation.getIsPaid());
                 if(reservation.getIsPaid().equals("pending")) {
@@ -140,7 +145,7 @@ public class ReservationAdminDetailActivity extends AppCompatActivity implements
                     btnAccept.setVisibility(View.GONE);
                     btnReject.setVisibility(View.GONE);
                 }
-                status = "Pago: " + statusMessage;
+                status = String.format(getResources().getString(R.string.payment_text), getStatusMessage(reservation.getIsPaid()));
             }
             tvStatus.setText(status);
         }
@@ -166,15 +171,15 @@ public class ReservationAdminDetailActivity extends AppCompatActivity implements
         if(reservationReference != null) {
             if (isAccepted) {
                 reservationHelper.setPaymentApproved(reservationReference);
-                statusToast = Toast.makeText(getApplicationContext(), "Pago aprobado", Toast.LENGTH_LONG);
+                statusToast = Toast.makeText(getApplicationContext(), getResources().getString(R.string.payment_approved_simple), Toast.LENGTH_LONG);
                 statusToast.show();
             } else {
                 reservationHelper.setPaymentDeclined(reservationReference);
-                statusToast = Toast.makeText(getApplicationContext(), "Pago rechazado", Toast.LENGTH_LONG);
+                statusToast = Toast.makeText(getApplicationContext(), getResources().getString(R.string.payment_rejected_simple), Toast.LENGTH_LONG);
                 statusToast.show();
             }
         } else {
-            Toast.makeText(this, "Parece que hubo un error, por favor vuelve a intentar", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, getResources().getString(R.string.error_try_again_message), Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -184,16 +189,16 @@ public class ReservationAdminDetailActivity extends AppCompatActivity implements
             if(isAccepted){
                 FirestoreReservationHelper.setConfirmedApproved(reservationReference);
                 statusToast = Toast.makeText(getApplicationContext(),
-                        "Reservación aprobada", Toast.LENGTH_LONG);
+                        getResources().getString(R.string.reservation_approved_simple), Toast.LENGTH_SHORT);
                 statusToast.show();
             } else {
                 FirestoreReservationHelper.setConfirmedDeclined(reservationReference);
                 statusToast = Toast.makeText(getApplicationContext(),
-                        "Reservación declinada", Toast.LENGTH_LONG);
+                        getResources().getString(R.string.reservation_rejected_simple), Toast.LENGTH_SHORT);
                 statusToast.show();
             }
         } else {
-            Toast.makeText(this, "Parece que hubo un error, por favor vuelve a intentar", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, getResources().getString(R.string.error_try_again_message), Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -223,9 +228,24 @@ public class ReservationAdminDetailActivity extends AppCompatActivity implements
     }
 
     private void configureActionBar() {
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         String actionBarTitle = getResources().getString(R.string.reservation_detail_action_bar_title);
         getSupportActionBar().setTitle(actionBarTitle);
+
+        Window window = getWindow();
+
+        // clear FLAG_TRANSLUCENT_STATUS flag:
+        window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+
+        // add FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS flag to the window
+        window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+
+        // finally change the color
+        window.setStatusBarColor(ContextCompat.getColor(this, R.color.adminPrimaryDarkColor));
+
     }
 
     @Override

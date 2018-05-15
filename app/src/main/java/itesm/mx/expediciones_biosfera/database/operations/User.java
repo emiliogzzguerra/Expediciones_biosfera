@@ -1,9 +1,5 @@
 package itesm.mx.expediciones_biosfera.database.operations;
 
-/**
- * Created by javier on 30/04/18.
- */
-
 public class User {
 
     private long id;

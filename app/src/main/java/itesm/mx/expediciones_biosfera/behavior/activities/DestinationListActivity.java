@@ -25,10 +25,6 @@ import itesm.mx.expediciones_biosfera.R;
 import itesm.mx.expediciones_biosfera.entities.adapters.DestinationRecyclerViewAdapter;
 import itesm.mx.expediciones_biosfera.entities.models.Destination;
 
-/**
- * Created by avillarreal on 4/26/18.
- */
-
 public class DestinationListActivity extends AppCompatActivity {
     private RecyclerView recyclerView;
     private DestinationRecyclerViewAdapter mAdapter;
