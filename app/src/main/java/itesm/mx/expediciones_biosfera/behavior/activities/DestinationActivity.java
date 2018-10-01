@@ -15,13 +15,6 @@ import android.widget.ImageView;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
-import com.google.android.gms.maps.OnMapReadyCallback;
-import com.google.android.gms.maps.CameraUpdateFactory;
-import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.SupportMapFragment;
-import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.MarkerOptions;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -34,12 +27,10 @@ import itesm.mx.expediciones_biosfera.utilities.StringFormatHelper;
 
 import static android.text.Layout.JUSTIFICATION_MODE_INTER_WORD;
 
-public class DestinationActivity extends AppCompatActivity implements OnMapReadyCallback, View.OnClickListener {
+public class DestinationActivity extends AppCompatActivity implements View.OnClickListener {
 
     public static final String DESTINATION_OBJECT = "destination_object";
 
-    private GoogleMap mMap;
-    SupportMapFragment mapFragment;
     Destination destination;
 
     ScrollView mainScrollView;
@@ -68,8 +59,6 @@ public class DestinationActivity extends AppCompatActivity implements OnMapReady
 
         findViews();
 
-        configureMap();
-
         configureSlider();
 
         setViews();
@@ -90,40 +79,8 @@ public class DestinationActivity extends AppCompatActivity implements OnMapReady
         tvDuration = findViewById(R.id.text_duration);
         tvPrice = findViewById(R.id.text_price);
         tvLocation = findViewById(R.id.text_location);
-        mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
         btnReserve = findViewById(R.id.btn_rsvp);
 
-    }
-
-    private void configureMap() {
-        mapFragment.getMapAsync(this);
-
-        transparentImageView.setOnTouchListener(new View.OnTouchListener() {
-
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                int action = event.getAction();
-                switch (action) {
-                    case MotionEvent.ACTION_DOWN:
-                        // Disallow ScrollView to intercept touch events.
-                        mainScrollView.requestDisallowInterceptTouchEvent(true);
-                        // Disable touch on transparent view
-                        return false;
-
-                    case MotionEvent.ACTION_UP:
-                        // Allow ScrollView to intercept touch events.
-                        mainScrollView.requestDisallowInterceptTouchEvent(false);
-                        return true;
-
-                    case MotionEvent.ACTION_MOVE:
-                        mainScrollView.requestDisallowInterceptTouchEvent(true);
-                        return false;
-
-                    default:
-                        return true;
-                }
-            }
-        });
     }
 
     private void configureSlider() {
@@ -161,14 +118,6 @@ public class DestinationActivity extends AppCompatActivity implements OnMapReady
 
     }
 
-    @Override
-    public void onMapReady(GoogleMap googleMap) {
-        this.mMap = googleMap;
-        LatLng location = new LatLng(destination.getLat(), destination.getLon());
-
-        mMap.addMarker(new MarkerOptions().position(location).title("Marker"));
-        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(location, 7.0f));
-    }
 
     @Override
     public boolean onSupportNavigateUp(){

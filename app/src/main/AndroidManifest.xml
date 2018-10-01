@@ -9,9 +9,6 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
 
-        <meta-data
-            android:name="com.google.android.geo.API_KEY"
-            android:value="AIzaSyDARQrWR6PN26rtmEL-OX5ZIH6RZlUPCPc" />
 
         <activity android:name=".behavior.activities.AuthenticationActivity"
             android:screenOrientation="portrait">
