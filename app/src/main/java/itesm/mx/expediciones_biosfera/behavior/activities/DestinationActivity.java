@@ -180,17 +180,9 @@ public class DestinationActivity extends AppCompatActivity implements OnMapReady
     public void onClick(View view) {
         switch(view.getId()) {
             case R.id.btn_rsvp:
-                startReservation();
+                //startReservation();
                 break;
         }
-    }
-
-    private void startReservation() {
-        Intent intent = new Intent(this, ReservationActivity.class);
-        Bundle bundle = new Bundle();
-        bundle.putSerializable(ReservationActivity.DESTINATION_OBJECT, destination);
-        intent.putExtras(bundle);
-        startActivity(intent);
     }
 
     @Override
